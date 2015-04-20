@@ -4,15 +4,26 @@
   gather_facts: no
 
   tasks:
+    - name: Grabbing the gradle repository
+      apt_repository: repo='ppa:cwchien/gradle' state=present update_cache=yes
+
+    - name: Grabbing the node repository
+      apt_repository: repo='ppa:chris-lea/node.js' state=present update_cache=yes
+
     - name: ensure apt cache is up to date
       apt: update_cache=yes
 
     - name: ensure packages are installed
       apt: name={{item}}
       with_items:
+          - nodejs
+          - vim
+          - git
+          - openjdk-7-jdk
           - postgresql
           - libpq-dev
           - python-psycopg2
+          - gradle
 
 - hosts: all
   sudo: yes
