@@ -22,7 +22,7 @@ dependencies {
     compile "org.springframework:spring-tx:${springVersion}"
     compile "org.springframework:spring-webmvc:${springVersion}"
     compile "org.hibernate:hibernate-core:4.3.6.Final"
-    compile "mysql:mysql-connector-java:5.1.31"
+    compile "org.postgresql:postgresql:9.3-1100-jdbc4"
     compile "commons-dbcp:commons-dbcp:1.4"
     compile 'jstl:jstl:1.2'
     tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
