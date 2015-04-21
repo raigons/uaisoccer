@@ -13,9 +13,9 @@ A project built on thoughtworks beach as part of study of spring
 
   __Note__: Don't forget to install the __VirtualBox Extension Pack__ too which can be found in the website above!
 
-  ## Running Vagrant 
+ ## Running Vagrant 
 
-  1. On terminal, move to your project folder `cd projectPath`
-  2. Run `vagrant up`
-  3. Run `vagrant ssh` (Optional)
+ 1. On terminal, move to your project folder `cd projectPath`
+ 2. Run `vagrant up`
+ 3. Run `vagrant ssh` (Optional)
 
