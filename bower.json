@@ -1,0 +1,23 @@
+{
+  "name": "Uaisoccer",
+  "version": "0.0.0",
+  "homepage": "https://github.com/raigons/uaisoccer",
+  "authors": [
+    "ThoughtWorks Beach <beach-bh@thoughtworks.com>"
+  ],
+  "description": "Championship Manager",
+  "keywords": [
+    "Championship",
+    "Management",
+    "ThoughtWorks",
+    "Beach"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
