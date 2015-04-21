@@ -3,7 +3,7 @@ A project built on thoughtworks beach as part of study of spring
 
 * Installation
   * [Install Ansible and Vagrant](https://github.com/raigons/uaisoccer#install-ansible-and-vagrant)
-* [Running Vagrant](https://github.com/raigons/uaisoccer#running-vagrant)  
+* [Running Project](https://github.com/raigons/uaisoccer#running-project)  
 
 ## Install Ansible and Vagrant
 
@@ -13,9 +13,12 @@ A project built on thoughtworks beach as part of study of spring
 
   __Note__: Don't forget to install the __VirtualBox Extension Pack__ too which can be found in the website above!
 
-## Running Vagrant 
+## Running Project 
 
-1. On terminal, move to your project folder `cd projectPath`
-2. Run `vagrant up`
-3. Run `vagrant ssh` (Optional)
+1. On terminal, move to your project folder `cd projectPath` and then run the following commands:
+2. `$ vagrant up` 
+3. `$ vagrant ssh`
+4. `$ cd /vagrant/api`
+5. `$ gradle tomcatRun`
+
 
