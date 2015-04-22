@@ -1,0 +1,25 @@
+{
+  "name": "client",
+  "version": "1.0.0",
+  "description": "Championship Manager",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raigons/uaisoccer.git"
+  },
+  "keywords": [
+    "Uaisoccer",
+    "ThoughtWorks",
+    "Beach",
+    "Management"
+  ],
+  "author": "ThoughtWorks Beach <beach-bh@thoughtworks.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/raigons/uaisoccer/issues"
+  },
+  "homepage": "https://github.com/raigons/uaisoccer#readme"
+}
