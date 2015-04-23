@@ -16,14 +16,20 @@ repositories {
 }
 
 dependencies {
+    compile "com.fasterxml.jackson.core:jackson-core:2.4.1"
+    compile "com.fasterxml.jackson.core:jackson-databind:2.4.1.1"
     compile "org.springframework:spring-context:${springVersion}"
     compile "org.springframework:spring-core:${springVersion}"
     compile "org.springframework:spring-orm:${springVersion}"
     compile "org.springframework:spring-tx:${springVersion}"
     compile "org.springframework:spring-webmvc:${springVersion}"
+    compile "org.springframework:spring-test:${springVersion}"
+
     compile "org.hibernate:hibernate-core:4.3.6.Final"
     compile "org.postgresql:postgresql:9.3-1100-jdbc4"
     compile "commons-dbcp:commons-dbcp:1.4"
+    compile "org.mockito:mockito-core:1.9.5"
+
     tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
             "org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatVersion}",
             "org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}"
