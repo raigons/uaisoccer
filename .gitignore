@@ -6,3 +6,4 @@
 **/.idea
 **/.gradle
 api/build/
+api/target/
