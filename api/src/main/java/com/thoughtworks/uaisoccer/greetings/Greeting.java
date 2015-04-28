@@ -18,6 +18,11 @@ public class Greeting {
         this.content = content;
     }
 
+    public Greeting(long id, String content) {
+        this.id = id;
+        this.content = content;
+    }
+
     public long getId() {
         return id;
     }
