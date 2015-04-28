@@ -1,7 +1,5 @@
 package com.thoughtworks.uaisoccer.greetings;
 
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,7 +15,7 @@ public class GreetingController {
 
     @RequestMapping(value = "/greeting", method = RequestMethod.GET)
     public Greeting greeting(@RequestParam(value="name", defaultValue="World") String name) {
-        return new Greeting(counter.incrementAndGet(),
+        return new Greeting(
                 String.format(template, name));
     }
 }

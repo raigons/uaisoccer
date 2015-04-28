@@ -1,13 +1,20 @@
 package com.thoughtworks.uaisoccer.greetings;
 
+import javax.persistence.*;
+
+@Entity
 public class Greeting {
 
-    private final long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
-    private final String content;
+    @Column
+    private String content;
 
-    public Greeting(long id, String content) {
-        this.id = id;
+    public Greeting() {}
+
+    public Greeting(String content) {
         this.content = content;
     }
 

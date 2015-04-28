@@ -22,7 +22,7 @@
         <property name="dataSource" ref="dataSource" />
         <property name="packagesToScan">
             <list>
-                <value>com.thoughtworks.uaisoccer.teams</value>
+                <value>com.thoughtworks.uaisoccer</value>
             </list>
         </property>
         <property name="hibernateProperties">

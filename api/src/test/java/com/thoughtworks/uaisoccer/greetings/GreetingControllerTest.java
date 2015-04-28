@@ -43,4 +43,10 @@ public class GreetingControllerTest {
             .andExpect(jsonPath("$.id", is(1)))
             .andExpect(jsonPath("$.content", is("Hello, World!")));
     }
+
+    @Test
+    public void shouldSaveAGreeting() throws Exception {
+
+
+    }
 }
