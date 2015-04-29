@@ -1,3 +1,5 @@
+[![Build Status](https://snap-ci.com/raigons/uaisoccer/branch/master/build_image)](https://snap-ci.com/raigons/uaisoccer/branch/master)
+
 # UAISOCCER
 A project built on thoughtworks beach as part of study of spring
 
