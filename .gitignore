@@ -1,15 +1,24 @@
-node_modules
-dist
+# Environment
+.DS_Store
+.vagrant/
+*.log
+*.swp
 .tmp
+dist
+
+# NodeJS, Sass, other UI stuff...
+node_modules
 .sass-cache
 bower_components
 test/bower_components
-*.log
-*.swp
-.DS_Store
-.vagrant/
+
+# Intellij
 *.iml
+*.ipr
+*.iws
 **/.idea
+
+# Gradle
 **/.gradle
 api/build/
 api/target/
