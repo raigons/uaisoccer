@@ -1,4 +1,4 @@
-[![Build Status](https://snap-ci.com/raigons/uaisoccer/branch/master/build_image)](https://snap-ci.com/raigons/uaisoccer/branch/master) [![Code Climate](https://codeclimate.com/github/raigons/uaisoccer/badges/gpa.svg)](https://codeclimate.com/github/raigons/uaisoccer) [![Test Coverage](https://codeclimate.com/github/raigons/uaisoccer/badges/coverage.svg)](https://codeclimate.com/github/raigons/uaisoccer/coverage)
+[![Build Status](https://snap-ci.com/raigons/uaisoccer/branch/master/build_image)](https://snap-ci.com/raigons/uaisoccer/branch/master)
 
 # UAISOCCER
 A project built on thoughtworks beach as part of study of spring
