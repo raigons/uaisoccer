@@ -15,7 +15,7 @@ public class ChampionshipController {
     public Championship save(@RequestParam(value = "name") String name){
         Championship championship = new Championship();
         championship.setName(name);
-        store.save(championship);
+        store.create(championship);
         return championship;
     }
 

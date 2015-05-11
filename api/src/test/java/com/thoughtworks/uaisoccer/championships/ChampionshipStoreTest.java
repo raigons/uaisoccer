@@ -24,7 +24,7 @@ public class ChampionshipStoreTest extends BaseIntegrationTest{
         championship = new Championship();
         championship.setName("Campeonato Brasileiro");
 
-        Long newChampionshipId = store.save(championship);
+        Long newChampionshipId = store.create(championship);
         assertThat(newChampionshipId, is(championship.getId()));
     }
 
@@ -33,7 +33,7 @@ public class ChampionshipStoreTest extends BaseIntegrationTest{
         Championship brazilianLeague = new Championship();
         brazilianLeague.setName("Brasileirao");
 
-        Long championshipId = store.save(brazilianLeague);
+        Long championshipId = store.create(brazilianLeague);
 
         assertThat(championshipId, is(brazilianLeague.getId()));
     }

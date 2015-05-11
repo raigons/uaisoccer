@@ -1,11 +1,13 @@
 package com.thoughtworks.uaisoccer.championships;
 
+import com.thoughtworks.uaisoccer.common.IdentifiedEntity;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class Championship {
+public class Championship implements IdentifiedEntity {
 
     @Id
     @GeneratedValue

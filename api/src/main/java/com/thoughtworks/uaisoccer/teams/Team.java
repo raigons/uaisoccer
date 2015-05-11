@@ -1,13 +1,14 @@
 package com.thoughtworks.uaisoccer.teams;
 
 import com.thoughtworks.uaisoccer.common.BaseModel;
+import com.thoughtworks.uaisoccer.common.IdentifiedEntity;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 @Table(name = "team")
-public class Team extends BaseModel {
+public class Team extends BaseModel implements IdentifiedEntity {
 
     @Id
     @Column(name = "id")
