@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.ParameterizedType;
 
-public class BaseStore<E extends IdentifiedEntity> {
+public abstract class BaseStore<E extends IdentifiedEntity> {
 
     @Autowired
     private SessionFactory sessionFactory;
