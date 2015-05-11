@@ -10,6 +10,7 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 
 
 public class TeamStoreTest extends BaseIntegrationTest {
@@ -21,6 +22,8 @@ public class TeamStoreTest extends BaseIntegrationTest {
     public void shouldCreateTeam() {
         Team team = new Team("Cruzeiro Esporte Clube", "cruzeiro");
         Long id = store.create(team);
+
+        assertThat(id, is(notNullValue()));
 
         Query query = getSession().createQuery("from Team where id = :id");
         query.setParameter("id", id);
