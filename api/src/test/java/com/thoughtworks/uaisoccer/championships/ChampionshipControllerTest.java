@@ -7,6 +7,7 @@ import org.mockito.internal.matchers.Null;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.Is.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -19,5 +20,14 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.name", is("Brasileirao")))
             .andExpect(jsonPath("$.id", is(not(Null.NULL))));
+    }
+
+    @Test
+    public void shouldUpdateAnExistingChampionship ()  throws Exception {
+        mockMvc.perform(put("/championships/1")
+                .param("name", "Brasileirao Serie A"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", is("Brasileirao Serie A")))
+                .andExpect(jsonPath("$.id", is(1)));
     }
 }

@@ -1,20 +1,18 @@
 package com.thoughtworks.uaisoccer.championships;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import com.thoughtworks.uaisoccer.common.BaseStore;
+import org.springframework.stereotype.Service;
 
-@Repository
-public class ChampionshipStore {
+@Service
+public class ChampionshipStore extends BaseStore {
 
-    @Autowired
-    private SessionFactory sessionFactory;
-
-    public Long save(Championship brasilianLeague) {
-        Session session = sessionFactory.openSession();
-        Long id = (Long) session.save(brasilianLeague);
-        session.close();
+    public Long save(Championship championship) {
+        Long id = (Long) getSession().save(championship);
         return id;
     }
+
+    public void update(Championship championship) {
+        getSession().update(championship);
+    }
+
 }
