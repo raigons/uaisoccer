@@ -1,10 +1,8 @@
 package com.thoughtworks.uaisoccer.championships;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/championships")
@@ -19,5 +17,18 @@ public class ChampionshipController {
         championship.setName(name);
         store.save(championship);
         return championship;
+    }
+
+    @RequestMapping(value =  "{id}", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseBody
+    public void update(@PathVariable(value = "id") Long id, @RequestBody Championship championship) throws Exception {
+//        if(id != championship.getId()) throw new ChampionshipException();
+
+//        championship.setId(id);
+
+        System.out.println(id);
+
+        store.update(championship);
     }
 }
