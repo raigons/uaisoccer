@@ -1,8 +1,13 @@
 package com.thoughtworks.uaisoccer.championships;
 
 import com.thoughtworks.uaisoccer.BaseIntegrationTest;
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.hibernate.Query;
+import org.junit.*;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -12,8 +17,19 @@ public class ChampionshipStoreTest extends BaseIntegrationTest{
     @Autowired
     ChampionshipStore store;
 
+    private Championship championship;
+
+    @Before
+    public void setUp() {
+        championship = new Championship();
+        championship.setName("Campeonato Brasileiro");
+
+        Long newChampionshipId = store.save(championship);
+        assertThat(newChampionshipId, is(championship.getId()));
+    }
+
     @Test
-    public void shouldSaveANewChampionship(){
+    public void shouldSaveANewChampionship() {
         Championship brazilianLeague = new Championship();
         brazilianLeague.setName("Brasileirao");
 
@@ -24,20 +40,16 @@ public class ChampionshipStoreTest extends BaseIntegrationTest{
 
     @Test
     public void shouldUpdateAnExistingChampionship() {
-        Championship europeanLeague = new Championship();
-        europeanLeague.setName("UEFA");
+        championship.setName("UEFA Champions League");
+        store.update(championship);
 
-        Long championshipId = store.save(europeanLeague);
+        Query query = getSession().createQuery("from Championship where id = :id");
+        query.setParameter("id", championship.getId());
+        List<Championship> queryResult = (List<Championship>)query.list();
+        MatcherAssert.assertThat(queryResult.contains(championship), Matchers.is(true));
 
-        assertThat(championshipId, is(europeanLeague.getId()));
-
-        europeanLeague.setName("UEFA Champions League");
-
-        store.update(europeanLeague);
-
-        Championship updatedEuropeanLeague = store.get(europeanLeague.getId());
-
-        assertThat(updatedEuropeanLeague.getName(), is(europeanLeague.getName()));
+        Championship updatedChampionship = queryResult.get(queryResult.indexOf(championship));
+        assertThat(updatedChampionship.getName(), is(championship.getName()));
     }
 
 }
