@@ -1,7 +1,9 @@
 package com.thoughtworks.uaisoccer.teams;
 
 import com.thoughtworks.uaisoccer.BaseIntegrationTest;
+import com.thoughtworks.uaisoccer.common.ObjectNotFoundException;
 import org.hibernate.Query;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,6 +19,25 @@ public class TeamStoreTest extends BaseIntegrationTest {
 
     @Autowired
     private TeamStore store;
+
+    private Team fixtureTeam;
+
+    @Before
+    public void setUp() throws Exception {
+        fixtureTeam = new Team("América", "america");
+        store.create(fixtureTeam);
+    }
+
+    @Test
+    public void shouldReadTeam() throws ObjectNotFoundException {
+        Team readTeam = store.read(fixtureTeam.getId());
+        assertThat(readTeam, is(equalTo(fixtureTeam)));
+    }
+
+    @Test(expected = ObjectNotFoundException.class)
+    public void shouldFailIfTeamDoesNotExist() throws ObjectNotFoundException {
+        store.read(999999999L);
+    }
 
     @Test
     public void shouldCreateTeam() {
