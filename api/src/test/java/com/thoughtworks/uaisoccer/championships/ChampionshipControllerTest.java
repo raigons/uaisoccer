@@ -1,6 +1,6 @@
 package com.thoughtworks.uaisoccer.championships;
 
-import com.thoughtworks.uaisoccer.BaseTest;
+import com.thoughtworks.uaisoccer.BaseWebIntegrationTest;
 import org.junit.Test;
 import org.mockito.internal.matchers.Null;
 
@@ -10,7 +10,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class ChampionshipControllerTest extends BaseTest{
+public class ChampionshipControllerTest extends BaseWebIntegrationTest {
 
     @Test
     public void shouldCreateANewChampionship() throws Exception {

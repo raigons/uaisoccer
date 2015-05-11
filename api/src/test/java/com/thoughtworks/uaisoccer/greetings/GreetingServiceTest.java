@@ -1,5 +1,6 @@
 package com.thoughtworks.uaisoccer.greetings;
 
+import com.thoughtworks.uaisoccer.BaseWebIntegrationTest;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Test;
@@ -17,10 +18,7 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"file:src/test/resources/test-application-context.xml"})
-@WebAppConfiguration
-public class GreetingServiceTest {
+public class GreetingServiceTest extends BaseWebIntegrationTest {
 
     @Autowired
     private GreetingService service;

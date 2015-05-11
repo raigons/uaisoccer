@@ -1,13 +1,13 @@
 package com.thoughtworks.uaisoccer.championships;
 
-import com.thoughtworks.uaisoccer.BaseTest;
-
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import com.thoughtworks.uaisoccer.BaseIntegrationTest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class ChampionshipStoreTest extends BaseTest{
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
+
+public class ChampionshipStoreTest extends BaseIntegrationTest{
 
     @Autowired
     ChampionshipStore store;
