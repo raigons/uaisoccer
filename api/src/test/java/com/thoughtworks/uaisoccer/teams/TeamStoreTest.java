@@ -24,6 +24,7 @@ public class TeamStoreTest extends BaseIntegrationTest {
         Long id = store.create(team);
 
         assertThat(id, is(notNullValue()));
+        assertThat(team.getId(), is(id));
 
         Query query = getSession().createQuery("from Team where id = :id");
         query.setParameter("id", id);
