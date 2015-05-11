@@ -20,6 +20,8 @@ public class Team extends BaseModel {
     @Column(name = "key", length = 100)
     private String key;
 
+    public Team() { }
+
     public Team(String name, String key) {
         this.name = name;
         this.key = key;
