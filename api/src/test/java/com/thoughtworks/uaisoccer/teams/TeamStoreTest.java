@@ -1,18 +1,9 @@
 package com.thoughtworks.uaisoccer.teams;
 
+import com.thoughtworks.uaisoccer.BaseIntegrationTest;
 import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,20 +12,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
 
-@Transactional
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"file:src/test/resources/test-application-context.xml"})
-@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
-        DirtiesContextTestExecutionListener.class,
-        TransactionalTestExecutionListener.class})
-public class TeamStoreTest {
-
-    @Autowired
-    private SessionFactory sessionFactory;
-
-    public Session getSession() {
-        return sessionFactory.getCurrentSession();
-    }
+public class TeamStoreTest extends BaseIntegrationTest {
 
     @Autowired
     private TeamStore store;
