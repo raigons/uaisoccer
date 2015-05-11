@@ -21,4 +21,23 @@ public class ChampionshipStoreTest extends BaseIntegrationTest{
 
         assertThat(championshipId, is(brazilianLeague.getId()));
     }
+
+    @Test
+    public void shouldUpdateAnExistingChampionship() {
+        Championship europeanLeague = new Championship();
+        europeanLeague.setName("UEFA");
+
+        Long championshipId = store.save(europeanLeague);
+
+        assertThat(championshipId, is(europeanLeague.getId()));
+
+        europeanLeague.setName("UEFA Champions League");
+
+        store.update(europeanLeague);
+
+        Championship updatedEuropeanLeague = store.get(europeanLeague.getId());
+
+        assertThat(updatedEuropeanLeague.getName(), is(europeanLeague.getName()));
+    }
+
 }
