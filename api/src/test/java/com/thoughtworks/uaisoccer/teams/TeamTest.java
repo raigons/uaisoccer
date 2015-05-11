@@ -18,17 +18,23 @@ public class TeamTest {
 
     @Before
     public void setUp() {
-        team = new Team(1L, "Cruzeiro Esporte Clube", "cruzeiro");
-        identicalTeam = new Team(1L, "Cruzeiro Esporte Clube", "cruzeiro");
-        slightlyDifferentTeam = new Team(4L, "Cruzeiro Esporte Clube", "cruzeiro");
-        veryDifferentTeam = new Team(8L, "Inter de Milão", "inter-de-milao");
+        team = new Team("Cruzeiro Esporte Clube", "cruzeiro");
+        team.setId(1l);
+        identicalTeam = new Team("Cruzeiro Esporte Clube", "cruzeiro");
+        identicalTeam.setId(1l);
+        slightlyDifferentTeam = new Team("Cruzeiro Esporte Clube", "cruzeiro");
+        slightlyDifferentTeam.setId(5l);
+        veryDifferentTeam = new Team("Inter de Milão", "inter-de-milao");
+        veryDifferentTeam.setId(9l);
     }
 
+    @SuppressWarnings("ObjectEqualsNull")
     @Test
     public void shouldNotBeEqualsToNull() {
         assertThat(team.equals(null), is(false));
     }
 
+    @SuppressWarnings("EqualsBetweenInconvertibleTypes")
     @Test
     public void shouldNotBeEqualsToDifferentClassType() {
         String anotherType = "a string";

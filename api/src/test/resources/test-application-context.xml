@@ -1,13 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="
-                http://www.springframework.org/schema/beans
-                http://www.springframework.org/schema/beans/spring-beans.xsd
-                http://www.springframework.org/schema/mvc
-                http://www.springframework.org/schema/mvc/spring-mvc.xsd
-                http://www.springframework.org/schema/context
-                http://www.springframework.org/schema/context/spring-context.xsd ">
-
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <import resource="file:src/main/webapp/WEB-INF/mvc-dispatcher-servlet.xml" />
 
@@ -33,5 +27,9 @@
                 <prop key="hibernate.hbm2ddl.auto">create</prop>
             </props>
         </property>
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 </beans>

@@ -1,19 +1,26 @@
 package com.thoughtworks.uaisoccer.teams;
 
-import com.thoughtworks.uaisoccer.common.AbstractDomainObject;
+import com.thoughtworks.uaisoccer.common.BaseModel;
 
+import javax.persistence.*;
 import java.util.Objects;
 
-public class Team extends AbstractDomainObject {
+@Entity
+@Table(name = "team")
+public class Team extends BaseModel {
 
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @Column(name = "name", length = 150)
     private String name;
+
+    @Column(name = "key", length = 100)
     private String key;
 
-    public Team() {}
-
-    public Team(Long id, String name, String key) {
-        this.id = id;
+    public Team(String name, String key) {
         this.name = name;
         this.key = key;
     }
