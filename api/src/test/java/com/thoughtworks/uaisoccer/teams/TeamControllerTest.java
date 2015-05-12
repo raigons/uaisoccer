@@ -24,12 +24,6 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
 
     Team fixtureTeam;
 
-    public static String convertObjectToJson(Object object) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        return mapper.writeValueAsString(object);
-    }
-
     @Before
     public void setUp() {
         fixtureTeam = new Team();

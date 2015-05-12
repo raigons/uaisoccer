@@ -1,29 +1,32 @@
 package com.thoughtworks.uaisoccer.championships;
 
 import com.thoughtworks.uaisoccer.BaseWebIntegrationTest;
+import org.hamcrest.Matchers;
 import org.junit.Test;
-import org.mockito.internal.matchers.Null;
+import org.springframework.http.MediaType;
 
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.core.Is.is;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.nullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class ChampionshipControllerTest extends BaseWebIntegrationTest {
 
     @Test
-    public void shouldCreateANewChampionship() throws Exception {
+    public void shouldCreateChampionshipResource() throws Exception {
+        Championship championship = new Championship();
+        championship.setName("Brasileirão");
+
         mockMvc.perform(post("/championships")
-            .param("name", "Brasileirao"))
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(convertObjectToJson(championship))
+                )
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.name", is("Brasileirao")))
-            .andExpect(jsonPath("$.id", is(not(Null.NULL))));
+            .andExpect(jsonPath("$.success", Matchers.is(true)))
+            .andExpect(jsonPath("$.message", Matchers.is(nullValue())))
+            .andExpect(jsonPath("$.value.id", Matchers.is(greaterThan(0))))
+            .andExpect(jsonPath("$.value.name", Matchers.is(championship.getName())));
     }
 
-    @Test
-    public void shouldUpdateAnExistingChampionship ()  throws Exception {
-
-    }
 }

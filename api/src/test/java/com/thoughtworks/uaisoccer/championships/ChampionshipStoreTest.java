@@ -20,15 +20,15 @@ public class ChampionshipStoreTest extends BaseIntegrationTest{
     @Autowired
     ChampionshipStore store;
 
-    private Championship championship;
+    Championship fixtureChampionship;
 
     @Before
     public void setUp() {
-        championship = new Championship();
-        championship.setName("Campeonato Brasileiro");
+        fixtureChampionship = new Championship();
+        fixtureChampionship.setName("Campeonato Brasileiro");
 
-        Long newChampionshipId = store.create(championship);
-        assertThat(newChampionshipId, is(championship.getId()));
+        Long newChampionshipId = store.create(fixtureChampionship);
+        assertThat(newChampionshipId, is(fixtureChampionship.getId()));
     }
 
     @Test
@@ -54,18 +54,18 @@ public class ChampionshipStoreTest extends BaseIntegrationTest{
 
     @Test
     public void shouldUpdateExistingChampionship() {
-        championship.setName("UEFA Champions League");
-        store.update(championship);
+        fixtureChampionship.setName("UEFA Champions League");
+        store.update(fixtureChampionship);
 
         Query query = getSession().createQuery("from Championship where id = :id");
-        query.setParameter("id", championship.getId());
+        query.setParameter("id", fixtureChampionship.getId());
 
         @SuppressWarnings("unchecked")
         List<Championship> queryResult = (List<Championship>)query.list();
-        MatcherAssert.assertThat(queryResult.contains(championship), Matchers.is(true));
+        MatcherAssert.assertThat(queryResult.contains(fixtureChampionship), Matchers.is(true));
 
-        Championship updatedChampionship = queryResult.get(queryResult.indexOf(championship));
-        assertThat(updatedChampionship.getName(), is(championship.getName()));
+        Championship updatedChampionship = queryResult.get(queryResult.indexOf(fixtureChampionship));
+        assertThat(updatedChampionship.getName(), is(fixtureChampionship.getName()));
     }
 
 }
