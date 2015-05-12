@@ -1,6 +1,5 @@
 package com.thoughtworks.uaisoccer.common;
 
-import com.thoughtworks.uaisoccer.championships.Championship;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +36,7 @@ public abstract class BaseStore<E extends IdentifiedEntity> {
         return id;
     }
 
-    public void update(Championship championship) {
-        getSession().update(championship);
+    public void update(E entity) {
+        getSession().update(entity);
     }
 }
