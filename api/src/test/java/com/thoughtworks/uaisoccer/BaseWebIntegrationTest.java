@@ -17,7 +17,7 @@ public abstract class BaseWebIntegrationTest extends BaseIntegrationTest {
     private WebApplicationContext webApplicationContext;
 
     @Before
-    public void setUp() throws Exception {
+    public void baseSetUp() throws Exception {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
 }

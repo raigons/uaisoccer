@@ -26,7 +26,7 @@ public abstract class BaseStore<E extends IdentifiedEntity> {
     public E read(Long id) throws ObjectNotFoundException {
         E entity = (E)getSession().get(this.entityClass, id);
         if (entity == null) {
-            throw new ObjectNotFoundException(String.format("Could not find entity with id %d", id));
+            throw new ObjectNotFoundException(String.format("Could not find object with id %d", id));
         }
         return entity;
     }
