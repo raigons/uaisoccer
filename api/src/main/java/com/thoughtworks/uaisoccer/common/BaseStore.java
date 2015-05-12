@@ -35,7 +35,15 @@ public abstract class BaseStore<E extends IdentifiedEntity> {
         return (Long)getSession().save(entity);
     }
 
-    public void update(E entity) {
+    @SuppressWarnings("unchecked")
+    public void update(E entity) throws ObjectNotFoundException {
+        Long id = entity.getId();
+
+        E existingEntity = (E)getSession().get(this.entityClass, id);
+        if (existingEntity == null) {
+            throw new ObjectNotFoundException(String.format("Could not find object with id %d", id));
+        }
+
         getSession().merge(entity);
     }
 }

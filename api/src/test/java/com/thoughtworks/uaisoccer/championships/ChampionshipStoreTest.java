@@ -1,6 +1,7 @@
 package com.thoughtworks.uaisoccer.championships;
 
 import com.thoughtworks.uaisoccer.BaseIntegrationTest;
+import com.thoughtworks.uaisoccer.common.ObjectNotFoundException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.hibernate.Query;
@@ -53,7 +54,7 @@ public class ChampionshipStoreTest extends BaseIntegrationTest{
     }
 
     @Test
-    public void shouldUpdateExistingChampionship() {
+    public void shouldUpdateExistingChampionship() throws ObjectNotFoundException {
         fixtureChampionship.setName("UEFA Champions League");
         store.update(fixtureChampionship);
 
@@ -66,6 +67,14 @@ public class ChampionshipStoreTest extends BaseIntegrationTest{
 
         Championship updatedChampionship = queryResult.get(queryResult.indexOf(fixtureChampionship));
         assertThat(updatedChampionship, is(fixtureChampionship));
+    }
+
+    @Test(expected = ObjectNotFoundException.class)
+    public void shouldFailToUpdateNonexistentChampionship() throws ObjectNotFoundException {
+        Championship nonexistentChampionship = new Championship();
+        nonexistentChampionship.setId(999999999L);
+        nonexistentChampionship.setName("non-existent");
+        store.update(nonexistentChampionship);
     }
 
 }

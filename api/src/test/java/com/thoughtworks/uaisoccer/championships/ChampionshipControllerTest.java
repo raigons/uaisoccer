@@ -5,10 +5,10 @@ import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -57,6 +57,20 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
             .andExpect(jsonPath("$.message", Matchers.is(nullValue())))
             .andExpect(jsonPath("$.value.id", Matchers.is(fixtureChampionship.getId().intValue())))
             .andExpect(jsonPath("$.value.name", Matchers.is(fixtureChampionship.getName())));
+    }
+
+    @Test
+    public void shouldFailWithHttp404NotFoundWhenUpdatingNonexistentChampionship() throws Exception {
+        Long fakeId = 999999999L;
+
+        mockMvc.perform(put("/championships/" + fakeId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(convertObjectToJson(fixtureChampionship))
+        )
+                .andExpect(status().is(HttpStatus.NOT_FOUND.value()))
+                .andExpect(jsonPath("$.success", Matchers.is(false)))
+                .andExpect(jsonPath("$.message", containsString("Could not find object")))
+                .andExpect(jsonPath("$.value", is(nullValue())));
     }
 
 }

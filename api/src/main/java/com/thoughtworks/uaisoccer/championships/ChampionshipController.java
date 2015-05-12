@@ -1,6 +1,7 @@
 package com.thoughtworks.uaisoccer.championships;
 
 import com.thoughtworks.uaisoccer.common.BaseController;
+import com.thoughtworks.uaisoccer.common.ObjectNotFoundException;
 import com.thoughtworks.uaisoccer.common.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ public class ChampionshipController extends BaseController<Championship> {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public Response<Championship> update(@PathVariable("id") Long id, @RequestBody Championship championship) {
+    public Response<Championship> update(@PathVariable("id") Long id, @RequestBody Championship championship) throws ObjectNotFoundException {
         championship.setId(id);
 
         Response<Championship> response = new Response<>();
