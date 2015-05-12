@@ -45,6 +45,8 @@ public class ChampionshipStoreTest extends BaseIntegrationTest{
 
         Query query = getSession().createQuery("from Championship where id = :id");
         query.setParameter("id", championship.getId());
+
+        @SuppressWarnings("unchecked")
         List<Championship> queryResult = (List<Championship>)query.list();
         MatcherAssert.assertThat(queryResult.contains(championship), Matchers.is(true));
 
