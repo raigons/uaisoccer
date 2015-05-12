@@ -1,10 +1,10 @@
 package com.thoughtworks.uaisoccer.common;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+        import org.hibernate.Session;
+        import org.hibernate.SessionFactory;
+        import org.springframework.beans.factory.annotation.Autowired;
 
-import java.lang.reflect.ParameterizedType;
+        import java.lang.reflect.ParameterizedType;
 
 public abstract class BaseStore<E extends IdentifiedEntity> {
 
@@ -37,6 +37,6 @@ public abstract class BaseStore<E extends IdentifiedEntity> {
     }
 
     public void update(E entity) {
-        getSession().update(entity);
+        getSession().merge(entity);
     }
 }

@@ -52,7 +52,7 @@ public class Team extends BaseModel implements IdentifiedEntity {
         this.key = key;
     }
 
-    public int hashCode() {
+    protected int deepHashCode() {
         return Objects.hash(id, name, key);
     }
 

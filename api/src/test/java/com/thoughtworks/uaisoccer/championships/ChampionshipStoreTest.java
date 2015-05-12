@@ -65,7 +65,7 @@ public class ChampionshipStoreTest extends BaseIntegrationTest{
         MatcherAssert.assertThat(queryResult.contains(fixtureChampionship), Matchers.is(true));
 
         Championship updatedChampionship = queryResult.get(queryResult.indexOf(fixtureChampionship));
-        assertThat(updatedChampionship.getName(), is(fixtureChampionship.getName()));
+        assertThat(updatedChampionship, is(fixtureChampionship));
     }
 
 }

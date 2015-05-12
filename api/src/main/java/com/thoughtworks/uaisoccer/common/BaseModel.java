@@ -10,4 +10,10 @@ public abstract class BaseModel {
     }
 
     protected abstract boolean deepEquals(Object obj);
+
+    public int hashCode() {
+        return deepHashCode();
+    }
+
+    protected abstract int deepHashCode();
 }

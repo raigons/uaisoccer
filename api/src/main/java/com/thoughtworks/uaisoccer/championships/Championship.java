@@ -1,13 +1,15 @@
 package com.thoughtworks.uaisoccer.championships;
 
+import com.thoughtworks.uaisoccer.common.BaseModel;
 import com.thoughtworks.uaisoccer.common.IdentifiedEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.Objects;
 
 @Entity
-public class Championship implements IdentifiedEntity {
+public class Championship extends BaseModel implements IdentifiedEntity {
 
     @Id
     @GeneratedValue
@@ -29,5 +31,17 @@ public class Championship implements IdentifiedEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+
+    @Override
+    protected boolean deepEquals(Object obj) {
+        Championship other = (Championship)obj;
+        return Objects.equals(this.id, other.id) && Objects.equals(this.name, other.name);
+    }
+
+    @Override
+    protected int deepHashCode() {
+        return Objects.hash(this.id, this.name);
     }
 }

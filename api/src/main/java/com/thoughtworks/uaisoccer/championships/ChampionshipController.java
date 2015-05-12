@@ -3,7 +3,6 @@ package com.thoughtworks.uaisoccer.championships;
 import com.thoughtworks.uaisoccer.common.BaseController;
 import com.thoughtworks.uaisoccer.common.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,4 +22,15 @@ public class ChampionshipController extends BaseController<Championship> {
         return response;
     }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public Response<Championship> update(@PathVariable("id") Long id, @RequestBody Championship championship) {
+        championship.setId(id);
+
+        Response<Championship> response = new Response<>();
+        store.update(championship);
+        response.setValue(championship);
+        response.setSuccess(true);
+
+        return response;
+    }
 }
