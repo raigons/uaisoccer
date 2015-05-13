@@ -6,11 +6,12 @@ Vagrant.configure(2) do |config|
   config.vm.box = "hashicorp/precise32"
 
   config.vm.network "forwarded_port", guest: 8080, host: 8080
+  config.vm.network "forwarded_port", guest: 9000, host: 9000
 
   config.vm.hostname = "uaisoccer"
 
   config.vm.provision "ansible" do |ansible|
       ansible.playbook = "playbook.yml"
-      ansible.verbose = '<vv></vv>'
+      ansible.verbose = "vvv"
   end
 end
