@@ -4,7 +4,6 @@ import com.thoughtworks.uaisoccer.BaseWebIntegrationTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 import static org.hamcrest.Matchers.*;
@@ -38,7 +37,7 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(convertObjectToJson(team))
         )
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.success", is(true)))
                 .andExpect(jsonPath("$.message", is(nullValue())))
                 .andExpect(jsonPath("$.value.id", is(greaterThan(0))))
@@ -66,7 +65,7 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
         mockMvc.perform(get("/teams/" + fakeId)
                         .accept(MediaType.APPLICATION_JSON)
         )
-                .andExpect(status().is(HttpStatus.NOT_FOUND.value()))
+                .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.success", is(false)))
                 .andExpect(jsonPath("$.message", containsString("Could not find object")))
                 .andExpect(jsonPath("$.value", is(nullValue())));
@@ -96,7 +95,7 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(convertObjectToJson(new Team()))
         )
-                .andExpect(status().is(HttpStatus.NOT_FOUND.value()))
+                .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.success", is(false)))
                 .andExpect(jsonPath("$.message", containsString("Could not find object")))
                 .andExpect(jsonPath("$.value", is(nullValue())));

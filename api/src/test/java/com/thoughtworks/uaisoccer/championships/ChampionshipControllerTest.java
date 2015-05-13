@@ -5,7 +5,6 @@ import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 import static org.hamcrest.Matchers.*;
@@ -37,7 +36,7 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(convertObjectToJson(championship))
                 )
-            .andExpect(status().isOk())
+            .andExpect(status().isCreated())
             .andExpect(jsonPath("$.success", Matchers.is(true)))
             .andExpect(jsonPath("$.message", Matchers.is(nullValue())))
             .andExpect(jsonPath("$.value.id", Matchers.is(greaterThan(0))))
@@ -67,7 +66,7 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(convertObjectToJson(fixtureChampionship))
         )
-                .andExpect(status().is(HttpStatus.NOT_FOUND.value()))
+                .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.success", Matchers.is(false)))
                 .andExpect(jsonPath("$.message", containsString("Could not find object")))
                 .andExpect(jsonPath("$.value", is(nullValue())));

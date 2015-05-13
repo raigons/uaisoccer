@@ -4,6 +4,7 @@ import com.thoughtworks.uaisoccer.common.BaseController;
 import com.thoughtworks.uaisoccer.common.ObjectNotFoundException;
 import com.thoughtworks.uaisoccer.common.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,6 +15,7 @@ public class ChampionshipController extends BaseController<Championship> {
     private ChampionshipStore store;
 
     @RequestMapping(method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.CREATED)
     public Response<Championship> create(@RequestBody Championship championship) {
         Response<Championship> response = new Response<>();
         store.create(championship);
