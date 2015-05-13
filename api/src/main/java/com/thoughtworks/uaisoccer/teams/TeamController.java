@@ -7,12 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping(value = "/teams")
 public class TeamController extends BaseController<Team> {
 
     @Autowired
     TeamStore store;
 
-    @RequestMapping(value = "/teams", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public Response<Team> create(@RequestBody Team team) {
         Response<Team> response = new Response<>();
         store.create(team);
@@ -22,10 +23,22 @@ public class TeamController extends BaseController<Team> {
         return response;
     }
 
-    @RequestMapping(value = "/teams/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Response<Team> read(@PathVariable("id") Long id) throws ObjectNotFoundException {
         Response<Team> response = new Response<>();
         response.setValue(store.read(id));
+        response.setSuccess(true);
+
+        return response;
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public Response<Team> update(@PathVariable("id") Long id, @RequestBody Team team) throws ObjectNotFoundException {
+        team.setId(id);
+
+        Response<Team> response = new Response<>();
+        store.update(team);
+        response.setValue(team);
         response.setSuccess(true);
 
         return response;

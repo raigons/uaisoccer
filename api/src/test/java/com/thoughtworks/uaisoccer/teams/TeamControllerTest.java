@@ -8,8 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 import static org.hamcrest.Matchers.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -71,5 +70,22 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
                 .andExpect(jsonPath("$.success", is(false)))
                 .andExpect(jsonPath("$.message", containsString("Could not find object")))
                 .andExpect(jsonPath("$.value", is(nullValue())));
+    }
+
+    @Test
+    public void shouldUpdateExistingResource() throws Exception {
+        fixtureTeam.setName("Goiás");
+        fixtureTeam.setKey("goias");
+
+        mockMvc.perform(put("/teams/" + fixtureTeam.getId())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(convertObjectToJson(fixtureTeam))
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success", is(true)))
+                .andExpect(jsonPath("$.message", is(nullValue())))
+                .andExpect(jsonPath("$.value.id", is(fixtureTeam.getId().intValue())))
+                .andExpect(jsonPath("$.value.name", is(fixtureTeam.getName())))
+                .andExpect(jsonPath("$.value.key", is(fixtureTeam.getKey())));
     }
 }
