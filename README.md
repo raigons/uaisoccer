@@ -3,7 +3,7 @@ A project built on thoughtworks beach as part of study of spring
 
 * Installation
   * [Install Ansible and Vagrant](https://github.com/raigons/uaisoccer#install-ansible-and-vagrant)
-  * [Install Bower and Node Dependecies](https://github.com/raigons/uaisoccer#install-bower-and-node-dependencies)
+  * [Install Bower and Node Dependecies](https://github.com/raigons/uaisoccer#install-bower-and-node-dependecies)
 * Running Project
   * [Running Vagrant](https://github.com/raigons/uaisoccer#running-vagrant)  
   * [Running Api](https://github.com/raigons/uaisoccer#run-api) 
