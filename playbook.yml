@@ -4,26 +4,32 @@
   gather_facts: no
 
   tasks:
+    - name: Download and Install Node v0.12
+      shell: wget -qO- https://deb.nodesource.com/setup_0.12 | bash -
+
     - name: Grabbing the gradle repository
-      apt_repository: repo='ppa:cwchien/gradle' state=present update_cache=yes
+      apt_repository: repo='ppa:cwchien/gradle' state=present
 
-    - name: Grabbing the node repository
-      apt_repository: repo='ppa:chris-lea/node.js' state=present update_cache=yes
-
-    - name: ensure apt cache is up to date
+    - name: Ensure apt cache is up to date
       apt: update_cache=yes
 
-    - name: ensure packages are installed
+    - name: Ensure packages are installed
       apt: name={{item}}
       with_items:
-          - nodejs
           - vim
           - git
           - openjdk-7-jdk
           - postgresql
-          - libpq-dev
           - python-psycopg2
           - gradle
+          - build-essential
+          - nodejs
+
+    - name: Install Bower Globally
+      npm: name=bower global=yes state=present
+
+    - name: Install Gulp Globally
+      npm: name=gulp global=yes state=present
 
 - hosts: all
   sudo: yes
@@ -36,11 +42,11 @@
     dbpassword: admin
 
   tasks:
-  - name: ensure database is created
+  - name: Ensure database is created
     postgresql_db: name={{dbname}}
 
-  - name: ensure user has access to database
+  - name: Ensure user has access to database
     postgresql_user: db={{dbname}} name={{dbuser}} password={{dbpassword}} priv=ALL
 
-  - name: ensure user does not have unnecessary privilege
+  - name: Ensure user does not have unnecessary privilege
     postgresql_user: name={{dbuser}} role_attr_flags=NOSUPERUSER,NOCREATEDB
