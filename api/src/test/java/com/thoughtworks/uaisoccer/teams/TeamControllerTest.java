@@ -37,7 +37,7 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
         mockMvc.perform(post("/teams")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(convertObjectToJson(team))
-                )
+        )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success", is(true)))
                 .andExpect(jsonPath("$.message", is(nullValue())))
@@ -50,7 +50,7 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
     public void shouldReadTeamResource() throws Exception {
         mockMvc.perform(get("/teams/" + fixtureTeam.getId())
                         .accept(MediaType.APPLICATION_JSON)
-                )
+        )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success", is(true)))
                 .andExpect(jsonPath("$.message", is(nullValue())))
@@ -60,7 +60,7 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
     }
 
     @Test
-    public void shouldReturnHttp404NotFoundIfTeamResourceDoesNotExist() throws Exception {
+    public void shouldReturnHttp404NotFoundWhenReadingNonexistentTeamResource() throws Exception {
         Long fakeId = 999999999L;
 
         mockMvc.perform(get("/teams/" + fakeId)
@@ -78,14 +78,27 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
         fixtureTeam.setKey("goias");
 
         mockMvc.perform(put("/teams/" + fixtureTeam.getId())
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(convertObjectToJson(fixtureTeam))
-                )
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(convertObjectToJson(fixtureTeam))
+        )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success", is(true)))
                 .andExpect(jsonPath("$.message", is(nullValue())))
                 .andExpect(jsonPath("$.value.id", is(fixtureTeam.getId().intValue())))
                 .andExpect(jsonPath("$.value.name", is(fixtureTeam.getName())))
                 .andExpect(jsonPath("$.value.key", is(fixtureTeam.getKey())));
+    }
+
+    @Test
+    public void shouldReturnHttp404NotFoundWhenUpdatingNonexistentTeamResource() throws Exception {
+        Long fakeId = 999999999L;
+        mockMvc.perform(put("/teams/" + fakeId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(convertObjectToJson(new Team()))
+        )
+                .andExpect(status().is(HttpStatus.NOT_FOUND.value()))
+                .andExpect(jsonPath("$.success", is(false)))
+                .andExpect(jsonPath("$.message", containsString("Could not find object")))
+                .andExpect(jsonPath("$.value", is(nullValue())));
     }
 }

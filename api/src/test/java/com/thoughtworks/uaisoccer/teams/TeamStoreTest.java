@@ -33,8 +33,17 @@ public class TeamStoreTest extends BaseIntegrationTest {
     }
 
     @Test(expected = ObjectNotFoundException.class)
-    public void shouldFailIfTeamDoesNotExist() throws ObjectNotFoundException {
+    public void shouldFailToReadNonexistentTeam() throws ObjectNotFoundException {
         store.read(999999999L);
+    }
+
+    @Test(expected = ObjectNotFoundException.class)
+    public void shouldFailToUpdateNonexistentTeam() throws ObjectNotFoundException {
+        Team nonexistentTeam = new Team();
+        nonexistentTeam.setId(999999999L);
+        nonexistentTeam.setName("Nonexistent");
+        nonexistentTeam.setKey("nonexistent");
+        store.update(nonexistentTeam);
     }
 
     @Test
