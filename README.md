@@ -1,5 +1,5 @@
 # UAISOCCER [![Build Status](https://snap-ci.com/raigons/uaisoccer/branch/master/build_image)](https://snap-ci.com/raigons/uaisoccer/branch/master)
-A project built on thoughtworks beach as part of study of spring
+Easily schedule soccer championships.
 
 * Installation
   * [Install Ansible and Vagrant](https://github.com/raigons/uaisoccer#install-ansible-and-vagrant)
