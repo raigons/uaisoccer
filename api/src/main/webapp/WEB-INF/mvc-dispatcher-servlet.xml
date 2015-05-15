@@ -1,14 +1,16 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="
                 http://www.springframework.org/schema/beans
                 http://www.springframework.org/schema/beans/spring-beans.xsd
                 http://www.springframework.org/schema/mvc
                 http://www.springframework.org/schema/mvc/spring-mvc.xsd
                 http://www.springframework.org/schema/context
-                http://www.springframework.org/schema/context/spring-context.xsd ">
+                http://www.springframework.org/schema/context/spring-context.xsd
+                http://www.springframework.org/schema/tx
+                http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
     <!-- Project Configuration -->
     <mvc:annotation-driven />
@@ -38,7 +40,6 @@
                 <prop key="hibernate.show_sql">true</prop>
                 <prop key="hibernate.format_sql">true</prop>
                 <prop key="hibernate.hbm2ddl.auto">update</prop>
-                <prop key="hibernate.current_session_context_class">thread</prop>
             </props>
         </property>
     </bean>
@@ -46,4 +47,5 @@
     <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
+    <tx:annotation-driven transaction-manager="transactionManager" />
 </beans>
