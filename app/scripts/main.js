@@ -1,2 +1,6 @@
 /* jshint devel:true */
-console.log('\'Allo \'Allo!');
+require.config({paths:{knockout: "../bower_components/knockout/dist/knockout"}});	
+require(["knockout","scripts/championships/championship_viewmodel"], function(ko, ChampionshipViewModel) {
+	ko.applyBindings(ChampionshipViewModel());
+});
+
