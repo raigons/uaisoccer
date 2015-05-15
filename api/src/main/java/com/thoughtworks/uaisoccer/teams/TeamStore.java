@@ -1,9 +1,9 @@
 package com.thoughtworks.uaisoccer.teams;
 
 import com.thoughtworks.uaisoccer.common.BaseStore;
-import com.thoughtworks.uaisoccer.common.Store;
+import org.springframework.stereotype.Service;
 
-@Store
+@Service
 public class TeamStore extends BaseStore<Team> {
 
 }

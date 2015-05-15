@@ -1,9 +1,9 @@
 package com.thoughtworks.uaisoccer.championships;
 
 import com.thoughtworks.uaisoccer.common.BaseStore;
-import com.thoughtworks.uaisoccer.common.Store;
+import org.springframework.stereotype.Service;
 
-@Store
+@Service
 public class ChampionshipStore extends BaseStore<Championship> {
 
 }
