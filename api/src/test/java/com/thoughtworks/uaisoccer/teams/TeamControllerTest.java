@@ -23,6 +23,7 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
         fixtureTeam = new Team();
         fixtureTeam.setName("Flamengo");
         fixtureTeam.setKey("flamengo");
+        fixtureTeam.setEnabled(true);
 
         store.create(fixtureTeam);
     }
@@ -42,7 +43,8 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
                 .andExpect(jsonPath("$.message", is(nullValue())))
                 .andExpect(jsonPath("$.value.id", is(greaterThan(0))))
                 .andExpect(jsonPath("$.value.name", is(team.getName())))
-                .andExpect(jsonPath("$.value.key", is(team.getKey())));
+                .andExpect(jsonPath("$.value.key", is(team.getKey())))
+                .andExpect(jsonPath("$.value.enabled", is(team.isEnabled())));
     }
 
     @Test
@@ -55,7 +57,8 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
                 .andExpect(jsonPath("$.message", is(nullValue())))
                 .andExpect(jsonPath("$.value.id", is(fixtureTeam.getId().intValue())))
                 .andExpect(jsonPath("$.value.name", is(fixtureTeam.getName())))
-                .andExpect(jsonPath("$.value.key", is(fixtureTeam.getKey())));
+                .andExpect(jsonPath("$.value.key", is(fixtureTeam.getKey())))
+                .andExpect(jsonPath("$.value.enabled", is(fixtureTeam.isEnabled())));
     }
 
     @Test
@@ -85,7 +88,8 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
                 .andExpect(jsonPath("$.message", is(nullValue())))
                 .andExpect(jsonPath("$.value.id", is(fixtureTeam.getId().intValue())))
                 .andExpect(jsonPath("$.value.name", is(fixtureTeam.getName())))
-                .andExpect(jsonPath("$.value.key", is(fixtureTeam.getKey())));
+                .andExpect(jsonPath("$.value.key", is(fixtureTeam.getKey())))
+                .andExpect(jsonPath("$.value.enabled", is(fixtureTeam.isEnabled())));
     }
 
     @Test

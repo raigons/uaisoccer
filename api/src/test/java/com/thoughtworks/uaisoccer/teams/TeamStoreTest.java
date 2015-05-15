@@ -22,7 +22,10 @@ public class TeamStoreTest extends BaseIntegrationTest {
 
     @Before
     public void setUp() throws Exception {
-        fixtureTeam = new Team("América", "america");
+        fixtureTeam = new Team();
+        fixtureTeam.setName("América");
+        fixtureTeam.setKey("america");
+        fixtureTeam.setEnabled(true);
         store.create(fixtureTeam);
     }
 
@@ -48,7 +51,10 @@ public class TeamStoreTest extends BaseIntegrationTest {
 
     @Test
     public void shouldCreateTeam() {
-        Team team = new Team("Cruzeiro Esporte Clube", "cruzeiro");
+        Team team = new Team();
+        team.setName("Cruzeiro Esporte Clube");
+        team.setKey("cruzeiro");
+        team.setEnabled(true);
         Long id = store.create(team);
 
         assertThat(id, is(notNullValue()));
@@ -69,6 +75,7 @@ public class TeamStoreTest extends BaseIntegrationTest {
     public void shouldUpdateExistingTeam() throws ObjectNotFoundException {
         fixtureTeam.setName("Internacional");
         fixtureTeam.setKey("internacional");
+        fixtureTeam.setEnabled(false);
 
         store.update(fixtureTeam);
 

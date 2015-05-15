@@ -18,14 +18,29 @@ public class TeamTest {
 
     @Before
     public void setUp() {
-        team = new Team("Cruzeiro Esporte Clube", "cruzeiro");
+        team = new Team();
         team.setId(1l);
-        identicalTeam = new Team("Cruzeiro Esporte Clube", "cruzeiro");
+        team.setName("Cruzeiro Esporte Clube");
+        team.setKey("cruzeiro");
+        team.setEnabled(true);
+
+        identicalTeam = new Team();
         identicalTeam.setId(1l);
-        slightlyDifferentTeam = new Team("Cruzeiro Esporte Clube", "cruzeiro");
+        identicalTeam.setName("Cruzeiro Esporte Clube");
+        identicalTeam.setKey("cruzeiro");
+        identicalTeam.setEnabled(true);
+
+        slightlyDifferentTeam = new Team();
         slightlyDifferentTeam.setId(5l);
-        veryDifferentTeam = new Team("Inter de Milão", "inter-de-milao");
-        veryDifferentTeam.setId(9l);
+        slightlyDifferentTeam.setName("Cruzeiro Esporte Clube");
+        slightlyDifferentTeam.setKey("cruzeiro");
+        slightlyDifferentTeam.setEnabled(false);
+
+        veryDifferentTeam = new Team();
+        veryDifferentTeam.setId(9L);
+        veryDifferentTeam.setName("Inter de Milão");
+        veryDifferentTeam.setKey("inter-de-milao");
+        veryDifferentTeam.setEnabled(false);
     }
 
     @SuppressWarnings("ObjectEqualsNull")
