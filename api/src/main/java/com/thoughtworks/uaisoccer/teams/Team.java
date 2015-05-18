@@ -3,7 +3,10 @@ package com.thoughtworks.uaisoccer.teams;
 import com.thoughtworks.uaisoccer.common.BaseModel;
 import com.thoughtworks.uaisoccer.common.IdentifiedEntity;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.util.Objects;
 
 @Entity
@@ -19,7 +22,7 @@ public class Team extends BaseModel implements IdentifiedEntity {
     @Column(length = 100)
     private String key;
 
-    private boolean enabled;
+    private Boolean enabled = true;
 
     public Long getId() {
         return id;
@@ -45,11 +48,11 @@ public class Team extends BaseModel implements IdentifiedEntity {
         this.key = key;
     }
 
-    public boolean isEnabled() {
+    public Boolean isEnabled() {
         return enabled;
     }
 
-    public void setEnabled(boolean enabled) {
+    public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
 
