@@ -16,9 +16,13 @@ public class TeamController extends BaseController<Team> {
     @Autowired
     TeamStore store;
 
+    TeamKeyGenerator keyGenerator = new TeamKeyGenerator();
+
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     public Response<Team> create(@RequestBody Team team) {
+        team.setKey(keyGenerator.generateKeyFromName(team.getName()));
+
         Response<Team> response = new Response<>();
         store.create(team);
         response.setValue(team);

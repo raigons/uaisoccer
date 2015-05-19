@@ -31,8 +31,7 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
     @Test
     public void shouldCreateTeamResource() throws Exception {
         Team team = new Team();
-        team.setName("Cruzeiro Esporte Clube");
-        team.setKey("cruzeiro");
+        team.setName("Clube Atlético Mineiro");
 
         mockMvc.perform(post("/teams")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -42,7 +41,7 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
                 .andExpect(jsonPath("$.message").doesNotExist())
                 .andExpect(jsonPath("$.id", is(greaterThan(0))))
                 .andExpect(jsonPath("$.name", is(team.getName())))
-                .andExpect(jsonPath("$.key", is(team.getKey())))
+                .andExpect(jsonPath("$.key", is("clube-atletico-mineiro")))
                 .andExpect(jsonPath("$.enabled", is(team.isEnabled())));
     }
 
