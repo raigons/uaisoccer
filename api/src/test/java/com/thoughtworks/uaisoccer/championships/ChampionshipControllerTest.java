@@ -37,7 +37,7 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
                     .content(convertObjectToJson(championship))
                 )
             .andExpect(status().isCreated())
-            .andExpect(jsonPath("$.message", Matchers.is(nullValue())))
+            .andExpect(jsonPath("$.message").doesNotExist())
             .andExpect(jsonPath("$.id", Matchers.is(greaterThan(0))))
             .andExpect(jsonPath("$.name", Matchers.is(championship.getName())));
     }
@@ -51,7 +51,7 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
                     .content(convertObjectToJson(fixtureChampionship))
                 )
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.message", Matchers.is(nullValue())))
+            .andExpect(jsonPath("$.message").doesNotExist())
             .andExpect(jsonPath("$.id", Matchers.is(fixtureChampionship.getId().intValue())))
             .andExpect(jsonPath("$.name", Matchers.is(fixtureChampionship.getName())));
     }
@@ -63,10 +63,9 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
         mockMvc.perform(put("/championships/" + fakeId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(convertObjectToJson(fixtureChampionship))
-        )
-                .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.message", containsString("Could not find object")))
-                .andExpect(jsonPath("$.id").doesNotExist());
+                )
+            .andExpect(status().isNotFound())
+            .andExpect(jsonPath("$.message", containsString("Could not find object")))
+            .andExpect(jsonPath("$.id").doesNotExist());
     }
-
 }

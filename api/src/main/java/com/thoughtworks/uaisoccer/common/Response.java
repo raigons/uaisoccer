@@ -1,7 +1,10 @@
 package com.thoughtworks.uaisoccer.common;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 
+@JsonInclude(Include.NON_NULL)
 public class Response<V> {
 
     private String message;

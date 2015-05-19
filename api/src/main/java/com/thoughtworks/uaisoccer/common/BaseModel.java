@@ -1,5 +1,8 @@
 package com.thoughtworks.uaisoccer.common;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public abstract class BaseModel {
 
     public boolean equals(Object obj) {
