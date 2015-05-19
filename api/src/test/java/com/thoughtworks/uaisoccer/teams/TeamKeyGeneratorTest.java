@@ -13,11 +13,29 @@ public class TeamKeyGeneratorTest {
     @Test
     public void shouldGenerateKeyReplacingSingleWhitespaceWithDash() {
         assertThat(keyGenerator.generateKeyFromName("atletico mineiro"), equalTo("atletico-mineiro"));
+        assertThat(keyGenerator.generateKeyFromName("atletico\tmineiro"), equalTo("atletico-mineiro"));
+        assertThat(keyGenerator.generateKeyFromName("atletico\nmineiro"), equalTo("atletico-mineiro"));
+        assertThat(keyGenerator.generateKeyFromName("atletico\rmineiro"), equalTo("atletico-mineiro"));
     }
 
     @Test
-    public void shouldGenerateKeyReplacingMultipleWhitespacesWithOneDash() {
-        assertThat(keyGenerator.generateKeyFromName("atletico    mineiro"), equalTo("atletico-mineiro"));
+    public void shouldGenerateKeyReplacingMultipleSequentialWhitespacesWithOneDash() {
+        assertThat(keyGenerator.generateKeyFromName("atletico  \t\n\r  mineiro"), equalTo("atletico-mineiro"));
+    }
+
+    @Test
+    public void shouldGenerateKeyReplacingSingleUnderscoreWithDash() {
+        assertThat(keyGenerator.generateKeyFromName("atletico_mineiro"), equalTo("atletico-mineiro"));
+    }
+
+    @Test
+    public void shouldGenerateKeyReplacingMultipleSequentialUnderscoresWithSingleDash() {
+        assertThat(keyGenerator.generateKeyFromName("atletico____mineiro"), equalTo("atletico-mineiro"));
+    }
+
+    @Test
+    public void shouldGenerateKeyReplacingMultipleSequentialDashesWithSingleDash() {
+        assertThat(keyGenerator.generateKeyFromName("atletico----mineiro"), equalTo("atletico-mineiro"));
     }
 
     @Test
@@ -27,7 +45,7 @@ public class TeamKeyGeneratorTest {
     }
 
     @Test
-    public void shouldGenerateKeyStrippingAwayAccents() {
+    public void shouldGenerateKeyStrippingAccents() {
         assertThat(keyGenerator.generateKeyFromName("áéíóúý"), is(equalTo("aeiouy")));
         assertThat(keyGenerator.generateKeyFromName("ÁÉÍÓÚÝ"), is(equalTo("aeiouy")));
         assertThat(keyGenerator.generateKeyFromName("àèìòù"), is(equalTo("aeiou")));
@@ -43,4 +61,8 @@ public class TeamKeyGeneratorTest {
         assertThat(keyGenerator.generateKeyFromName("Ç"), is(equalTo("c")));
     }
 
+    @Test
+    public void shouldGenerateKeyStrippingNonAlphanumericAsciiCharactersExceptDash() {
+        assertThat(keyGenerator.generateKeyFromName("-!@#$%^&*+=[]{}()<>\\|/?'\"`~;:.,"), is(equalTo("-")));
+    }
 }

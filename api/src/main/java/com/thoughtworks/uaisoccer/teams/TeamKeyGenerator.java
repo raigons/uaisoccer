@@ -8,8 +8,9 @@ public class TeamKeyGenerator {
         String key;
 
         key = name.toLowerCase();
-        key = key.replaceAll("\\s+", "-");
+        key = key.replaceAll("[-_\\s]+", "-");
         key = Normalizer.normalize(key, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+        key = key.replaceAll("[^a-zA-Z0-9\\-]", "");
 
         return key;
     }
