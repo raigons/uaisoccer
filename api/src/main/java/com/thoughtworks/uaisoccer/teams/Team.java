@@ -3,13 +3,11 @@ package com.thoughtworks.uaisoccer.teams;
 import com.thoughtworks.uaisoccer.common.BaseModel;
 import com.thoughtworks.uaisoccer.common.IdentifiedEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@Table(indexes = {@Index(name = "key_index", columnList = "key", unique = true)})
 public class Team extends BaseModel implements IdentifiedEntity {
 
     @Id

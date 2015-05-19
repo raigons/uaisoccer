@@ -3,6 +3,7 @@ package com.thoughtworks.uaisoccer.teams;
 import com.thoughtworks.uaisoccer.BaseIntegrationTest;
 import com.thoughtworks.uaisoccer.common.ObjectNotFoundException;
 import org.hibernate.Query;
+import org.hibernate.exception.ConstraintViolationException;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,5 +89,22 @@ public class TeamStoreTest extends BaseIntegrationTest {
 
         Team updatedTeam = queryResult.get(queryResult.indexOf(fixtureTeam));
         assertThat(updatedTeam, is(equalTo(fixtureTeam)));
+    }
+
+    @Test
+    public void shouldFindByKey() {
+        Team foundTeam = store.findByKey(fixtureTeam.getKey());
+
+        assertThat(foundTeam, is(notNullValue()));
+        assertThat(foundTeam, is(fixtureTeam));
+    }
+
+    @Test(expected = ConstraintViolationException.class)
+    public void shouldNotCreateTeamWithDuplicatedKey() {
+        Team duplicatedTeam = new Team();
+        duplicatedTeam.setName("América");
+        duplicatedTeam.setKey("america");
+        duplicatedTeam.setEnabled(true);
+        store.create(duplicatedTeam);
     }
 }

@@ -98,4 +98,18 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
                 .andExpect(jsonPath("$.message", containsString("Could not find object")))
                 .andExpect(jsonPath("$.id").doesNotExist());
     }
+
+    @Test
+    public void shouldReturnHttp409ConflictWhenCreatingTeamWithDuplicateKey() throws Exception {
+        Team team = new Team();
+        team.setName(fixtureTeam.getName());
+
+        mockMvc.perform(post("/teams")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(convertObjectToJson(team))
+        )
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.message", is("Could not execute request because it violates a database constraint")))
+                .andExpect(jsonPath("$.id").doesNotExist());
+    }
 }
