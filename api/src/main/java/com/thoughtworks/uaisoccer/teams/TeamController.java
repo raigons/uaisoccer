@@ -21,7 +21,6 @@ public class TeamController extends BaseController<Team> {
     public Response<Team> create(@RequestBody Team team) {
         Response<Team> response = new Response<>();
         store.create(team);
-        response.setSuccess(true);
         response.setValue(team);
 
         return response;
@@ -31,7 +30,6 @@ public class TeamController extends BaseController<Team> {
     public Response<Team> read(@PathVariable("id") Long id) throws ObjectNotFoundException {
         Response<Team> response = new Response<>();
         response.setValue(store.read(id));
-        response.setSuccess(true);
 
         return response;
     }
@@ -43,7 +41,6 @@ public class TeamController extends BaseController<Team> {
         Response<Team> response = new Response<>();
         store.update(team);
         response.setValue(team);
-        response.setSuccess(true);
 
         return response;
     }

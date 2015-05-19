@@ -22,7 +22,6 @@ public class ChampionshipController extends BaseController<Championship> {
         Response<Championship> response = new Response<>();
         store.create(championship);
         response.setValue(championship);
-        response.setSuccess(true);
 
         return response;
     }
@@ -34,7 +33,6 @@ public class ChampionshipController extends BaseController<Championship> {
         Response<Championship> response = new Response<>();
         store.update(championship);
         response.setValue(championship);
-        response.setSuccess(true);
 
         return response;
     }

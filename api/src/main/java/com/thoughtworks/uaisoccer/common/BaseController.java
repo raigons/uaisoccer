@@ -12,7 +12,6 @@ public abstract class BaseController<E extends IdentifiedEntity> {
     @ResponseBody
     protected Response<E> objectNotFoundHandler(ObjectNotFoundException e) {
         Response<E> response = new Response<>();
-        response.setSuccess(false);
         response.setMessage(e.getMessage());
         return response;
     }

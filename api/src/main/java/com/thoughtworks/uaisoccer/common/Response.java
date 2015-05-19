@@ -1,18 +1,13 @@
 package com.thoughtworks.uaisoccer.common;
 
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
+
 public class Response<V> {
 
-    private boolean success;
     private String message;
+
+    @JsonUnwrapped
     private V value;
-
-    public boolean isSuccess() {
-        return success;
-    }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
 
     public String getMessage() {
         return message;

@@ -39,12 +39,11 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
                         .content(convertObjectToJson(team))
         )
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.success", is(true)))
                 .andExpect(jsonPath("$.message", is(nullValue())))
-                .andExpect(jsonPath("$.value.id", is(greaterThan(0))))
-                .andExpect(jsonPath("$.value.name", is(team.getName())))
-                .andExpect(jsonPath("$.value.key", is(team.getKey())))
-                .andExpect(jsonPath("$.value.enabled", is(team.isEnabled())));
+                .andExpect(jsonPath("$.id", is(greaterThan(0))))
+                .andExpect(jsonPath("$.name", is(team.getName())))
+                .andExpect(jsonPath("$.key", is(team.getKey())))
+                .andExpect(jsonPath("$.enabled", is(team.isEnabled())));
     }
 
     @Test
@@ -53,12 +52,11 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
                         .accept(MediaType.APPLICATION_JSON)
         )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.success", is(true)))
                 .andExpect(jsonPath("$.message", is(nullValue())))
-                .andExpect(jsonPath("$.value.id", is(fixtureTeam.getId().intValue())))
-                .andExpect(jsonPath("$.value.name", is(fixtureTeam.getName())))
-                .andExpect(jsonPath("$.value.key", is(fixtureTeam.getKey())))
-                .andExpect(jsonPath("$.value.enabled", is(fixtureTeam.isEnabled())));
+                .andExpect(jsonPath("$.id", is(fixtureTeam.getId().intValue())))
+                .andExpect(jsonPath("$.name", is(fixtureTeam.getName())))
+                .andExpect(jsonPath("$.key", is(fixtureTeam.getKey())))
+                .andExpect(jsonPath("$.enabled", is(fixtureTeam.isEnabled())));
     }
 
     @Test
@@ -69,9 +67,8 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
                         .accept(MediaType.APPLICATION_JSON)
         )
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.success", is(false)))
                 .andExpect(jsonPath("$.message", containsString("Could not find object")))
-                .andExpect(jsonPath("$.value", is(nullValue())));
+                .andExpect(jsonPath("$.id").doesNotExist());
     }
 
     @Test
@@ -84,12 +81,11 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
                         .content(convertObjectToJson(fixtureTeam))
         )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.success", is(true)))
                 .andExpect(jsonPath("$.message", is(nullValue())))
-                .andExpect(jsonPath("$.value.id", is(fixtureTeam.getId().intValue())))
-                .andExpect(jsonPath("$.value.name", is(fixtureTeam.getName())))
-                .andExpect(jsonPath("$.value.key", is(fixtureTeam.getKey())))
-                .andExpect(jsonPath("$.value.enabled", is(fixtureTeam.isEnabled())));
+                .andExpect(jsonPath("$.id", is(fixtureTeam.getId().intValue())))
+                .andExpect(jsonPath("$.name", is(fixtureTeam.getName())))
+                .andExpect(jsonPath("$.key", is(fixtureTeam.getKey())))
+                .andExpect(jsonPath("$.enabled", is(fixtureTeam.isEnabled())));
     }
 
     @Test
@@ -100,8 +96,7 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
                         .content(convertObjectToJson(new Team()))
         )
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.success", is(false)))
                 .andExpect(jsonPath("$.message", containsString("Could not find object")))
-                .andExpect(jsonPath("$.value", is(nullValue())));
+                .andExpect(jsonPath("$.id").doesNotExist());
     }
 }
