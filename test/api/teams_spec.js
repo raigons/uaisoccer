@@ -5,7 +5,7 @@ var team = '   &&*#$%@!)(Caçapava do    Sul  $#@!&* '
 frisby.create('It should create a new team')
   .post('http://localhost:8080/api/teams',
   { name: team, id: 1 }, {json: true})
-  .expectJSON({"name": team, "key": "cacapava-do-sul", "enabled": true})
+  .expectJSON({"name": team, "key": "cacapava-do-sul-", "enabled": true})
   .expectStatus(201)
   .toss()
 
