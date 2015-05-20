@@ -107,4 +107,11 @@ public class TeamStoreTest extends BaseIntegrationTest {
         duplicatedTeam.setEnabled(true);
         store.create(duplicatedTeam);
     }
+
+    @Test
+    public void shouldListAllTeams() {
+        List<Team> teams = store.list();
+        assertThat(teams, hasSize(greaterThan(0)));
+    }
+
 }

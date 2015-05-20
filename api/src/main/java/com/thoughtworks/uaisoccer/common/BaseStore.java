@@ -1,10 +1,12 @@
 package com.thoughtworks.uaisoccer.common;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.List;
 
 public abstract class BaseStore<E extends IdentifiedEntity> {
 
@@ -45,5 +47,11 @@ public abstract class BaseStore<E extends IdentifiedEntity> {
         }
 
         getSession().merge(entity);
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<E> list() {
+        Criteria criteria = getSession().createCriteria(entityClass);
+        return (List<E>) criteria.list();
     }
 }
