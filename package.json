@@ -8,7 +8,7 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./clean_db.sh && jasmine-node test/api/teams_spec.js"
   },
   "repository": {
     "type": "git",
@@ -30,6 +30,7 @@
     "autoprefixer-core": "^4.0.2",
     "browser-sync": "^1.8.2",
     "del": "^1.1.1",
+    "frisby": "^0.8.5",
     "gulp": "^3.6.0",
     "gulp-cache": "^0.2.2",
     "gulp-csso": "^0.2.6",
