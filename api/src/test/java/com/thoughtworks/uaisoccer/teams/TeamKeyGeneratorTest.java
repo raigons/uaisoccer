@@ -62,6 +62,11 @@ public class TeamKeyGeneratorTest {
     }
 
     @Test
+    public void shouldGenerateKeyTrimmingWhitespace() {
+        assertThat(keyGenerator.generateKeyFromName("  test   "), is(equalTo("test")));
+    }
+
+    @Test
     public void shouldGenerateKeyStrippingNonAlphanumericAsciiCharactersExceptDash() {
         assertThat(keyGenerator.generateKeyFromName("-!@#$%^&*+=[]{}()<>\\|/?'\"`~;:.,"), is(equalTo("-")));
     }
