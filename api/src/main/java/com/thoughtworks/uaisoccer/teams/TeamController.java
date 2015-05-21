@@ -5,8 +5,11 @@ import com.thoughtworks.uaisoccer.common.ObjectNotFoundException;
 import com.thoughtworks.uaisoccer.common.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/teams")
@@ -36,6 +39,16 @@ public class TeamController extends BaseController<Team> {
         response.setValue(store.read(id));
 
         return response;
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<List<Team>> list() {
+        List<Team> teams = store.list();
+        if (teams.size() > 0) {
+            return new ResponseEntity<>(teams, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)

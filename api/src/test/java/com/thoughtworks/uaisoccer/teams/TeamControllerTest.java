@@ -1,37 +1,22 @@
 package com.thoughtworks.uaisoccer.teams;
 
 import com.thoughtworks.uaisoccer.BaseWebIntegrationTest;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 public class TeamControllerTest extends BaseWebIntegrationTest {
 
     @Autowired
     TeamStore store;
 
-    Team fixtureTeam;
-
-    @Before
-    public void setUp() {
-        fixtureTeam = new Team();
-        fixtureTeam.setName("Flamengo");
-        fixtureTeam.setKey("flamengo");
-        fixtureTeam.setEnabled(true);
-
-        store.create(fixtureTeam);
-    }
-
     @Test
     public void shouldCreateTeamResource() throws Exception {
-        Team team = new Team();
-        team.setName("Clube Atlético Mineiro");
+        Team team = new TeamBuilder().withName("Clube Atlético Mineiro").build();
 
         mockMvc.perform(post("/teams")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -47,15 +32,22 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
 
     @Test
     public void shouldReadTeamResource() throws Exception {
-        mockMvc.perform(get("/teams/" + fixtureTeam.getId())
+        Team team = new TeamBuilder()
+                .withName("Flamengo")
+                .withKey("flamengo")
+                .withEnabled(true)
+                .build();
+        store.create(team);
+
+        mockMvc.perform(get("/teams/" + team.getId())
                         .accept(MediaType.APPLICATION_JSON)
         )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.message").doesNotExist())
-                .andExpect(jsonPath("$.id", is(fixtureTeam.getId().intValue())))
-                .andExpect(jsonPath("$.name", is(fixtureTeam.getName())))
-                .andExpect(jsonPath("$.key", is(fixtureTeam.getKey())))
-                .andExpect(jsonPath("$.enabled", is(fixtureTeam.isEnabled())));
+                .andExpect(jsonPath("$.id", is(team.getId().intValue())))
+                .andExpect(jsonPath("$.name", is(team.getName())))
+                .andExpect(jsonPath("$.key", is(team.getKey())))
+                .andExpect(jsonPath("$.enabled", is(team.isEnabled())));
     }
 
     @Test
@@ -72,19 +64,26 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
 
     @Test
     public void shouldUpdateExistingResource() throws Exception {
-        fixtureTeam.setName("Goiás");
-        fixtureTeam.setKey("goias");
+        Team team = new TeamBuilder()
+                .withName("Flamengo")
+                .withKey("flamengo")
+                .withEnabled(true)
+                .build();
+        store.create(team);
 
-        mockMvc.perform(put("/teams/" + fixtureTeam.getId())
+        team.setName("Goiás");
+        team.setKey("goias");
+
+        mockMvc.perform(put("/teams/" + team.getId())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(convertObjectToJson(fixtureTeam))
+                        .content(convertObjectToJson(team))
         )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.message").doesNotExist())
-                .andExpect(jsonPath("$.id", is(fixtureTeam.getId().intValue())))
-                .andExpect(jsonPath("$.name", is(fixtureTeam.getName())))
-                .andExpect(jsonPath("$.key", is(fixtureTeam.getKey())))
-                .andExpect(jsonPath("$.enabled", is(fixtureTeam.isEnabled())));
+                .andExpect(jsonPath("$.id", is(team.getId().intValue())))
+                .andExpect(jsonPath("$.name", is(team.getName())))
+                .andExpect(jsonPath("$.key", is(team.getKey())))
+                .andExpect(jsonPath("$.enabled", is(team.isEnabled())));
     }
 
     @Test
@@ -101,15 +100,50 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
 
     @Test
     public void shouldReturnHttp409ConflictWhenCreatingTeamWithDuplicateKey() throws Exception {
-        Team team = new Team();
-        team.setName(fixtureTeam.getName());
+        Team existingTeam = new TeamBuilder()
+                .withName("Flamengo")
+                .withKey("flamengo")
+                .withEnabled(true)
+                .build();
+        store.create(existingTeam);
+
+        Team duplicatedTeam = new TeamBuilder().withName(existingTeam.getName()).build();
 
         mockMvc.perform(post("/teams")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(convertObjectToJson(team))
+                        .content(convertObjectToJson(duplicatedTeam ))
         )
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.message", is("Could not execute request because it violates a database constraint")))
                 .andExpect(jsonPath("$.id").doesNotExist());
+    }
+
+    @Test
+    public void shouldListAllTeamResources() throws Exception {
+        Team team = new TeamBuilder()
+                .withName("Flamengo")
+                .withKey("flamengo")
+                .withEnabled(true)
+                .build();
+        store.create(team);
+
+        mockMvc.perform(get("/teams")
+                        .accept(MediaType.APPLICATION_JSON)
+        )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].id", is(team.getId().intValue())))
+                .andExpect(jsonPath("$[0].name", is(team.getName())))
+                .andExpect(jsonPath("$[0].key", is(team.getKey())))
+                .andExpect(jsonPath("$[0].enabled", is(team.isEnabled())));
+    }
+
+    @Test
+    public void shouldReturn204NoContentAndEmptyBodyIfNoTeamsExist() throws Exception {
+        mockMvc.perform(get("/teams")
+                        .accept(MediaType.APPLICATION_JSON)
+        )
+                .andExpect(status().isNoContent())
+                .andExpect(content().string(isEmptyOrNullString()));
     }
 }
