@@ -11,8 +11,8 @@ public class TeamKeyGenerator {
         key = key.replaceAll("[-_\\s]+", "-");
         key = Normalizer.normalize(key, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
         key = key.replaceAll("[^a-zA-Z0-9\\-]", "");
-        key = key.replaceAll("[-_]$", "");
-        key = key.replaceAll("^[-_]", "");
+        key = key.replaceAll("[-]+$", "");
+        key = key.replaceAll("^[-]+", "");
 
         return key;
     }
