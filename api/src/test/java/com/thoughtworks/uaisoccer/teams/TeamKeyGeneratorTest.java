@@ -11,7 +11,7 @@ public class TeamKeyGeneratorTest {
     private TeamKeyGenerator keyGenerator = new TeamKeyGenerator();
 
     @Test
-    public void shouldGenerateKeyReplacingSingleWhitespaceWithDash() {
+    public void shouldReplaceSingleWhitespaceWithDash() {
         assertThat(keyGenerator.generateKeyFromName("atletico mineiro"), equalTo("atletico-mineiro"));
         assertThat(keyGenerator.generateKeyFromName("atletico\tmineiro"), equalTo("atletico-mineiro"));
         assertThat(keyGenerator.generateKeyFromName("atletico\nmineiro"), equalTo("atletico-mineiro"));
@@ -19,33 +19,33 @@ public class TeamKeyGeneratorTest {
     }
 
     @Test
-    public void shouldGenerateKeyReplacingMultipleSequentialWhitespacesWithOneDash() {
+    public void shouldReplaceMultipleSequentialWhitespacesWithOneDash() {
         assertThat(keyGenerator.generateKeyFromName("atletico  \t\n\r  mineiro"), equalTo("atletico-mineiro"));
     }
 
     @Test
-    public void shouldGenerateKeyReplacingSingleUnderscoreWithDash() {
+    public void shouldReplaceSingleUnderscoreWithDash() {
         assertThat(keyGenerator.generateKeyFromName("atletico_mineiro"), equalTo("atletico-mineiro"));
     }
 
     @Test
-    public void shouldGenerateKeyReplacingMultipleSequentialUnderscoresWithSingleDash() {
+    public void shouldReplaceMultipleSequentialUnderscoresWithSingleDash() {
         assertThat(keyGenerator.generateKeyFromName("atletico____mineiro"), equalTo("atletico-mineiro"));
     }
 
     @Test
-    public void shouldGenerateKeyReplacingMultipleSequentialDashesWithSingleDash() {
+    public void shouldReplaceMultipleSequentialDashesWithSingleDash() {
         assertThat(keyGenerator.generateKeyFromName("atletico----mineiro"), equalTo("atletico-mineiro"));
     }
 
     @Test
-    public void shouldGenerateKeyReplacingUpperCaseByLowerCase() {
+    public void shouldReplaceUpperCaseByLowerCase() {
         assertThat(keyGenerator.generateKeyFromName("Atletico"), is(equalTo("atletico")));
         assertThat(keyGenerator.generateKeyFromName("ATLETICO"), is(equalTo("atletico")));
     }
 
     @Test
-    public void shouldGenerateKeyStrippingAccents() {
+    public void shouldStripAccents() {
         assertThat(keyGenerator.generateKeyFromName("áéíóúý"), is(equalTo("aeiouy")));
         assertThat(keyGenerator.generateKeyFromName("ÁÉÍÓÚÝ"), is(equalTo("aeiouy")));
         assertThat(keyGenerator.generateKeyFromName("àèìòù"), is(equalTo("aeiou")));
@@ -62,13 +62,18 @@ public class TeamKeyGeneratorTest {
     }
 
     @Test
-    public void shouldGenerateKeyTrimmingWhitespace() {
+    public void shouldTrimWhitespace() {
         assertThat(keyGenerator.generateKeyFromName("  test   "), is(equalTo("test")));
     }
 
     @Test
-    public void shouldGenerateKeyTrimmingDashes() {
-        assertThat(keyGenerator.generateKeyFromName("---___test_____----"), is(equalTo("test")));
+    public void shouldTrimDashes() {
+        assertThat(keyGenerator.generateKeyFromName("-------test-------"), is(equalTo("test")));
+    }
+
+    @Test
+    public void shouldReplaceSequentialCombinationOfWhitespaceDashAndSpecialCharactersBySingleDash() {
+        assertThat(keyGenerator.generateKeyFromName("test   !$!$!#$&%%^&% %&!!----test"), is(equalTo("test-test")));
     }
 
     @Test
