@@ -2,9 +2,18 @@ define([
 	"knockout"
 ], function(ko)  {
 	"use strict";
-	var personViewModel = {
-			firstName : "John",
-			lastName : "Smith"
+
+	var GreetingViewModel = function() {
+		var that = {};
+		that.name = ko.observable(name);
+
+		that.save = function(name) {
+			console.log(arguments);
 		};
-	ko.applyBindings(personViewModel);
+
+		return that;
+	};
+
+	return GreetingViewModel;
+
 });
