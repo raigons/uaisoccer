@@ -67,7 +67,12 @@ public class TeamKeyGeneratorTest {
     }
 
     @Test
-    public void shouldGenerateKeyStrippingNonAlphanumericAsciiCharactersExceptDash() {
-        assertThat(keyGenerator.generateKeyFromName("-!@#$%^&*+=[]{}()<>\\|/?'\"`~;:.,"), is(equalTo("-")));
+    public void shouldGenerateKeyTrimmingDashes() {
+        assertThat(keyGenerator.generateKeyFromName("---___test_____----"), is(equalTo("test")));
+    }
+
+    @Test
+    public void shouldGenerateKeyStrippingNonAlphanumericAsciiCharacters() {
+        assertThat(keyGenerator.generateKeyFromName("-!@#$%^&*+=[]{}()<>\\|/?'\"`~;:.,"), is(equalTo("")));
     }
 }
