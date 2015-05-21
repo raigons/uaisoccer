@@ -146,4 +146,47 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
                 .andExpect(status().isNoContent())
                 .andExpect(content().string(isEmptyOrNullString()));
     }
+
+    @Test
+    public void shouldFindExistingTeamByKey() throws Exception {
+        Team teamToBeFound = new TeamBuilder()
+                .withName("Cruzeiro")
+                .withKey("cruzeiro")
+                .withEnabled(true)
+                .build();
+        store.create(teamToBeFound);
+
+        Team flamengo = new TeamBuilder()
+                .withName("Flamengo")
+                .withKey("flamengo")
+                .withEnabled(true)
+                .build();
+        store.create(flamengo);
+
+        Team ipatinga = new TeamBuilder()
+                .withName("Ipatinga")
+                .withKey("ipatinga")
+                .withEnabled(true)
+                .build();
+        store.create(ipatinga);
+
+        mockMvc.perform(get("/teams?key=" + teamToBeFound.getKey())
+                        .accept(MediaType.APPLICATION_JSON)
+        )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].id", is(teamToBeFound.getId().intValue())))
+                .andExpect(jsonPath("$[0].name", is(teamToBeFound.getName())))
+                .andExpect(jsonPath("$[0].key", is(teamToBeFound.getKey())))
+                .andExpect(jsonPath("$[0].enabled", is(teamToBeFound.isEnabled())));
+    }
+
+    @Test
+    public void shouldReturn204NoContentAndEmptyBodyWhenFindingNonexistentKey() throws Exception {
+        mockMvc.perform(get("/teams?key=nonexistent-key")
+                        .accept(MediaType.APPLICATION_JSON)
+        )
+                .andExpect(status().isNoContent())
+                .andExpect(content().string(isEmptyOrNullString()));
+    }
 }
