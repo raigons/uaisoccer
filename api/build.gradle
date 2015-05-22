@@ -2,6 +2,7 @@ apply plugin: "java"
 apply plugin: "war"
 apply plugin: "idea"
 apply plugin: "com.bmuschko.tomcat"
+apply plugin: "org.flywaydb.flyway"
 
 version = "1.0"
 def tomcatVersion = "7.0.59"
@@ -47,5 +48,12 @@ buildscript {
 
     dependencies {
         classpath "com.bmuschko:gradle-tomcat-plugin:2.1"
+        classpath "org.flywaydb:flyway-gradle-plugin:3.2.1"
     }
+}
+
+flyway {
+    url = "jdbc:postgresql://localhost/uaisoccer"
+    user = "uaiadmin"
+    password = "admin"
 }
