@@ -5,6 +5,7 @@ import com.thoughtworks.uaisoccer.common.IdentifiedEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Objects;
 
@@ -12,7 +13,7 @@ import java.util.Objects;
 public class Championship extends BaseModel implements IdentifiedEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "championship_sequence")
     private Long id;
 
     private String name;
