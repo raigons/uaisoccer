@@ -5,11 +5,22 @@ define([
 
 	var ChampionshipViewModel = function() {
 		var that = {};
-		that.name = ko.observable(name);
+		that.championshipName = ko.observable(championshipName);
 
-		that.save = function(name) {
-			console.log(arguments);
+		that.save = function() {
+			console.log(that.championshipName + "was saved.");
 		};
+
+
+  // that.initialize: function(data) {
+  //       this.name(data.firstName);
+  //   },
+  //   revert: function() {
+  //       this.initialize(this.initialize.originalData());
+  //   },
+  //   save: function() {
+  //       this.initialize.originalData(ko.toJS(this));  
+
 
 		return that;
 	};
@@ -17,3 +28,11 @@ define([
 	return ChampionshipViewModel;
 
 });
+
+
+
+
+// var model = new ChampionshipViewModel({
+//     name: ""
+//  });
+// ko.applyBindings(model);

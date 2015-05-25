@@ -5,10 +5,7 @@ require.config({
 	}
 });	
 require(["knockout",
-	"scripts/championships/championship_viewmodel", 
-	"scripts/greeting/greeting"], function(ko, ChampionshipViewModel, GreetingViewModel) {
-	//ko.applyBindings(ChampionshipViewModel());
-	ko.applyBindings(GreetingViewModel());
-
+	"scripts/championships/championship_viewmodel"], function(ko, ChampionshipViewModel) {
+	ko.applyBindings(ChampionshipViewModel());
 });
 

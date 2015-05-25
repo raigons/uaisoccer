@@ -2,10 +2,11 @@
 <body>
 
 	<h1>New Championship</h1>
-	<form data-bind="submit: save">
-		<label for="name">Championship Name:</label>
-		<input id="name" type="text" /><br>
-		<button type="submit">Save</button>
+	<form >
+		<label for="championshipName">Championship Name:</label>
+		<input id="championshipName" type="text" data-bind="textInput: championshipName"/><br>
+		<button type="submit" data-bind="click: save">Save</button><br/>
+		The name is <span data-bind="text: championshipName"></span>
 	</form>
 	<script type="text/javascript" src="../bower_components/requirejs/require.js"></script>
 	<script type="text/javascript" src="/scripts/main.js"></script>
