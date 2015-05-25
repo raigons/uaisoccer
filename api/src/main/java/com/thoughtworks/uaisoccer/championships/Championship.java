@@ -3,16 +3,14 @@ package com.thoughtworks.uaisoccer.championships;
 import com.thoughtworks.uaisoccer.common.BaseModel;
 import com.thoughtworks.uaisoccer.common.IdentifiedEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 public class Championship extends BaseModel implements IdentifiedEntity {
 
     @Id
+    @SequenceGenerator(name = "championship_sequence", sequenceName = "championship_sequence")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "championship_sequence")
     private Long id;
 
