@@ -38,15 +38,19 @@
 
   vars:
     dbname: uaisoccer
+    dbname_test: uaisoccer_test
     dbuser: uaiadmin
     dbpassword: admin
 
   tasks:
-  - name: Ensure database is created
-    postgresql_db: name={{dbname}}
+    - name: Ensure databases are created
+      postgresql_db: name={{dbname}}
+      postgresql_db: name={{dbname_test}}
 
-  - name: Ensure user has access to database
-    postgresql_user: db={{dbname}} name={{dbuser}} password={{dbpassword}} priv=ALL
+    - name: Ensure user has access to databases
+      postgresql_user: db={{dbname}} name={{dbuser}} password={{dbpassword}} priv=ALL
+      postgresql_user: db={{dbname_test}} name={{dbuser}} password={{dbpassword}} priv=ALL
 
-  - name: Ensure user does not have unnecessary privilege
-    postgresql_user: name={{dbuser}} role_attr_flags=NOSUPERUSER,NOCREATEDB
+    - name: Ensure user does not have unnecessary privilege
+      postgresql_user: name={{dbuser}} role_attr_flags=NOSUPERUSER,NOCREATEDB
+
