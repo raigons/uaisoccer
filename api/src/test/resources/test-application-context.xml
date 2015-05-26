@@ -6,8 +6,8 @@
     <import resource="file:src/main/webapp/WEB-INF/mvc-dispatcher-servlet.xml" />
 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <property name="driverClassName" value="org.h2.Driver" />
-        <property name="url" value="jdbc:h2:./target/InMemoryDB" />
+        <property name="driverClassName" value="org.postgresql.Driver" />
+        <property name="url" value="jdbc:postgresql://localhost/uaisoccer_test" />
         <property name="username" value="uaiadmin" />
         <property name="password" value="admin" />
     </bean>
@@ -21,7 +21,7 @@
         </property>
         <property name="hibernateProperties">
             <props>
-                <prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL81Dialect</prop>
                 <prop key="hibernate.show_sql">true</prop>
                 <prop key="hibernate.format_sql">true</prop>
                 <prop key="hibernate.hbm2ddl.auto">create</prop>
