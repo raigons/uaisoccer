@@ -10,8 +10,8 @@ import java.util.Objects;
 public class Championship extends BaseModel implements IdentifiedEntity {
 
     @Id
-    @SequenceGenerator(name = "championship_sequence", sequenceName = "championship_sequence")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "championship_sequence")
+    @SequenceGenerator(name = "championship_sq", sequenceName = "championship_sequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "championship_sq")
     private Long id;
 
     private String name;

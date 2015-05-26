@@ -11,8 +11,8 @@ import java.util.Objects;
 public class Team extends BaseModel implements IdentifiedEntity {
 
     @Id
-    @SequenceGenerator(name = "team_sequence", sequenceName = "team_sequence")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "team_sequence")
+    @SequenceGenerator(name = "team_sq", sequenceName = "team_sequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "team_sq")
     private Long id;
 
     @Column(length = 150)
