@@ -34,7 +34,9 @@ public abstract class BaseStore<E extends IdentifiedEntity> {
     }
 
     public Long create(E entity) {
-        return (Long)getSession().save(entity);
+        Long id = (Long) getSession().save(entity);
+        getSession().flush();
+        return id;
     }
 
     @SuppressWarnings("unchecked")
