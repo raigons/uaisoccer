@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class TeamController extends BaseController<Team> {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
-    public Response<Team> create(@RequestBody Team team) {
+    public Response<Team> create(@Valid @RequestBody Team team) {
         team.setKey(keyGenerator.generateKeyFromName(team.getName()));
 
         Response<Team> response = new Response<>();

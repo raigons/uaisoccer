@@ -189,4 +189,40 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
                 .andExpect(status().isNoContent())
                 .andExpect(content().string(isEmptyOrNullString()));
     }
+
+    @Test
+    public void shouldReturn400BadRequestForInvalidAttributes() throws Exception {
+        String invalidContent = "{\"name\":  \"team\", \"fruit\": \"pineapple\"}";
+
+        mockMvc.perform(post("/teams")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(invalidContent)
+        )
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string(isEmptyOrNullString()));
+    }
+
+    @Test
+    public void shouldReturn400BadRequestForTeamWithNullName() throws Exception {
+        Team teamWithoutName = new Team();
+        mockMvc.perform(post("/teams")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(convertObjectToJson(teamWithoutName))
+        )
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", is("Could not execute request because arguments are invalid")));
+    }
+
+    @Test
+    public void shouldReturn400BadRequestForTeamWithBlankName() throws Exception {
+        Team teamWithEmptyName = new Team();
+        teamWithEmptyName.setName("");
+        mockMvc.perform(post("/teams")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(convertObjectToJson(teamWithEmptyName))
+        )
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", is("Could not execute request because arguments are invalid")));
+
+    }
 }
