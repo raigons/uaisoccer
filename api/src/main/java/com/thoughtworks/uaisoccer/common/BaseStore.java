@@ -26,7 +26,7 @@ public abstract class BaseStore<E extends IdentifiedEntity> {
 
     @SuppressWarnings("unchecked")
     public E read(Long id) throws ObjectNotFoundException {
-        E entity = (E)getSession().get(this.entityClass, id);
+        E entity = (E) getSession().get(this.entityClass, id);
         if (entity == null) {
             throw new ObjectNotFoundException(String.format("Could not find object with id %d", id));
         }
@@ -34,19 +34,20 @@ public abstract class BaseStore<E extends IdentifiedEntity> {
     }
 
     public Long create(E entity) {
-        return (Long)getSession().save(entity);
+        return (Long) getSession().save(entity);
     }
 
     @SuppressWarnings("unchecked")
     public void update(E entity) throws ObjectNotFoundException {
         Long id = entity.getId();
 
-        E existingEntity = (E)getSession().get(this.entityClass, id);
+        E existingEntity = (E) getSession().get(this.entityClass, id);
         if (existingEntity == null) {
             throw new ObjectNotFoundException(String.format("Could not find object with id %d", id));
         }
 
         getSession().merge(entity);
+        getSession().flush();
     }
 
     @SuppressWarnings("unchecked")

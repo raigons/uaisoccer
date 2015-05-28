@@ -88,13 +88,13 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
     @Test
     public void shouldReturnHttp404NotFoundWhenUpdatingNonexistentTeamResource() throws Exception {
         Long fakeId = 999999999L;
+        Team fakeTeam = new TeamBuilder().withName("Nonexistent Team").build();
         mockMvc.perform(put("/teams/" + fakeId)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(convertObjectToJson(new Team()))
+                        .content(convertObjectToJson(fakeTeam))
         )
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.message", containsString("Could not find object")))
-                .andExpect(jsonPath("$.id").doesNotExist());
+                .andExpect(jsonPath("$.message", containsString("Could not find object")));
     }
 
     @Test
@@ -115,6 +115,24 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.message", is("Could not execute request because it violates a database constraint")))
                 .andExpect(jsonPath("$.id").doesNotExist());
+    }
+
+    @Test
+    public void shouldReturnHttp409ConflictWhenUpdatingTeamWithDuplicateName() throws Exception {
+        Team flamengo = new TeamBuilder().withName("Flamengo").withKey("flamengo").build();
+        store.create(flamengo);
+
+        Team goias = new TeamBuilder().withName("Goias").withKey("goias").build();
+        store.create(goias);
+
+        goias.setName(flamengo.getName());
+
+        mockMvc.perform(put("/teams/" + goias.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(convertObjectToJson(goias))
+        )
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.message", is("Could not execute request because it violates a database constraint")));
     }
 
     @Test

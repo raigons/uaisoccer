@@ -45,7 +45,7 @@ public class TeamController extends BaseController<Team> {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public Response<Team> update(@PathVariable("id") Long id, @RequestBody Team team) throws ObjectNotFoundException,
+    public Response<Team> update(@PathVariable("id") Long id, @Valid @RequestBody Team team) throws ObjectNotFoundException,
             InvalidTeamNameException {
         team.setId(id);
         team.setKey(keyGenerator.generateKeyFromName(team.getName()));
