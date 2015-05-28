@@ -12,6 +12,7 @@ public class Response<V> {
 
     private String message;
 
+    @JsonInclude(Include.NON_EMPTY)
     private List<ValidationError> errors = new ArrayList<ValidationError>();
 
     @JsonUnwrapped
