@@ -2,6 +2,8 @@
 - hosts: all
   sudo: yes
   gather_facts: no
+  vars:
+    shared: /vagrant
 
   tasks:
     - name: Download and Install Node v0.12
@@ -30,6 +32,15 @@
 
     - name: Install Gulp Globally
       npm: name=gulp global=yes state=present
+
+    - name: Add aliases to system
+      lineinfile:
+        dest: /home/vagrant/.bashrc
+        line: "{{item}}"
+      with_items:
+        - alias idp="cd {{shared}} && bower install && npm install"
+        - alias rapi="cd {{shared}}/api && gradle tomcatRun"
+        - alias rapp="cd {{shared}} && gulp serve"
 
 - hosts: all
   sudo: yes

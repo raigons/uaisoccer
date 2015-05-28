@@ -5,15 +5,15 @@ Easily schedule soccer championships.
   * [Install Ansible and Vagrant](https://github.com/raigons/uaisoccer#install-ansible-and-vagrant)
   * [Install Bower and Node Dependecies](https://github.com/raigons/uaisoccer#install-bower-and-node-dependecies)
 * Running Project
-  * [Running Vagrant](https://github.com/raigons/uaisoccer#running-vagrant)  
-  * [Running Api](https://github.com/raigons/uaisoccer#run-api) 
-  * [Running App](https://github.com/raigons/uaisoccer#run-app) 
+  * [Useful Aliases](https://github.com/raigons/uaisoccer#useful-aliases)  
 
 ## Install Ansible and Vagrant
 
-1. Install [ANSIBLE](http://www.ansible.com "ansible")
+1. Install [Ansible](http://www.ansible.com "ansible")
 
-2. Install [VAGRANT](http://www.vagrantup.com/ "vagrant") and [VirtualBox](https://www.virtualbox.org/wiki/Downloads "virtualbox")
+2. Install [Vagrant](http://www.vagrantup.com/ "vagrant") and [VirtualBox](https://www.virtualbox.org/wiki/Downloads "virtualbox")
+
+3. Install [Vagrant Cachier Plugin](http://fgrehm.viewdocs.io/vagrant-cachier "vagrant cachier")
 
 ## Running Vagrant
 
@@ -21,26 +21,8 @@ Easily schedule soccer championships.
 2. `$ vagrant up` to start you vagrant box.
 3. `$ vagrant ssh` to acess your vagrant box with ssh.
 
-## Install Bower and Node Dependecies 
-
-1. [Run Vagrant](https://github.com/raigons/uaisoccer#running-vagrant) if it is not running yet.
-2. `$ cd /vagrant/` to navigate to project folder.
-3. `$ bower install` to install bower dependencies
-4. `$ npm install` to install node dependencies
-
-## Run API
-
-1. [Run Vagrant](https://github.com/raigons/uaisoccer#running-vagrant) if it is not running yet.
-2. `$ cd /vagrant/api` to navigate to api folder.
-3. `$ gradle tomcatRun` to run tomcat container.
-
-Now you can acess the API in the address: http://localhost:8080/api
-
-## Run APP
-
-1. [Run Vagrant](https://github.com/raigons/uaisoccer#running-vagrant) if it is not running yet.
-2. `$ cd /vagrant/` to navigate to project folder.
-3. `$ gulp serve` to run app server.
- 
-Now you can acess the APP in the address: http://localhost:9000
-
+## Useful Aliases
+[Some useful aliases to get you started](https://github.com/raigons/uaisoccer#useful-aliases)
+1. `$ idp` to install bower and node dependencies if not yet installed
+2. `$ rapi` to run api if not running. Now you can access the API in the address: http://localhost:8090/api
+3. `$ rapp` to run the app server if not running. Now you can access the APP in the address: http://localhost:9000
