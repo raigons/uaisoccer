@@ -72,7 +72,6 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
         store.create(team);
 
         team.setName("Goiás");
-        team.setKey("goias");
 
         mockMvc.perform(put("/teams/" + team.getId())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -82,7 +81,7 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
                 .andExpect(jsonPath("$.message").doesNotExist())
                 .andExpect(jsonPath("$.id", is(team.getId().intValue())))
                 .andExpect(jsonPath("$.name", is(team.getName())))
-                .andExpect(jsonPath("$.key", is(team.getKey())))
+                .andExpect(jsonPath("$.key", is("goias")))
                 .andExpect(jsonPath("$.enabled", is(team.isEnabled())));
     }
 
@@ -254,4 +253,5 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", containsString("does not contain any valid characters to create a key")));
     }
+
 }
