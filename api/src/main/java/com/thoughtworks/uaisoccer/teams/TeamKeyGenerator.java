@@ -1,10 +1,12 @@
 package com.thoughtworks.uaisoccer.teams;
 
+import com.thoughtworks.uaisoccer.common.InvalidTeamNameException;
+
 import java.text.Normalizer;
 
 public class TeamKeyGenerator {
 
-    public String generateKeyFromName(String name) {
+    public String generateKeyFromName(String name) throws InvalidTeamNameException {
         String key;
 
         key = name.trim();
@@ -15,6 +17,9 @@ public class TeamKeyGenerator {
         key = removeNonAlphanumericCharacters(key);
 
         key = removeDuplicateDashes(key);
+
+        if (key.isEmpty())
+            throw new InvalidTeamNameException(name);
 
         return key;
     }

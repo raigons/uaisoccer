@@ -1,5 +1,6 @@
 package com.thoughtworks.uaisoccer.teams;
 
+import com.thoughtworks.uaisoccer.common.InvalidTeamNameException;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -11,7 +12,7 @@ public class TeamKeyGeneratorTest {
     private TeamKeyGenerator keyGenerator = new TeamKeyGenerator();
 
     @Test
-    public void shouldReplaceSingleWhitespaceWithDash() {
+    public void shouldReplaceSingleWhitespaceWithDash() throws InvalidTeamNameException {
         assertThat(keyGenerator.generateKeyFromName("atletico mineiro"), equalTo("atletico-mineiro"));
         assertThat(keyGenerator.generateKeyFromName("atletico\tmineiro"), equalTo("atletico-mineiro"));
         assertThat(keyGenerator.generateKeyFromName("atletico\nmineiro"), equalTo("atletico-mineiro"));
@@ -19,33 +20,33 @@ public class TeamKeyGeneratorTest {
     }
 
     @Test
-    public void shouldReplaceMultipleSequentialWhitespacesWithOneDash() {
+    public void shouldReplaceMultipleSequentialWhitespacesWithOneDash() throws InvalidTeamNameException {
         assertThat(keyGenerator.generateKeyFromName("atletico  \t\n\r  mineiro"), equalTo("atletico-mineiro"));
     }
 
     @Test
-    public void shouldReplaceSingleUnderscoreWithDash() {
+    public void shouldReplaceSingleUnderscoreWithDash() throws InvalidTeamNameException {
         assertThat(keyGenerator.generateKeyFromName("atletico_mineiro"), equalTo("atletico-mineiro"));
     }
 
     @Test
-    public void shouldReplaceMultipleSequentialUnderscoresWithSingleDash() {
+    public void shouldReplaceMultipleSequentialUnderscoresWithSingleDash() throws InvalidTeamNameException {
         assertThat(keyGenerator.generateKeyFromName("atletico____mineiro"), equalTo("atletico-mineiro"));
     }
 
     @Test
-    public void shouldReplaceMultipleSequentialDashesWithSingleDash() {
+    public void shouldReplaceMultipleSequentialDashesWithSingleDash() throws InvalidTeamNameException {
         assertThat(keyGenerator.generateKeyFromName("atletico----mineiro"), equalTo("atletico-mineiro"));
     }
 
     @Test
-    public void shouldReplaceUpperCaseByLowerCase() {
+    public void shouldReplaceUpperCaseByLowerCase() throws InvalidTeamNameException {
         assertThat(keyGenerator.generateKeyFromName("Atletico"), is(equalTo("atletico")));
         assertThat(keyGenerator.generateKeyFromName("ATLETICO"), is(equalTo("atletico")));
     }
 
     @Test
-    public void shouldStripAccents() {
+    public void shouldStripAccents() throws InvalidTeamNameException {
         assertThat(keyGenerator.generateKeyFromName("áéíóúý"), is(equalTo("aeiouy")));
         assertThat(keyGenerator.generateKeyFromName("ÁÉÍÓÚÝ"), is(equalTo("aeiouy")));
         assertThat(keyGenerator.generateKeyFromName("àèìòù"), is(equalTo("aeiou")));
@@ -62,22 +63,22 @@ public class TeamKeyGeneratorTest {
     }
 
     @Test
-    public void shouldTrimWhitespace() {
+    public void shouldTrimWhitespace() throws InvalidTeamNameException {
         assertThat(keyGenerator.generateKeyFromName("  test   "), is(equalTo("test")));
     }
 
     @Test
-    public void shouldTrimDashes() {
+    public void shouldTrimDashes() throws InvalidTeamNameException {
         assertThat(keyGenerator.generateKeyFromName("-------test-------"), is(equalTo("test")));
     }
 
     @Test
-    public void shouldReplaceSequentialCombinationOfWhitespaceDashAndSpecialCharactersBySingleDash() {
+    public void shouldReplaceSequentialCombinationOfWhitespaceDashAndSpecialCharactersBySingleDash() throws InvalidTeamNameException {
         assertThat(keyGenerator.generateKeyFromName("test   !$!$!#$&%%^&% %&!!----test"), is(equalTo("test-test")));
     }
 
-    @Test
-    public void shouldGenerateKeyStrippingNonAlphanumericAsciiCharacters() {
-        assertThat(keyGenerator.generateKeyFromName("-!@#$%^&*+=[]{}()<>\\|/?'\"`~;:.,"), is(equalTo("")));
+    @Test(expected = InvalidTeamNameException.class)
+    public void shouldGenerateKeyStrippingNonAlphanumericAsciiCharacters() throws InvalidTeamNameException {
+        keyGenerator.generateKeyFromName("-!@#$%^&*+=[]{}()<>\\|/?'\"`~;:.,");
     }
 }

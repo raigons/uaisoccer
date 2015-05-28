@@ -2,6 +2,7 @@ package com.thoughtworks.uaisoccer.teams;
 
 import com.thoughtworks.uaisoccer.common.BaseModel;
 import com.thoughtworks.uaisoccer.common.IdentifiedEntity;
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -17,6 +18,7 @@ public class Team extends BaseModel implements IdentifiedEntity {
 
     @Column(length = 150)
     @NotEmpty
+    @NotBlank
     private String name;
 
     @Column(length = 100)

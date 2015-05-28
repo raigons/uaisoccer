@@ -1,6 +1,7 @@
 package com.thoughtworks.uaisoccer.teams;
 
 import com.thoughtworks.uaisoccer.common.BaseController;
+import com.thoughtworks.uaisoccer.common.InvalidTeamNameException;
 import com.thoughtworks.uaisoccer.common.ObjectNotFoundException;
 import com.thoughtworks.uaisoccer.common.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class TeamController extends BaseController<Team> {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
-    public Response<Team> create(@Valid @RequestBody Team team) {
+    public Response<Team> create(@Valid @RequestBody Team team) throws InvalidTeamNameException {
         team.setKey(keyGenerator.generateKeyFromName(team.getName()));
 
         Response<Team> response = new Response<>();
@@ -72,5 +73,15 @@ public class TeamController extends BaseController<Team> {
             teams.add(team);
         }
         return teams;
+    }
+
+    @ExceptionHandler(value = InvalidTeamNameException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    protected Response<Team> invalidNameHandler(InvalidTeamNameException ex) {
+        Response<Team> response = new Response<>();
+        response.setMessage(ex.getMessage());
+
+        return response;
     }
 }

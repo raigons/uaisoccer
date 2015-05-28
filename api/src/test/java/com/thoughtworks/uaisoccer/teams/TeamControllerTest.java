@@ -227,6 +227,31 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
                 .andExpect(jsonPath("$.message", is("Could not execute request due to validation errors")))
                 .andExpect(jsonPath("$.errors[0].field", is("name")))
                 .andExpect(jsonPath("$.errors[0].message", is("may not be empty")));
+    }
 
+    @Test
+    public void shouldReturn400BadRequestForTeamWithWhitespaceName () throws Exception {
+        Team teamWithEmptyName = new Team();
+        teamWithEmptyName.setName("");
+        mockMvc.perform(post("/teams")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(convertObjectToJson(teamWithEmptyName))
+        )
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", is("Could not execute request due to validation errors")))
+                .andExpect(jsonPath("$.errors[0].field", is("name")))
+                .andExpect(jsonPath("$.errors[0].message", is("may not be empty")));
+    }
+
+    @Test
+    public void shouldReturn400BadRequestForTeamWithInvalidCharacters () throws Exception {
+        Team teamWithEmptyName = new Team();
+        teamWithEmptyName.setName("-!@#$%^&*+=[]{}()<>\\|/?'\"`~;:.,");
+        mockMvc.perform(post("/teams")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(convertObjectToJson(teamWithEmptyName))
+        )
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", containsString("does not contain any valid characters to create a key")));
     }
 }
