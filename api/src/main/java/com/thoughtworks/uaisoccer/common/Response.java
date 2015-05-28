@@ -4,13 +4,22 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @JsonInclude(Include.NON_NULL)
 public class Response<V> {
 
     private String message;
 
+    private List<ValidationError> errors = new ArrayList<ValidationError>();
+
     @JsonUnwrapped
     private V value;
+
+    public void addError(ValidationError validationError) {
+        this.errors.add(validationError);
+    }
 
     public String getMessage() {
         return message;
@@ -26,5 +35,9 @@ public class Response<V> {
 
     public void setValue(V value) {
         this.value = value;
+    }
+
+    public List<ValidationError> getErrors() {
+        return errors;
     }
 }

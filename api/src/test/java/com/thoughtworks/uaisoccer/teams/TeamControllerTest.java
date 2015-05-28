@@ -210,7 +210,9 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
                         .content(convertObjectToJson(teamWithoutName))
         )
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", is("Could not execute request because arguments are invalid")));
+                .andExpect(jsonPath("$.message", is("Could not execute request due to validation errors")))
+                .andExpect(jsonPath("$.errors[0].field", is("name")))
+                .andExpect(jsonPath("$.errors[0].message", is("may not be empty")));
     }
 
     @Test
@@ -222,7 +224,9 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
                         .content(convertObjectToJson(teamWithEmptyName))
         )
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", is("Could not execute request because arguments are invalid")));
+                .andExpect(jsonPath("$.message", is("Could not execute request due to validation errors")))
+                .andExpect(jsonPath("$.errors[0].field", is("name")))
+                .andExpect(jsonPath("$.errors[0].message", is("may not be empty")));
 
     }
 }

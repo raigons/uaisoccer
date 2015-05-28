@@ -4,6 +4,8 @@ import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -36,7 +38,14 @@ public abstract class BaseController<E extends IdentifiedEntity> {
     @ResponseBody
     protected Response<E> invalidArgumentHandler(MethodArgumentNotValidException ex) {
         Response<E> response = new Response<>();
-        response.setMessage("Could not execute request because arguments are invalid");
+        response.setMessage("Could not execute request due to validation errors");
+
+        for(ObjectError validationError : ex.getBindingResult().getAllErrors()) {
+            FieldError fieldError = (FieldError) validationError;
+            ValidationError error = new ValidationError(fieldError.getField(), fieldError.getDefaultMessage());
+            response.addError(error);
+        }
+
         return response;
     }
 
