@@ -22,7 +22,7 @@ Easily schedule soccer championships.
 3. `$ vagrant ssh` to acess your vagrant box with ssh.
 
 ## Useful Aliases
-[Some useful aliases to get you started](https://github.com/raigons/uaisoccer#useful-aliases)
+Some useful aliases to get you started
 1. `$ idp` to install bower and node dependencies if not yet installed
 2. `$ rapi` to run api if not running. Now you can access the API in the address: http://localhost:8090/api
 3. `$ rapp` to run the app server if not running. Now you can access the APP in the address: http://localhost:9000
