@@ -2,11 +2,13 @@ package com.thoughtworks.uaisoccer.championships;
 
 import com.thoughtworks.uaisoccer.common.BaseModel;
 import com.thoughtworks.uaisoccer.common.IdentifiedEntity;
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.Pattern;
 import java.util.Objects;
 
 @Entity
@@ -17,6 +19,8 @@ public class Championship extends BaseModel implements IdentifiedEntity {
     private Long id;
 
     @NotEmpty
+    @NotBlank
+    @Pattern(regexp = "^(?![0-9]*$).*$")
     private String name;
 
     public Long getId() {

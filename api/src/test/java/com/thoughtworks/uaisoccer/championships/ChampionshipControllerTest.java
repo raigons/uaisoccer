@@ -7,7 +7,8 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -43,7 +44,22 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
     }
 
     @Test
-    public void shouldReturn404WhenNullIsSentAsChampionshipName() throws Exception {
+    public void shouldReturn404WhenChampionshipNameIsBlank() throws Exception {
+        Championship championship = new Championship();
+        championship.setName("   ");
+
+        mockMvc.perform(post("/championships")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(convertObjectToJson(championship))
+        )
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", containsString("Could not execute request due to validation errors")))
+                .andExpect(jsonPath("$.id").doesNotExist());
+    }
+
+
+    @Test
+    public void shouldReturn404WhenChampionshipNameIsNull() throws Exception {
         Championship championship = new Championship();
 
         mockMvc.perform(post("/championships")
@@ -55,8 +71,43 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
                 .andExpect(jsonPath("$.id").doesNotExist());
     }
 
+
     @Test
-    public void shouldReturn404WhenEmptyIsSentAsChampionshipName() throws Exception {
+    public void shouldReturn404ChampionshipNameIsANumber() throws Exception {
+        Championship championship = new Championship();
+        championship.setName("1234");
+
+        String championshipJson = convertObjectToJson(championship).replace("\"1234\"", "1234");
+
+        mockMvc.perform(post("/championships")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(championshipJson)
+        )
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", containsString("Could not execute request due to validation errors")))
+                .andExpect(jsonPath("$.id").doesNotExist());
+    }
+
+
+    @Test
+    public void shouldReturn201WhenChampionshipNameIsNotANumber() throws Exception {
+        Championship championship = new Championship();
+        championship.setName("2na2me2");
+
+        mockMvc.perform(post("/championships")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(convertObjectToJson(championship))
+        )
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.message").doesNotExist())
+                .andExpect(jsonPath("$.id", Matchers.is(greaterThan(0))))
+                .andExpect(jsonPath("$.name", Matchers.is(championship.getName())));
+
+    }
+
+
+    @Test
+    public void shouldReturn404WhenChampionshipNameIsEmpty() throws Exception {
         Championship championship = new Championship();
         championship.setName("");
 
