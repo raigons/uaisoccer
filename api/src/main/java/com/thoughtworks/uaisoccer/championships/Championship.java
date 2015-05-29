@@ -2,6 +2,7 @@ package com.thoughtworks.uaisoccer.championships;
 
 import com.thoughtworks.uaisoccer.common.BaseModel;
 import com.thoughtworks.uaisoccer.common.IdentifiedEntity;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,6 +16,7 @@ public class Championship extends BaseModel implements IdentifiedEntity {
     @GeneratedValue
     private Long id;
 
+    @NotEmpty
     private String name;
 
     public Long getId() {

@@ -8,6 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(value = "/championships")
 @Transactional
@@ -18,7 +21,7 @@ public class ChampionshipController extends BaseController<Championship> {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
-    public Response<Championship> create(@RequestBody Championship championship) {
+    public Response<Championship> create(@Valid @RequestBody Championship championship) throws ConstraintViolationException {
         Response<Championship> response = new Response<>();
         store.create(championship);
         response.setValue(championship);

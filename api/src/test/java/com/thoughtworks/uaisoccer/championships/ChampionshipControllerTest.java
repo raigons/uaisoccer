@@ -43,6 +43,34 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
     }
 
     @Test
+    public void shouldReturn404WhenNullIsSentAsChampionshipName() throws Exception {
+        Championship championship = new Championship();
+
+        mockMvc.perform(post("/championships")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(convertObjectToJson(championship))
+        )
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", containsString("Could not execute request due to validation errors")))
+                .andExpect(jsonPath("$.id").doesNotExist());
+    }
+
+    @Test
+    public void shouldReturn404WhenEmptyIsSentAsChampionshipName() throws Exception {
+        Championship championship = new Championship();
+        championship.setName("");
+
+        mockMvc.perform(post("/championships")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(convertObjectToJson(championship))
+        )
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", containsString("Could not execute request due to validation errors")))
+                .andExpect(jsonPath("$.id").doesNotExist());
+    }
+
+
+    @Test
     public void shouldUpdateExistingChampionshipResource() throws Exception {
         fixtureChampionship.setName("Campeonato Mineiro");
 
