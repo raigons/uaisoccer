@@ -1,11 +1,13 @@
 package com.thoughtworks.uaisoccer.teams;
 
+import com.thoughtworks.uaisoccer.championships.Championship;
 import com.thoughtworks.uaisoccer.common.BaseModel;
 import com.thoughtworks.uaisoccer.common.IdentifiedEntity;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -23,6 +25,9 @@ public class Team extends BaseModel implements IdentifiedEntity {
     @NotBlank
     @Pattern(regexp = "^(?![0-9].*$).*$", message = "cannot be numeric")
     private String name;
+
+    @ManyToMany(mappedBy = "teams")
+    private List<Championship> championships;
 
     private Boolean enabled = true;
 

@@ -2,6 +2,9 @@ package com.thoughtworks.uaisoccer.championships;
 
 import com.thoughtworks.uaisoccer.BaseIntegrationTest;
 import com.thoughtworks.uaisoccer.common.ObjectNotFoundException;
+import com.thoughtworks.uaisoccer.teams.Team;
+import com.thoughtworks.uaisoccer.teams.TeamBuilder;
+import com.thoughtworks.uaisoccer.teams.TeamStore;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.hibernate.Query;
@@ -9,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.core.Is.is;
@@ -20,6 +24,9 @@ public class ChampionshipStoreTest extends BaseIntegrationTest{
 
     @Autowired
     ChampionshipStore store;
+
+    @Autowired
+    TeamStore teamStore;
 
     Championship fixtureChampionship;
 
@@ -75,6 +82,39 @@ public class ChampionshipStoreTest extends BaseIntegrationTest{
         nonexistentChampionship.setId(999999999L);
         nonexistentChampionship.setName("non-existent");
         store.update(nonexistentChampionship);
+    }
+
+    @Test
+    public void shouldAssociateTeamsToChampionship() throws ObjectNotFoundException {
+        Team america = new TeamBuilder()
+                .withName("America")
+                .withKey("america")
+                .withEnabled(true)
+                .build();
+
+        Team cruzeiro = new TeamBuilder()
+                .withName("Cruzeiro")
+                .withKey("cruzeiro")
+                .withEnabled(true)
+                .build();
+
+        teamStore.create(america);
+        teamStore.create(cruzeiro);
+
+        List<Team> teams = new ArrayList<Team>();
+        teams.add(america);
+        teams.add(cruzeiro);
+
+        fixtureChampionship.associateTeams(teams);
+
+        store.update(fixtureChampionship);
+
+        Query query = getSession().createSQLQuery("select team_id from championship_team where championship_id = :id");
+        query.setParameter("id", fixtureChampionship.getId());
+
+        List queryResult = query.list();
+        assertThat(queryResult.size(), is(teams.size()));
+
     }
 
 }
