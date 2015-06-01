@@ -82,7 +82,7 @@ public class TeamController extends BaseController<Team> {
     @ResponseBody
     protected Response<Team> invalidNameHandler(InvalidTeamNameException ex) {
         Response<Team> response = new Response<>();
-        response.setMessage(ex.getMessage());
+        response.addError(ex.getMessage(), "name");
 
         return response;
     }

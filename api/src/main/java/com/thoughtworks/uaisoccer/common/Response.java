@@ -10,24 +10,33 @@ import java.util.List;
 @JsonInclude(Include.NON_NULL)
 public class Response<V> {
 
-    private String message;
-
     @JsonInclude(Include.NON_EMPTY)
-    private List<ValidationError> errors = new ArrayList<>();
+    private List<ValidationError> errors;
 
     @JsonUnwrapped
     private V value;
 
     public void addError(ValidationError validationError) {
+        if (this.errors == null) {
+            this.errors = new ArrayList<>();
+        }
         this.errors.add(validationError);
     }
 
-    public String getMessage() {
-        return message;
+    public void addError(String message) {
+        addError(message, null);
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void addError(String message, String field) {
+        addError(new ValidationError(field, message));
+    }
+
+    public List<ValidationError> getErrors() {
+        return errors;
+    }
+
+    public void setErrors(List<ValidationError> errors) {
+        this.errors = errors;
     }
 
     public V getValue() {
@@ -36,9 +45,5 @@ public class Response<V> {
 
     public void setValue(V value) {
         this.value = value;
-    }
-
-    public List<ValidationError> getErrors() {
-        return errors;
     }
 }

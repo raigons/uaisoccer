@@ -22,8 +22,8 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
 
     Championship fixtureChampionship;
 
-    static final String EMPTY_MESSAGE= "may not be empty";
-    static final String NUMBER_MESSAGE= "cannot be a number";
+    static final String EMPTY_MESSAGE = "may not be empty";
+    static final String NUMBER_MESSAGE = "cannot be a number";
 
 
     @Before
@@ -43,7 +43,7 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
                     .content(convertObjectToJson(championship))
                 )
             .andExpect(status().isCreated())
-            .andExpect(jsonPath("$.message").doesNotExist())
+            .andExpect(jsonPath("$.errors").doesNotExist())
             .andExpect(jsonPath("$.id", Matchers.is(greaterThan(0))))
             .andExpect(jsonPath("$.name", Matchers.is(championship.getName())));
     }
@@ -58,7 +58,7 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
                         .content(convertObjectToJson(championship))
         )
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", containsString("Could not execute request due to validation errors")))
+                .andExpect(jsonPath("$.errors[0].message", is(EMPTY_MESSAGE)))
                 .andExpect(jsonPath("$.id").doesNotExist());
     }
 
@@ -72,7 +72,6 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
                         .content(convertObjectToJson(championship))
         )
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", containsString("Could not execute request due to validation errors")))
                 .andExpect(jsonPath("$.id").doesNotExist())
                 .andExpect(jsonPath("$.errors[0].field", is("name")))
                 .andExpect(jsonPath("$.errors[0].message", is(EMPTY_MESSAGE)));
@@ -89,7 +88,6 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
                         .content(convertObjectToJson(championship))
         )
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", containsString("Could not execute request due to validation errors")))
                 .andExpect(jsonPath("$.id").doesNotExist())
                 .andExpect(jsonPath("$.errors[0].field", is("name")))
                 .andExpect(jsonPath("$.errors[0].message", is(NUMBER_MESSAGE)));
@@ -106,7 +104,7 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
                         .content(convertObjectToJson(championship))
         )
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.message").doesNotExist())
+                .andExpect(jsonPath("$.errors").doesNotExist())
                 .andExpect(jsonPath("$.id", Matchers.is(greaterThan(0))))
                 .andExpect(jsonPath("$.name", Matchers.is(championship.getName())));
 
@@ -123,7 +121,6 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
                         .content(convertObjectToJson(championship))
         )
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", containsString("Could not execute request due to validation errors")))
                 .andExpect(jsonPath("$.id").doesNotExist())
                 .andExpect(jsonPath("$.errors[0].field", is("name")))
                 .andExpect(jsonPath("$.errors[0].message", is(EMPTY_MESSAGE)));
@@ -139,7 +136,7 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
                         .content(convertObjectToJson(fixtureChampionship))
         )
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.message").doesNotExist())
+            .andExpect(jsonPath("$.errors").doesNotExist())
             .andExpect(jsonPath("$.id", Matchers.is(fixtureChampionship.getId().intValue())))
             .andExpect(jsonPath("$.name", Matchers.is(fixtureChampionship.getName())));
     }
@@ -153,7 +150,7 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
                         .content(convertObjectToJson(fixtureChampionship))
         )
             .andExpect(status().isNotFound())
-            .andExpect(jsonPath("$.message", containsString("Could not find object")))
+            .andExpect(jsonPath("$.errors[0].message", containsString("Could not find object")))
             .andExpect(jsonPath("$.id").doesNotExist());
     }
 
@@ -166,7 +163,6 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
                         .content(convertObjectToJson(fixtureChampionship))
         )
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", containsString("Could not execute request due to validation errors")))
                 .andExpect(jsonPath("$.id").doesNotExist())
                 .andExpect(jsonPath("$.errors[0].field", is("name")))
                 .andExpect(jsonPath("$.errors[0].message", is(EMPTY_MESSAGE)));
@@ -181,7 +177,6 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
                         .content(convertObjectToJson(fixtureChampionship))
         )
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", containsString("Could not execute request due to validation errors")))
                 .andExpect(jsonPath("$.id").doesNotExist())
                 .andExpect(jsonPath("$.errors[0].field", is("name")))
                 .andExpect(jsonPath("$.errors[0].message", is(EMPTY_MESSAGE)));
@@ -197,7 +192,6 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
                         .content(convertObjectToJson(fixtureChampionship))
         )
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", containsString("Could not execute request due to validation errors")))
                 .andExpect(jsonPath("$.id").doesNotExist())
                 .andExpect(jsonPath("$.errors[0].field", is("name")))
                 .andExpect(jsonPath("$.errors[0].message", is(EMPTY_MESSAGE)));
@@ -212,7 +206,6 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
                         .content(convertObjectToJson(fixtureChampionship))
         )
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", containsString("Could not execute request due to validation errors")))
                 .andExpect(jsonPath("$.id").doesNotExist())
                 .andExpect(jsonPath("$.errors[0].field", is("name")))
                 .andExpect(jsonPath("$.errors[0].message", is(NUMBER_MESSAGE)));

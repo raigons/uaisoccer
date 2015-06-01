@@ -20,7 +20,7 @@ public abstract class BaseController<E extends IdentifiedEntity> {
     @ResponseBody
     protected Response<E> objectNotFoundHandler(ObjectNotFoundException e) {
         Response<E> response = new Response<>();
-        response.setMessage(e.getMessage());
+        response.addError(e.getMessage());
         return response;
     }
 
@@ -29,7 +29,7 @@ public abstract class BaseController<E extends IdentifiedEntity> {
     @ResponseBody
     protected Response<E> dataIntegrityViolationHandler() {
         Response<E> response = new Response<>();
-        response.setMessage("Could not execute request because it violates a database constraint");
+        response.addError("Could not execute request because it violates a database constraint");
         return response;
     }
 
@@ -38,7 +38,6 @@ public abstract class BaseController<E extends IdentifiedEntity> {
     @ResponseBody
     protected Response<E> invalidArgumentHandler(MethodArgumentNotValidException ex) {
         Response<E> response = new Response<>();
-        response.setMessage("Could not execute request due to validation errors");
 
         for(ObjectError validationError : ex.getBindingResult().getAllErrors()) {
             FieldError fieldError = (FieldError) validationError;
