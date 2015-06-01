@@ -5,6 +5,7 @@ import com.thoughtworks.uaisoccer.common.IdentifiedEntity;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import java.util.Objects;
 
 @Entity
@@ -15,12 +16,13 @@ public class Team extends BaseModel implements IdentifiedEntity {
     @GeneratedValue
     private Long id;
 
-    @Column(length = 150)
-    @NotBlank
-    private String name;
-
     @Column(length = 100)
     private String key;
+
+    @Column(length = 150)
+    @NotBlank
+    @Pattern(regexp = "^(?![0-9].*$).*$", message = "cannot be numeric")
+    private String name;
 
     private Boolean enabled = true;
 

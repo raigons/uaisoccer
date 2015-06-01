@@ -341,6 +341,37 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
     }
 
     @Test
+    public void shouldReturn400BadRequestWhenCreatingTeamWithNumericName() throws Exception {
+        String invalidContent = "{\"name\": 123456}";
+
+        mockMvc.perform(post("/teams")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(invalidContent)
+        )
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string(containsString("cannot be numeric")));
+    }
+
+    @Test
+    public void shouldReturn400BadRequestWhenUpdatingTeamWithNumericName() throws Exception {
+        Team team = new TeamBuilder()
+                .withName("Flamengo")
+                .withKey("flamengo")
+                .withEnabled(true)
+                .build();
+        store.create(team);
+
+        String teamWithNumericName = "{\"name\": 123456}";
+
+        mockMvc.perform(put("/teams/" + team.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(teamWithNumericName)
+        )
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string(containsString("cannot be numeric")));
+    }
+
+    @Test
     public void shouldReturn400BadRequestForTeamWithInvalidCharacters () throws Exception {
         Team teamWithEmptyName = new Team();
         teamWithEmptyName.setName("-!@#$%^&*+=[]{}()<>\\|/?'\"`~;:.,");
