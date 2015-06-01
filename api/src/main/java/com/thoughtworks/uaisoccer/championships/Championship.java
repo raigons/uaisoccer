@@ -18,9 +18,8 @@ public class Championship extends BaseModel implements IdentifiedEntity {
     @GeneratedValue
     private Long id;
 
-    @NotEmpty
     @NotBlank
-    @Pattern(regexp = "^(?![0-9]*$).*$")
+    @Pattern(regexp = "^(?![0-9]+$).*$", message = "cannot be a number")
     private String name;
 
     public Long getId() {

@@ -21,7 +21,7 @@ public class ChampionshipController extends BaseController<Championship> {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
-    public Response<Championship> create(@Valid @RequestBody Championship championship) throws ConstraintViolationException {
+    public Response<Championship> create(@Valid @RequestBody Championship championship) {
         Response<Championship> response = new Response<>();
         store.create(championship);
         response.setValue(championship);
@@ -30,7 +30,7 @@ public class ChampionshipController extends BaseController<Championship> {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public Response<Championship> update(@PathVariable("id") Long id, @RequestBody Championship championship) throws ObjectNotFoundException {
+    public Response<Championship> update(@PathVariable("id") Long id, @Valid @RequestBody Championship championship) throws ObjectNotFoundException {
         championship.setId(id);
 
         Response<Championship> response = new Response<>();
