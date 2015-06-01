@@ -2,13 +2,13 @@ package com.thoughtworks.uaisoccer.championships;
 
 import com.thoughtworks.uaisoccer.common.BaseModel;
 import com.thoughtworks.uaisoccer.common.IdentifiedEntity;
+import com.thoughtworks.uaisoccer.teams.Team;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Pattern;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -21,6 +21,12 @@ public class Championship extends BaseModel implements IdentifiedEntity {
     @NotBlank
     @Pattern(regexp = "^(?![0-9]+$).*$", message = "cannot be a number")
     private String name;
+
+    @ManyToMany
+    @JoinTable(name = "championship_team",
+            joinColumns = { @JoinColumn(name = "championship_id") },
+            inverseJoinColumns = { @JoinColumn(name = "team_id") })
+    private List<Team> teams;
 
     public Long getId() {
         return id;
@@ -38,7 +44,6 @@ public class Championship extends BaseModel implements IdentifiedEntity {
         this.name = name;
     }
 
-
     @Override
     protected boolean deepEquals(Object obj) {
         Championship other = (Championship)obj;
@@ -48,5 +53,9 @@ public class Championship extends BaseModel implements IdentifiedEntity {
     @Override
     protected int deepHashCode() {
         return Objects.hash(this.id, this.name);
+    }
+
+    public void associateTeams(List<Team> teams) {
+        this.teams = teams;
     }
 }
