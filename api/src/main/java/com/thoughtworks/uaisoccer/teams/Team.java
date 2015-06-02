@@ -1,8 +1,8 @@
 package com.thoughtworks.uaisoccer.teams;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thoughtworks.uaisoccer.championships.Championship;
 import com.thoughtworks.uaisoccer.common.BaseModel;
-import com.thoughtworks.uaisoccer.common.IdentifiedEntity;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
@@ -13,7 +13,7 @@ import java.util.Objects;
 @Entity
 @Table(indexes = {@Index(name = "key_index", columnList = "key", unique = true),
                     @Index(name = "name_index", columnList = "name", unique = true)})
-public class Team extends BaseModel implements IdentifiedEntity {
+public class Team extends BaseModel {
 
     @Id
     @GeneratedValue
@@ -27,6 +27,7 @@ public class Team extends BaseModel implements IdentifiedEntity {
     @Pattern(regexp = "^(?![0-9].*$).*$", message = "cannot be numeric")
     private String name;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "teams")
     private List<Championship> championships;
 
