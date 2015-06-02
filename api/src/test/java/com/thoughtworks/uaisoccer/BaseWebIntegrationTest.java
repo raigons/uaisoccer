@@ -17,7 +17,6 @@ import javax.annotation.Resource;
 import java.io.IOException;
 
 @WebAppConfiguration
-
 @Transactional
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/test/resources/test-application-context.xml"})
