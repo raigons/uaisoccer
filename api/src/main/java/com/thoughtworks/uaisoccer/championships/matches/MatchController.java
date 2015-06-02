@@ -30,7 +30,7 @@ public class MatchController extends BaseController<Match> {
     public ResponseEntity<List<Match>> list(@PathVariable("championshipId") Long championshipId) throws MatchGenerationException, ObjectNotFoundException {
         Championship championship = championshipRepository.findOne(championshipId);
         if (championship == null) {
-            throw new ObjectNotFoundException("Could not find object");
+            throw new ObjectNotFoundException(championshipId);
         }
 
         return toResponse(matchGenerator.generateMatches(championship));
