@@ -31,7 +31,7 @@ public class ChampionshipController extends BaseController<Championship> {
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public Response<Championship> update(@PathVariable("id") Long id, @Valid @RequestBody Championship championship) throws ObjectNotFoundException {
         if (!championshipRepository.exists(id))
-            throw new ObjectNotFoundException("Could not find object");
+            throw new ObjectNotFoundException(id);
 
         championship.setId(id);
 

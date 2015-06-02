@@ -30,7 +30,7 @@ public class TeamController extends BaseController<Team> {
 
         Team team  = teamRepository.findOne(id);
         if(team == null)
-            throw new ObjectNotFoundException("Could not find object");
+            throw new ObjectNotFoundException(id);
 
         response.setValue(teamRepository.findOne(id));
 
@@ -53,7 +53,7 @@ public class TeamController extends BaseController<Team> {
     public Response<Team> update(@PathVariable("id") Long id, @Valid @RequestBody Team team) throws ObjectNotFoundException,
             InvalidTeamNameException {
         if(!teamRepository.exists(id))
-            throw new ObjectNotFoundException("Could not find object");
+            throw new ObjectNotFoundException(id);
 
         team.setId(id);
         team.setKey(keyGenerator.generateKeyFromName(team.getName()));

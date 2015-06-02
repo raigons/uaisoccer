@@ -58,7 +58,7 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
                         .accept(MediaType.APPLICATION_JSON)
         )
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.errors[0].message", containsString("Could not find object")))
+                .andExpect(jsonPath("$.errors[0].message", containsString("Could not find object with id: " + fakeId)))
                 .andExpect(jsonPath("$.id").doesNotExist());
     }
 
@@ -94,7 +94,7 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
                         .content(convertObjectToJson(fakeTeam))
         )
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.errors[0].message", containsString("Could not find object")));
+                .andExpect(jsonPath("$.errors[0].message", containsString("Could not find object with id: " + fakeId)));
     }
 
     @Test
