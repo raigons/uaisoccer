@@ -105,7 +105,7 @@ public class ChampionshipStoreTest extends BaseIntegrationTest{
         teams.add(america);
         teams.add(cruzeiro);
 
-        fixtureChampionship.associateTeams(teams);
+        fixtureChampionship.setTeams(teams);
 
         store.update(fixtureChampionship);
 

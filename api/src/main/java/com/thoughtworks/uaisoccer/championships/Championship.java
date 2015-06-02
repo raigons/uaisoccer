@@ -4,7 +4,6 @@ import com.thoughtworks.uaisoccer.common.BaseModel;
 import com.thoughtworks.uaisoccer.common.IdentifiedEntity;
 import com.thoughtworks.uaisoccer.teams.Team;
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
@@ -44,6 +43,14 @@ public class Championship extends BaseModel implements IdentifiedEntity {
         this.name = name;
     }
 
+    public List<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(List<Team> teams) {
+        this.teams = teams;
+    }
+
     @Override
     protected boolean deepEquals(Object obj) {
         Championship other = (Championship)obj;
@@ -53,9 +60,5 @@ public class Championship extends BaseModel implements IdentifiedEntity {
     @Override
     protected int deepHashCode() {
         return Objects.hash(this.id, this.name);
-    }
-
-    public void associateTeams(List<Team> teams) {
-        this.teams = teams;
     }
 }

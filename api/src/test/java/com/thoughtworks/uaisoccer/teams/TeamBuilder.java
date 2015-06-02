@@ -8,6 +8,11 @@ public class TeamBuilder {
         this.instance = new Team();
     }
 
+    public TeamBuilder withId(Long id) {
+        instance.setId(id);
+        return this;
+    }
+
     public TeamBuilder withName(String name) {
         instance.setName(name);
         return this;
