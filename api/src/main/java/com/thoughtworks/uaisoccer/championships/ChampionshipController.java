@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 
 @RestController
@@ -17,13 +16,13 @@ import javax.validation.Valid;
 public class ChampionshipController extends BaseController<Championship> {
 
     @Autowired
-    private ChampionshipStore store;
+    private ChampionshipRepository championshipRepository;
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     public Response<Championship> create(@Valid @RequestBody Championship championship) {
         Response<Championship> response = new Response<>();
-        store.create(championship);
+        championshipRepository.save(championship);
         response.setValue(championship);
 
         return response;
@@ -31,10 +30,13 @@ public class ChampionshipController extends BaseController<Championship> {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public Response<Championship> update(@PathVariable("id") Long id, @Valid @RequestBody Championship championship) throws ObjectNotFoundException {
+        if (!championshipRepository.exists(id))
+            throw new ObjectNotFoundException("Could not find object");
+
         championship.setId(id);
 
         Response<Championship> response = new Response<>();
-        store.update(championship);
+        championshipRepository.save(championship);
         response.setValue(championship);
 
         return response;

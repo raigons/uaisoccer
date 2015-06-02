@@ -11,7 +11,8 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(indexes = {@Index(name = "key_index", columnList = "key", unique = true)})
+@Table(indexes = {@Index(name = "key_index", columnList = "key", unique = true),
+                    @Index(name = "name_index", columnList = "name", unique = true)})
 public class Team extends BaseModel implements IdentifiedEntity {
 
     @Id

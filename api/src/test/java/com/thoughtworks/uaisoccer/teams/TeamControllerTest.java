@@ -12,7 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class TeamControllerTest extends BaseWebIntegrationTest {
 
     @Autowired
-    TeamStore store;
+    private TeamRepository teamRepository;
 
     @Test
     public void shouldCreateTeamResource() throws Exception {
@@ -37,7 +37,7 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
                 .withKey("flamengo")
                 .withEnabled(true)
                 .build();
-        store.create(team);
+        teamRepository.save(team);
 
         mockMvc.perform(get("/teams/" + team.getId())
                         .accept(MediaType.APPLICATION_JSON)
@@ -69,7 +69,7 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
                 .withKey("flamengo")
                 .withEnabled(true)
                 .build();
-        store.create(team);
+        teamRepository.save(team);
 
         team.setName("Goiás");
 
@@ -104,7 +104,7 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
                 .withKey("flamengo")
                 .withEnabled(true)
                 .build();
-        store.create(existingTeam);
+        teamRepository.save(existingTeam);
 
         Team duplicatedTeam = new TeamBuilder().withName(existingTeam.getName()).build();
 
@@ -120,10 +120,12 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
     @Test
     public void shouldReturnHttp409ConflictWhenUpdatingTeamWithDuplicateName() throws Exception {
         Team flamengo = new TeamBuilder().withName("Flamengo").withKey("flamengo").build();
-        store.create(flamengo);
+        teamRepository.save(flamengo);
 
         Team goias = new TeamBuilder().withName("Goias").withKey("goias").build();
-        store.create(goias);
+        teamRepository.save(goias);
+
+
 
         goias.setName(flamengo.getName());
 
@@ -142,7 +144,7 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
                 .withKey("flamengo")
                 .withEnabled(true)
                 .build();
-        store.create(team);
+        teamRepository.save(team);
 
         mockMvc.perform(get("/teams")
                         .accept(MediaType.APPLICATION_JSON)
@@ -171,21 +173,21 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
                 .withKey("cruzeiro")
                 .withEnabled(true)
                 .build();
-        store.create(teamToBeFound);
+        teamRepository.save(teamToBeFound);
 
         Team flamengo = new TeamBuilder()
                 .withName("Flamengo")
                 .withKey("flamengo")
                 .withEnabled(true)
                 .build();
-        store.create(flamengo);
+        teamRepository.save(flamengo);
 
         Team ipatinga = new TeamBuilder()
                 .withName("Ipatinga")
                 .withKey("ipatinga")
                 .withEnabled(true)
                 .build();
-        store.create(ipatinga);
+        teamRepository.save(ipatinga);
 
         mockMvc.perform(get("/teams?key=" + teamToBeFound.getKey())
                         .accept(MediaType.APPLICATION_JSON)
@@ -226,7 +228,7 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
                         .withKey("ipatinga")
                         .withEnabled(true)
                         .build();
-        store.create(team);
+        teamRepository.save(team);
 
         String invalidContent = "{\"name\":  \"team\", \"fruit\": \"pineapple\"}";
         mockMvc.perform(put("/teams/" + 1)
@@ -256,7 +258,7 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
                         .withKey("ipatinga")
                         .withEnabled(true)
                         .build();
-        store.create(team);
+        teamRepository.save(team);
 
         Team teamWithoutName = new Team();
         mockMvc.perform(put("/teams/" + team.getId())
@@ -288,7 +290,7 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
                         .withKey("ipatinga")
                         .withEnabled(true)
                         .build();
-        store.create(team);
+        teamRepository.save(team);
 
         Team teamWithEmptyName = new Team();
         teamWithEmptyName.setName("");
@@ -321,7 +323,7 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
                         .withKey("ipatinga")
                         .withEnabled(true)
                         .build();
-        store.create(team);
+        teamRepository.save(team);
 
         Team teamWithEmptyName = new Team();
         teamWithEmptyName.setName("          ");
@@ -353,7 +355,7 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
                 .withKey("flamengo")
                 .withEnabled(true)
                 .build();
-        store.create(team);
+        teamRepository.save(team);
 
         String teamWithNumericName = "{\"name\": 123456}";
 
@@ -384,7 +386,7 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
                         .withKey("ipatinga")
                         .withEnabled(true)
                         .build();
-        store.create(team);
+        teamRepository.save(team);
 
         Team teamWithInvalidName = new Team();
         teamWithInvalidName.setName("-!@#$%^&*+=[]{}()<>\\|/?'\"`~;:.,");

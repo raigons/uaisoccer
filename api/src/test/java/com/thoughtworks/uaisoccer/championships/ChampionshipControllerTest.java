@@ -4,9 +4,12 @@ import com.thoughtworks.uaisoccer.BaseWebIntegrationTest;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -14,11 +17,16 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {
+        "/test-application-context.xml"
+})
 @DirtiesContext
 public class ChampionshipControllerTest extends BaseWebIntegrationTest {
 
     @Autowired
-    ChampionshipStore store;
+    private ChampionshipRepository championshipRepository;
 
     Championship fixtureChampionship;
 
@@ -30,7 +38,7 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
     public void setUp() {
         fixtureChampionship = new Championship();
         fixtureChampionship.setName("Libertadores");
-        store.create(fixtureChampionship);
+        championshipRepository.save(fixtureChampionship);
     }
 
     @Test
@@ -142,7 +150,7 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
     }
 
     @Test
-    public void shouldFailWithHttp404NotFoundWhenUpdatingNonexistentChampionship() throws Exception {
+    public void shouldFailWithHttp404NotFoundWhenUpdatingNonExistentChampionship() throws Exception {
         Long fakeId = 999999999L;
 
         mockMvc.perform(put("/championships/" + fakeId)
