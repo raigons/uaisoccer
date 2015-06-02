@@ -12,19 +12,6 @@ public class Match extends BaseModel {
     private Team team2;
     private Championship championship;
 
-    @Override
-    protected boolean deepEquals(Object obj) {
-        Match other = (Match)obj;
-        return Objects.equals(this.team1, other.team1) &&
-                Objects.equals(this.team2, other.team2) &&
-                Objects.equals(this.championship, other.championship);
-    }
-
-    @Override
-    protected int deepHashCode() {
-        return Objects.hash(this.team1, this.team2, this.championship);
-    }
-
     public Team getTeam1() {
         return team1;
     }
@@ -47,5 +34,22 @@ public class Match extends BaseModel {
 
     public void setChampionship(Championship championship) {
         this.championship = championship;
+    }
+
+    public boolean hasTeam(Team team) {
+        return (team == this.team1 || team == this.team2);
+    }
+
+    @Override
+    protected boolean deepEquals(Object obj) {
+        Match other = (Match)obj;
+        return Objects.equals(this.team1, other.team1) &&
+                Objects.equals(this.team2, other.team2) &&
+                Objects.equals(this.championship, other.championship);
+    }
+
+    @Override
+    protected int deepHashCode() {
+        return Objects.hash(this.team1, this.team2, this.championship);
     }
 }

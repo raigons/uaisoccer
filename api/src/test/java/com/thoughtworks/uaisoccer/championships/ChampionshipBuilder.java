@@ -3,6 +3,7 @@ package com.thoughtworks.uaisoccer.championships;
 import com.thoughtworks.uaisoccer.teams.Team;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ChampionshipBuilder {
 
@@ -23,6 +24,11 @@ public class ChampionshipBuilder {
             instance.setTeams(new ArrayList<>());
         }
         instance.getTeams().add(team);
+        return this;
+    }
+
+    public ChampionshipBuilder withTeams(List<Team> teams) {
+        instance.setTeams(teams);
         return this;
     }
 
