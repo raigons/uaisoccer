@@ -20,14 +20,19 @@ import java.util.List;
 public class TeamController extends BaseController<Team> {
 
     @Autowired
-    TeamStore store;
+    private TeamRepository teamRepository;
 
     TeamKeyGenerator keyGenerator = new TeamKeyGenerator();
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Response<Team> read(@PathVariable("id") Long id) throws ObjectNotFoundException {
         Response<Team> response = new Response<>();
-        response.setValue(store.read(id));
+
+        Team team  = teamRepository.findOne(id);
+        if(team == null)
+            throw new ObjectNotFoundException("Could not find object");
+
+        response.setValue(teamRepository.findOne(id));
 
         return response;
     }
@@ -38,7 +43,7 @@ public class TeamController extends BaseController<Team> {
         team.setKey(keyGenerator.generateKeyFromName(team.getName()));
 
         Response<Team> response = new Response<>();
-        store.create(team);
+        teamRepository.save(team);
         response.setValue(team);
 
         return response;
@@ -47,9 +52,12 @@ public class TeamController extends BaseController<Team> {
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public Response<Team> update(@PathVariable("id") Long id, @Valid @RequestBody Team team) throws ObjectNotFoundException,
             InvalidTeamNameException {
+        if(!teamRepository.exists(id))
+            throw new ObjectNotFoundException("Could not find object");
+
         team.setId(id);
         team.setKey(keyGenerator.generateKeyFromName(team.getName()));
-        store.update(team);
+        teamRepository.save(team);
 
         Response<Team> response = new Response<>();
         response.setValue(team);
@@ -59,22 +67,16 @@ public class TeamController extends BaseController<Team> {
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<Team>> list(@RequestParam(required=false) String key) {
-        List<Team> teams;
+        List<Team> teams = new ArrayList<Team>();
         if (key == null) {
-            teams = store.list();
+            teams = teamRepository.findAll();
         } else {
-            teams = findByKey(key);
+            Team team = teamRepository.findByKey(key);
+            if(team != null)
+                teams.add(team);
         }
-        return toResponse(teams);
-    }
 
-    private List<Team> findByKey(@RequestParam String key) {
-        List<Team> teams = new ArrayList<>();
-        Team team = store.findByKey(key);
-        if (team != null) {
-            teams.add(team);
-        }
-        return teams;
+        return toResponse(teams);
     }
 
     @ExceptionHandler(value = InvalidTeamNameException.class)
