@@ -73,7 +73,7 @@ public class AllAgainstAllMatchGeneratorTest {
 
     @Test(expected = MatchGenerationException.class)
     public void shouldFailToGenerateMatchesWithEmptyListOfTeams() throws MatchGenerationException {
-        Championship championship = new ChampionshipBuilder().withTeams(new ArrayList<Team>()).build();
+        Championship championship = new ChampionshipBuilder().withTeams(new ArrayList<>()).build();
         matchGenerator.generateMatches(championship);
     }
 
