@@ -1,11 +1,13 @@
 package com.thoughtworks.uaisoccer.championships;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thoughtworks.uaisoccer.common.BaseModel;
 import com.thoughtworks.uaisoccer.teams.Team;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,6 +22,7 @@ public class Championship extends BaseModel {
     @Pattern(regexp = "^(?![0-9]+$).*$", message = "cannot be a number")
     private String name;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "championship_team",
             joinColumns = { @JoinColumn(name = "championship_id") },
@@ -48,6 +51,13 @@ public class Championship extends BaseModel {
 
     public void setTeams(List<Team> teams) {
         this.teams = teams;
+    }
+
+    public void addTeam(Team team) {
+        if (this.teams == null) {
+            this.teams = new ArrayList<>();
+        }
+        this.teams.add(team);
     }
 
     @Override

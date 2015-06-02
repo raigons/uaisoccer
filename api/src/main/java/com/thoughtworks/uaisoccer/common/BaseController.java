@@ -48,8 +48,8 @@ public abstract class BaseController<E> {
         return response;
     }
 
-    protected ResponseEntity<List<E>> toResponse(List<E> entities) {
-        if (entities.size() > 0) {
+    protected <T> ResponseEntity<List<T>> toResponse(List<T> entities) {
+        if (entities != null && entities.size() > 0) {
             return new ResponseEntity<>(entities, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

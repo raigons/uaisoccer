@@ -3,12 +3,15 @@ package com.thoughtworks.uaisoccer.championships;
 import com.thoughtworks.uaisoccer.common.BaseController;
 import com.thoughtworks.uaisoccer.common.ObjectNotFoundException;
 import com.thoughtworks.uaisoccer.common.Response;
+import com.thoughtworks.uaisoccer.teams.Team;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/championships")
@@ -40,5 +43,15 @@ public class ChampionshipController extends BaseController<Championship> {
         response.setValue(championship);
 
         return response;
+    }
+
+    @RequestMapping(value = "/{id}/teams", method = RequestMethod.GET)
+    public ResponseEntity<List<Team>> listTeams(@PathVariable("id") Long id) throws ObjectNotFoundException {
+        Championship championship = championshipRepository.findOne(id);
+        if (championship == null) {
+            throw new ObjectNotFoundException(id);
+        }
+
+        return toResponse(championship.getTeams());
     }
 }
