@@ -4,7 +4,6 @@ import com.thoughtworks.uaisoccer.common.BaseModel;
 import com.thoughtworks.uaisoccer.common.IdentifiedEntity;
 import com.thoughtworks.uaisoccer.teams.Team;
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
