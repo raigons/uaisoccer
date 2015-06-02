@@ -9,5 +9,5 @@ import java.util.List;
 @Transactional
 public interface ChampionshipRepository extends JpaRepository<Championship, Long>, ChampionshipRepositoryCustom {
     Championship findByName(String name);
-    void associateTeamsToChampionship(List<Team> teams, Championship championship);
+    void associateTeamsToChampionship(List<Team> teams, Championship championship) throws NonexistentTeamsException;
 }

@@ -41,7 +41,7 @@ public class ChampionshipRepositoryTest extends BaseIntegrationTest {
     }
 
     @Test
-    public void shouldAssociateTeamsToChampionship() {
+    public void shouldAssociateTeamsToChampionship() throws NonexistentTeamsException {
         Championship championship = new Championship();
         championship.setName("Champions League");
         championshipRepository.save(championship);
@@ -71,6 +71,25 @@ public class ChampionshipRepositoryTest extends BaseIntegrationTest {
 
         List queryResult = query.getResultList();
         assertThat(queryResult.size(), is(teams.size()));
+    }
+
+    @Test(expected = NonexistentTeamsException.class)
+    public void shouldThrowExceptionWhenAssociatingNonexistentTeamsToChampionship() throws NonexistentTeamsException {
+        Championship championship = new Championship();
+        championship.setName("Champions League");
+        championshipRepository.save(championship);
+
+        Team flamengo = new TeamBuilder()
+                .withName("Flamengo")
+                .withKey("flamengo")
+                .withEnabled(true)
+                .build();
+        flamengo.setId(9999999L);
+
+        List<Team> teams = new ArrayList<>();
+        teams.add(flamengo);
+
+        championshipRepository.associateTeamsToChampionship(teams, championship);
     }
 
 }
