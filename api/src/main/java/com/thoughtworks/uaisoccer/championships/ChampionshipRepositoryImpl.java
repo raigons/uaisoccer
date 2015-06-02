@@ -19,16 +19,16 @@ public class ChampionshipRepositoryImpl implements ChampionshipRepositoryCustom 
     @Override
     public void associateTeamsToChampionship(List<Team> teams, Championship championship) throws NonexistentTeamsException,
             ObjectNotFoundException {
-        checkChampioshipExistence(championship);
+        checkChampionshipExistence(championship);
         checkTeamsExistence(teams);
 
         championship.setTeams(teams);
         repository.save(championship);
     }
 
-    private void checkChampioshipExistence(Championship championship) throws ObjectNotFoundException {
+    private void checkChampionshipExistence(Championship championship) throws ObjectNotFoundException {
         if (!repository.exists(championship.getId()))
-            throw new ObjectNotFoundException(String.format("Could not find Championship with id %d", championship.getId()));
+            throw new ObjectNotFoundException(championship.getId());
     }
 
     private void checkTeamsExistence(List<Team> teams) throws NonexistentTeamsException {
