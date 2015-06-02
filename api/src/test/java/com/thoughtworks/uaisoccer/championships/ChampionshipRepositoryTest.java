@@ -2,6 +2,7 @@ package com.thoughtworks.uaisoccer.championships;
 
 import com.thoughtworks.uaisoccer.BaseIntegrationTest;
 import com.thoughtworks.uaisoccer.common.InvalidTeamNameException;
+import com.thoughtworks.uaisoccer.common.ObjectNotFoundException;
 import com.thoughtworks.uaisoccer.teams.Team;
 import com.thoughtworks.uaisoccer.teams.TeamBuilder;
 import com.thoughtworks.uaisoccer.teams.TeamRepository;
@@ -41,7 +42,7 @@ public class ChampionshipRepositoryTest extends BaseIntegrationTest {
     }
 
     @Test
-    public void shouldAssociateTeamsToChampionship() throws NonexistentTeamsException {
+    public void shouldAssociateTeamsToChampionship() throws NonexistentTeamsException, ObjectNotFoundException {
         Championship championship = new Championship();
         championship.setName("Champions League");
         championshipRepository.save(championship);
@@ -74,7 +75,7 @@ public class ChampionshipRepositoryTest extends BaseIntegrationTest {
     }
 
     @Test(expected = NonexistentTeamsException.class)
-    public void shouldThrowExceptionWhenAssociatingNonexistentTeamsToChampionship() throws NonexistentTeamsException {
+    public void shouldThrowExceptionWhenAssociatingNonexistentTeamsToChampionship() throws NonexistentTeamsException, ObjectNotFoundException {
         Championship championship = new Championship();
         championship.setName("Champions League");
         championshipRepository.save(championship);
@@ -85,6 +86,27 @@ public class ChampionshipRepositoryTest extends BaseIntegrationTest {
                 .withEnabled(true)
                 .build();
         flamengo.setId(9999999L);
+
+        List<Team> teams = new ArrayList<>();
+        teams.add(flamengo);
+
+        championshipRepository.associateTeamsToChampionship(teams, championship);
+    }
+
+    @Test(expected = ObjectNotFoundException.class)
+    public void shouldThrowExceptionWhenAssociatingToNonexistentChampionship() throws NonexistentTeamsException,
+            ObjectNotFoundException {
+
+        Championship championship = new Championship();
+        championship.setName("Champions League");
+        championship.setId(9999999L);
+
+        Team flamengo = new TeamBuilder()
+                .withName("Flamengo")
+                .withKey("flamengo")
+                .withEnabled(true)
+                .build();
+        teamRepository.save(flamengo);
 
         List<Team> teams = new ArrayList<>();
         teams.add(flamengo);
