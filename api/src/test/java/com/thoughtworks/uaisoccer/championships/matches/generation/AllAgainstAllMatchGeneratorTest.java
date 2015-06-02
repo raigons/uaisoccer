@@ -18,13 +18,12 @@ import static org.hamcrest.core.Is.is;
 
 public class AllAgainstAllMatchGeneratorTest {
 
-    AllAgainstAllMatchGenerator matchGenerator;
+    private AllAgainstAllMatchGenerator matchGenerator;
     private Team teamA;
     private Team teamB;
     private Team teamC;
     private Team teamD;
     private Team teamE;
-
 
     @Before
     public void setUp() {

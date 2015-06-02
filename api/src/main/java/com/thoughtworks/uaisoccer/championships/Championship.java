@@ -1,7 +1,6 @@
 package com.thoughtworks.uaisoccer.championships;
 
 import com.thoughtworks.uaisoccer.common.BaseModel;
-import com.thoughtworks.uaisoccer.common.IdentifiedEntity;
 import com.thoughtworks.uaisoccer.teams.Team;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -11,7 +10,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Championship extends BaseModel implements IdentifiedEntity {
+public class Championship extends BaseModel {
 
     @Id
     @GeneratedValue

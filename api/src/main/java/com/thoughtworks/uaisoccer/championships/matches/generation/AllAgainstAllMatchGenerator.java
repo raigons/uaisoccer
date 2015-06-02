@@ -15,7 +15,7 @@ public class AllAgainstAllMatchGenerator implements MatchGenerator {
         List<Team> teams = championship.getTeams();
 
         if (teams == null || teams.size() < 2)  {
-            throw new MatchGenerationException("Can not generate matches with less than two teams.");
+            throw new MatchGenerationException("Can not generate matches with less than two teams");
         }
 
         List<Match> matches = new ArrayList<>();

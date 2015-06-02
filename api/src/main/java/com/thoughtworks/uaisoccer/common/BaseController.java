@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.List;
 
-public abstract class BaseController<E extends IdentifiedEntity> {
+public abstract class BaseController<E> {
 
     @ExceptionHandler(value = ObjectNotFoundException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
