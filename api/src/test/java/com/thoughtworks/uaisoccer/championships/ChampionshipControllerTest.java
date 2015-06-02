@@ -157,7 +157,7 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
                         .content(convertObjectToJson(fixtureChampionship))
         )
             .andExpect(status().isNotFound())
-            .andExpect(jsonPath("$.errors[0].message", containsString("Could not find object")))
+            .andExpect(jsonPath("$.errors[0].message", containsString("Could not find object with id: " + fakeId)))
             .andExpect(jsonPath("$.id").doesNotExist());
     }
 

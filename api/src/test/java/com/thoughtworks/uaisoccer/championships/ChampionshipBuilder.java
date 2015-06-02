@@ -21,7 +21,7 @@ public class ChampionshipBuilder {
 
     public ChampionshipBuilder withTeam(Team team) {
         if (instance.getTeams() == null) {
-            instance.setTeams(new ArrayList<>());
+            instance.setTeams(new ArrayList<Team>());
         }
         instance.getTeams().add(team);
         return this;

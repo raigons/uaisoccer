@@ -11,6 +11,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsNot.not;
+import static org.hamcrest.core.IsNull.notNullValue;
 import static org.hamcrest.core.IsNull.nullValue;
 
 public class MatchTest {
@@ -92,12 +93,12 @@ public class MatchTest {
 
     @Test
     public void shouldNotBeEqualsToNull() {
-        assertThat(match, is(not(equalTo(nullValue()))));
+        assertThat(match, is(notNullValue()));
     }
 
     @Test
     public void shouldNotBeEqualsToDifferentClass() {
-        assertThat(match, is(not(equalTo("This is a string"))));
+        assertThat(match, is(not(equalTo(new Match()))));
     }
 
     @Test
