@@ -13,18 +13,18 @@ import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 
 
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
         "/test-application-context.xml"
 })
 @DirtiesContext
 public class TeamRepositoryTest {
+
     @Autowired
     private TeamRepository teamRepository;
 
     @Test
-    public void shouldCreateANewTeam() throws InvalidTeamNameException {
+    public void shouldFindTeamByName() throws InvalidTeamNameException {
         Team team = new Team();
         team.setName("name");
         team.setKey(new TeamKeyGenerator().generateKeyFromName(team.getName()));
