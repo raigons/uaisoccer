@@ -115,7 +115,7 @@ public class ChampionshipController extends BaseController<Championship> {
     }
 
     @ExceptionHandler(value = InvalidTeamsException.class)
-    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ResponseBody
     protected Response<Championship> nonexistentTeamshandler(InvalidTeamsException ex) {
         Response<Championship> response = new Response<>();

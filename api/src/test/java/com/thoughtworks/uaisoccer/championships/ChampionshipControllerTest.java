@@ -372,15 +372,15 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
     }
 
     @Test
-    public void shouldThrowExceptionWhenAssociatingToNonexistentChampionship() throws Exception {
-        Championship championship = new Championship();
-        championship.setName("Champions League");
-        championship.setId(9999999L);
+    public void shouldReturn404ForNonexistentChampionship() throws Exception {
+        Championship nonExistentChampionship = new ChampionshipBuilder()
+                .withId(99999999L)
+                .build();
 
         List<Team> teams = new ArrayList<>();
         teams.add(cruzeiro);
 
-        mockMvc.perform(put("/championships/" + championship.getId() + "/teams")
+        mockMvc.perform(put("/championships/" + nonExistentChampionship.getId() + "/teams")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(convertObjectToJson(teams)))
                 .andExpect(status().isNotFound())
@@ -388,7 +388,7 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
     }
 
     @Test
-    public void shouldReturn404WhenAssociatingNonexistentTeamsToChampionship() throws Exception {
+    public void shouldReturn400WhenAssociatingNonexistentTeamsToChampionship() throws Exception {
         championshipRepository.save(fixtureChampionship);
 
         Team tabajara = new TeamBuilder()
@@ -406,27 +406,11 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
         mockMvc.perform(put("/championships/" + fixtureChampionship.getId() + "/teams")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(convertObjectToJson(teams)))
-                .andExpect(status().isNotFound())
+                .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(2)))
                 .andExpect(jsonPath("$.errors[0].message", containsString("Could not find object with id")))
                 .andExpect(jsonPath("$.errors[1].message", containsString("Could not find object with id")));
 
-    }
-
-    @Test
-    public void shouldReturn404ForNonexistentChampionship() throws Exception {
-        Championship nonExistentChampionship = new ChampionshipBuilder()
-                .withId(99999999L)
-                .build();
-
-        List<Team> teams = new ArrayList<>();
-        teams.add(cruzeiro);
-
-        mockMvc.perform(put("/championships/" + nonExistentChampionship.getId() + "/teams")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(convertObjectToJson(teams)))
-                .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.errors[0].message", containsString("Could not find object with id")));
     }
 
     @Test
@@ -454,7 +438,7 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
         mockMvc.perform(put("/championships/" + fixtureChampionship.getId() + "/teams")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(convertObjectToJson(teams)))
-                .andExpect(status().isNotFound())
+                .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(2)))
                 .andExpect(jsonPath("$.errors[0].message", containsString("Could not assign disabled team with id")))
                 .andExpect(jsonPath("$.errors[1].message", containsString("Could not assign disabled team with id")));
