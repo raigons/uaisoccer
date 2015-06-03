@@ -34,7 +34,7 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
     @Autowired
     TeamRepository teamRepository;
 
-    Championship championship;
+    Championship fixtureChampionship;
     Team atleticoMineiro;
     Team cruzeiro;
     Team america;
@@ -70,21 +70,51 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
                 .build();
         teamRepository.save(internacional);
 
-        championship = new ChampionshipBuilder()
+        fixtureChampionship = new ChampionshipBuilder()
                 .withName("Libertadores")
                 .build();
-        championshipRepository.save(championship);
     }
 
     @Test
     public void shouldReadChampionshipResource() throws Exception {
-
-        mockMvc.perform(get("/championships/" + championship.getId())
-            .accept(MediaType.APPLICATION_JSON))
-
+        championshipRepository.save(fixtureChampionship);
+        mockMvc.perform(get("/championships/" + fixtureChampionship.getId())
+                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is(championship.getId().intValue())))
-                .andExpect(jsonPath("$.name", is(championship.getName())));
+                .andExpect(jsonPath("$.id", is(fixtureChampionship.getId().intValue())))
+                .andExpect(jsonPath("$.name", is(fixtureChampionship.getName())));
+    }
+
+    @Test
+    public void shouldListOneChampionshipResource() throws Exception {
+        championshipRepository.save(fixtureChampionship);
+        mockMvc.perform(get("/championships")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].id", is(fixtureChampionship.getId().intValue())))
+                .andExpect(jsonPath("$[0].name", is(fixtureChampionship.getName())));
+    }
+
+    @Test
+    public void shouldListMultipleChampionshipResources() throws Exception {
+        championshipRepository.save(fixtureChampionship);
+        championshipRepository.save(new ChampionshipBuilder().withName("FIFA").build());
+        championshipRepository.save(new ChampionshipBuilder().withName("Libertadores").build());
+        championshipRepository.save(new ChampionshipBuilder().withName("Mineiro").build());
+
+        mockMvc.perform(get("/championships")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(4)));
+    }
+
+    @Test
+    public void shouldReturn204NoContentWhenNoChampionshipsExist() throws Exception {
+        mockMvc.perform(get("/championships")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent())
+                .andExpect(content().string(isEmptyOrNullString()));
     }
 
     @Test
@@ -194,16 +224,17 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
 
     @Test
     public void shouldUpdateExistingChampionshipResource() throws Exception {
-        championship.setName("Campeonato Mineiro");
+        championshipRepository.save(fixtureChampionship);
 
-        mockMvc.perform(put("/championships/" + championship.getId())
+        fixtureChampionship.setName("Campeonato Mineiro");
+        mockMvc.perform(put("/championships/" + fixtureChampionship.getId())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(convertObjectToJson(championship))
+                        .content(convertObjectToJson(fixtureChampionship))
         )
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.errors").doesNotExist())
-            .andExpect(jsonPath("$.id", Matchers.is(championship.getId().intValue())))
-            .andExpect(jsonPath("$.name", Matchers.is(championship.getName())));
+            .andExpect(jsonPath("$.id", Matchers.is(fixtureChampionship.getId().intValue())))
+            .andExpect(jsonPath("$.name", Matchers.is(fixtureChampionship.getName())));
     }
 
     @Test
@@ -212,7 +243,7 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
 
         mockMvc.perform(put("/championships/" + fakeId)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(convertObjectToJson(championship))
+                        .content(convertObjectToJson(fixtureChampionship))
         )
             .andExpect(status().isNotFound())
             .andExpect(jsonPath("$.errors[0].message", containsString("Could not find object with id: " + fakeId)))
@@ -221,11 +252,12 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
 
     @Test
     public void shouldReturn400WhenChampionshipNameIsNullForUpdate() throws Exception {
-        championship.setName(null);
+        championshipRepository.save(fixtureChampionship);
 
-        mockMvc.perform(put("/championships/" + championship.getId())
+        fixtureChampionship.setName(null);
+        mockMvc.perform(put("/championships/" + fixtureChampionship.getId())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(convertObjectToJson(championship))
+                        .content(convertObjectToJson(fixtureChampionship))
         )
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.id").doesNotExist())
@@ -235,11 +267,12 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
 
     @Test
     public void shouldReturn400WhenChampionshipNameIsBlankForUpdate() throws Exception {
-        championship.setName("       ");
+        championshipRepository.save(fixtureChampionship);
 
-        mockMvc.perform(put("/championships/" + championship.getId())
+        fixtureChampionship.setName("       ");
+        mockMvc.perform(put("/championships/" + fixtureChampionship.getId())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(convertObjectToJson(championship))
+                        .content(convertObjectToJson(fixtureChampionship))
         )
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.id").doesNotExist())
@@ -250,11 +283,12 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
 
     @Test
     public void shouldReturn400WhenChampionshipNameIsEmptyForUpdate() throws Exception {
-        championship.setName("");
+        championshipRepository.save(fixtureChampionship);
 
-        mockMvc.perform(put("/championships/" + championship.getId())
+        fixtureChampionship.setName("");
+        mockMvc.perform(put("/championships/" + fixtureChampionship.getId())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(convertObjectToJson(championship))
+                        .content(convertObjectToJson(fixtureChampionship))
         )
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.id").doesNotExist())
@@ -264,11 +298,12 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
 
     @Test
     public void shouldReturn400WhenChampionshipNameIsANumberForUpdate() throws Exception {
-        championship.setName("1234");
+        championshipRepository.save(fixtureChampionship);
 
-        mockMvc.perform(put("/championships/" + championship.getId())
+        fixtureChampionship.setName("1234");
+        mockMvc.perform(put("/championships/" + fixtureChampionship.getId())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(convertObjectToJson(championship))
+                        .content(convertObjectToJson(fixtureChampionship))
         )
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.id").doesNotExist())
@@ -278,13 +313,15 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
 
     @Test
     public void shouldListMultipleTeamsAssociatedToChampionship() throws Exception {
-        championship.addTeam(atleticoMineiro);
-        championship.addTeam(cruzeiro);
-        championship.addTeam(internacional);
-        championship.addTeam(america);
-        championshipRepository.save(championship);
+        championshipRepository.save(fixtureChampionship);
 
-        mockMvc.perform(get("/championships/" + championship.getId() + "/teams")
+        fixtureChampionship.addTeam(atleticoMineiro);
+        fixtureChampionship.addTeam(cruzeiro);
+        fixtureChampionship.addTeam(internacional);
+        fixtureChampionship.addTeam(america);
+        championshipRepository.save(fixtureChampionship);
+
+        mockMvc.perform(get("/championships/" + fixtureChampionship.getId() + "/teams")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(4)));
@@ -292,10 +329,12 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
 
     @Test
     public void shouldListOneTeamAssociatedToChampionship() throws Exception {
-        championship.addTeam(atleticoMineiro);
-        championshipRepository.save(championship);
+        championshipRepository.save(fixtureChampionship);
 
-        mockMvc.perform(get("/championships/" + championship.getId() + "/teams")
+        fixtureChampionship.addTeam(atleticoMineiro);
+        championshipRepository.save(fixtureChampionship);
+
+        mockMvc.perform(get("/championships/" + fixtureChampionship.getId() + "/teams")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
@@ -305,9 +344,9 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
 
     @Test
     public void shouldReturn204NoContentWhenChampionshipHasNoAssociatedTeams() throws Exception {
-        championshipRepository.save(championship);
+        championshipRepository.save(fixtureChampionship);
 
-        mockMvc.perform(get("/championships/" + championship.getId() + "/teams")
+        mockMvc.perform(get("/championships/" + fixtureChampionship.getId() + "/teams")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent())
                 .andExpect(content().string(isEmptyOrNullString()));

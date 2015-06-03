@@ -57,6 +57,13 @@ public class ChampionshipController extends BaseController<Championship> {
         return response;
     }
 
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<List<Championship>> list() throws ObjectNotFoundException {
+        List<Championship> championships = repository.findAll();
+
+        return toResponse(championships);
+    }
+
     @RequestMapping(value = "/{id}/teams", method = RequestMethod.GET)
     public ResponseEntity<List<Team>> listTeams(@PathVariable("id") Long id) throws ObjectNotFoundException {
         Championship championship = repository.findOne(id);
@@ -66,4 +73,6 @@ public class ChampionshipController extends BaseController<Championship> {
 
         return toResponse(championship.getTeams());
     }
+
+
 }
