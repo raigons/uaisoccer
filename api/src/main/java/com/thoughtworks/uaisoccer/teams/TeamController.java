@@ -1,7 +1,6 @@
 package com.thoughtworks.uaisoccer.teams;
 
 import com.thoughtworks.uaisoccer.common.BaseController;
-import com.thoughtworks.uaisoccer.common.InvalidTeamNameException;
 import com.thoughtworks.uaisoccer.common.ObjectNotFoundException;
 import com.thoughtworks.uaisoccer.common.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +42,7 @@ public class TeamController extends BaseController<Team> {
         team.setKey(keyGenerator.generateKeyFromName(team.getName()));
 
         Response<Team> response = new Response<>();
-        teamRepository.save(team);
+        teamRepository.saveAndFlush(team);
         response.setValue(team);
 
         return response;
@@ -57,7 +56,7 @@ public class TeamController extends BaseController<Team> {
 
         team.setId(id);
         team.setKey(keyGenerator.generateKeyFromName(team.getName()));
-        teamRepository.save(team);
+        teamRepository.saveAndFlush(team);
 
         Response<Team> response = new Response<>();
         response.setValue(team);

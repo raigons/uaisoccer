@@ -110,7 +110,7 @@ public class TeamControllerTest extends BaseWebIntegrationTest {
 
         mockMvc.perform(post("/teams")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(convertObjectToJson(duplicatedTeam ))
+                        .content(convertObjectToJson(duplicatedTeam))
         )
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.errors[0].message", is("Could not execute request because it violates a database constraint")))

@@ -1,28 +1,13 @@
 package com.thoughtworks.uaisoccer.teams;
 
-import com.thoughtworks.uaisoccer.common.InvalidTeamNameException;
-import org.junit.Before;
+import com.thoughtworks.uaisoccer.BaseIntegrationTest;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import javax.validation.constraints.NotNull;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.*;
 
-
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {
-        "/test-application-context.xml"
-})
-@DirtiesContext
-public class TeamRepositoryTest {
+public class TeamRepositoryTest extends BaseIntegrationTest {
 
     @Autowired
     private TeamRepository teamRepository;

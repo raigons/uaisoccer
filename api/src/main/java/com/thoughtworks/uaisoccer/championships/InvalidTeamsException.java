@@ -1,18 +1,18 @@
 package com.thoughtworks.uaisoccer.championships;
 
-import com.thoughtworks.uaisoccer.common.ValidationError;
+import com.thoughtworks.uaisoccer.common.Error;
 
 import java.util.List;
 
 public class InvalidTeamsException extends Exception {
 
-    private List<ValidationError> errors;
+    private List<Error> errors;
 
-    public InvalidTeamsException(List<ValidationError> errors) {
+    public InvalidTeamsException(List<Error> errors) {
         this.errors = errors;
     }
 
-    public List<ValidationError> getErrors() {
+    public List<Error> getErrors() {
         return errors;
     }
 }

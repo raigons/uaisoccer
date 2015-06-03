@@ -1,6 +1,5 @@
 package com.thoughtworks.uaisoccer.teams;
 
-import com.thoughtworks.uaisoccer.common.InvalidTeamNameException;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;

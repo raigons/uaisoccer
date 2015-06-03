@@ -11,16 +11,16 @@ import java.util.List;
 public class Response<V> {
 
     @JsonInclude(Include.NON_EMPTY)
-    private List<ValidationError> errors;
+    private List<Error> errors;
 
     @JsonUnwrapped
     private V value;
 
-    public void addError(ValidationError validationError) {
+    public void addError(Error error) {
         if (this.errors == null) {
             this.errors = new ArrayList<>();
         }
-        this.errors.add(validationError);
+        this.errors.add(error);
     }
 
     public void addError(String message) {
@@ -28,14 +28,14 @@ public class Response<V> {
     }
 
     public void addError(String message, String field) {
-        addError(new ValidationError(field, message));
+        addError(new Error(field, message));
     }
 
-    public List<ValidationError> getErrors() {
+    public List<Error> getErrors() {
         return errors;
     }
 
-    public void setErrors(List<ValidationError> errors) {
+    public void setErrors(List<Error> errors) {
         this.errors = errors;
     }
 

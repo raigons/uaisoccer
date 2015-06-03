@@ -17,6 +17,7 @@ repositories {
 }
 
 dependencies {
+    compile "org.projectlombok:lombok:1.16.4"
     compile "com.fasterxml.jackson.core:jackson-core:2.4.1"
     compile "com.fasterxml.jackson.core:jackson-databind:2.4.1.1"
     compile "org.springframework:spring-context:${springVersion}"

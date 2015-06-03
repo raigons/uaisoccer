@@ -41,7 +41,7 @@ public abstract class BaseController<E> {
 
         for(ObjectError validationError : ex.getBindingResult().getAllErrors()) {
             FieldError fieldError = (FieldError) validationError;
-            ValidationError error = new ValidationError(fieldError.getField(), fieldError.getDefaultMessage());
+            Error error = new Error(fieldError.getField(), fieldError.getDefaultMessage());
             response.addError(error);
         }
 
