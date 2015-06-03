@@ -79,7 +79,23 @@ public class ChampionshipController extends BaseController<Championship> {
     public void associateTeams(@PathVariable("id") Long id, @RequestBody List<Team> teams) throws NonexistentTeamsException,
             ObjectNotFoundException {
         Championship championship = repository.findOne(id);
+        if (championship == null) {
+            throw new ObjectNotFoundException(id);
+        }
 
         repository.associateTeamsToChampionship(teams, championship);
+    }
+
+    @ExceptionHandler(value = NonexistentTeamsException.class)
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    @ResponseBody
+    protected Response<Championship> nonexistentTeamshandler(NonexistentTeamsException ex) {
+        Response<Championship> response = new Response<>();
+
+        for (Long teamId : ex.getIds()) {
+            response.addError(String.format("Could not find team with id $d", teamId));
+        }
+
+        return response;
     }
 }
