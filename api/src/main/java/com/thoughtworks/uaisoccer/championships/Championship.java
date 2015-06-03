@@ -1,18 +1,18 @@
 package com.thoughtworks.uaisoccer.championships;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.thoughtworks.uaisoccer.common.BaseModel;
 import com.thoughtworks.uaisoccer.teams.Team;
+import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
-public class Championship extends BaseModel {
+@EqualsAndHashCode
+public class Championship {
 
     @Id
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="championship_gen")
@@ -59,16 +59,5 @@ public class Championship extends BaseModel {
             this.teams = new ArrayList<>();
         }
         this.teams.add(team);
-    }
-
-    @Override
-    protected boolean deepEquals(Object obj) {
-        Championship other = (Championship)obj;
-        return Objects.equals(this.id, other.id) && Objects.equals(this.name, other.name);
-    }
-
-    @Override
-    protected int deepHashCode() {
-        return Objects.hash(this.id, this.name);
     }
 }

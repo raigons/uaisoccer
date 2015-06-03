@@ -2,18 +2,18 @@ package com.thoughtworks.uaisoccer.teams;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thoughtworks.uaisoccer.championships.Championship;
-import com.thoughtworks.uaisoccer.common.BaseModel;
+import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(indexes = {@Index(name = "key_index", columnList = "key", unique = true),
                     @Index(name = "name_index", columnList = "name", unique = true)})
-public class Team extends BaseModel {
+@EqualsAndHashCode
+public class Team {
 
     @Id
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="team_gen")
@@ -64,17 +64,5 @@ public class Team extends BaseModel {
 
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
-    }
-
-    protected int deepHashCode() {
-        return Objects.hash(id, name, key, enabled);
-    }
-
-    public boolean deepEquals(Object obj) {
-        Team other = (Team)obj;
-        return Objects.equals(this.id, other.id) &&
-                Objects.equals(this.name, other.name) &&
-                Objects.equals(this.key, other.key) &&
-                Objects.equals(this.enabled, other.enabled);
     }
 }
