@@ -7,6 +7,10 @@ version = "1.0"
 def tomcatVersion = "7.0.59"
 def springVersion = "4.0.6.RELEASE"
 
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
 repositories {
     jcenter()
     mavenCentral()
