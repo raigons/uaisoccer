@@ -5,6 +5,7 @@ import com.thoughtworks.uaisoccer.common.ObjectNotFoundException;
 import com.thoughtworks.uaisoccer.common.Response;
 import com.thoughtworks.uaisoccer.common.ValidationError;
 import com.thoughtworks.uaisoccer.teams.Team;
+import com.thoughtworks.uaisoccer.teams.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -21,6 +23,9 @@ public class ChampionshipController extends BaseController<Championship> {
 
     @Autowired
     private ChampionshipRepository repository;
+
+    @Autowired
+    private TeamRepository teamRepository;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseStatus(value = HttpStatus.OK)
@@ -84,7 +89,29 @@ public class ChampionshipController extends BaseController<Championship> {
             throw new ObjectNotFoundException(id);
         }
 
-        repository.associateTeamsToChampionship(teams, championship);
+        validateTeams(teams);
+
+        championship.setTeams(teams);
+        repository.save(championship);
+    }
+
+    private void validateTeams(List<Team> teams) throws InvalidTeamsException {
+        List<ValidationError> errors = new ArrayList<>();
+
+        for (Team team : teams) {
+            if(!teamRepository.exists(team.getId())) {
+                errors.add(new ValidationError("team.id", String.format("Could not find object with id %d", team.getId())));
+                continue;
+            }
+
+            Team persistedTeam = teamRepository.findOne(team.getId());
+            if (!persistedTeam.isEnabled()) {
+                errors.add(new ValidationError("team.enabled", String.format("Could not assign disabled team with id %d to championship", team.getId())));
+            }
+        }
+
+        if (!errors.isEmpty())
+            throw new InvalidTeamsException(errors);
     }
 
     @ExceptionHandler(value = InvalidTeamsException.class)

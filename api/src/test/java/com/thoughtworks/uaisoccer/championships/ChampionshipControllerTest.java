@@ -372,6 +372,22 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
     }
 
     @Test
+    public void shouldThrowExceptionWhenAssociatingToNonexistentChampionship() throws Exception {
+        Championship championship = new Championship();
+        championship.setName("Champions League");
+        championship.setId(9999999L);
+
+        List<Team> teams = new ArrayList<>();
+        teams.add(cruzeiro);
+
+        mockMvc.perform(put("/championships/" + championship.getId() + "/teams")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(convertObjectToJson(teams)))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.errors[0].message", containsString("Could not find object with id")));
+    }
+
+    @Test
     public void shouldReturn404WhenAssociatingNonexistentTeamsToChampionship() throws Exception {
         championshipRepository.save(fixtureChampionship);
 
