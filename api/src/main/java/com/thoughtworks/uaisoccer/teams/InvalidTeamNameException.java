@@ -1,4 +1,4 @@
-package com.thoughtworks.uaisoccer.common;
+package com.thoughtworks.uaisoccer.teams;
 
 public class InvalidTeamNameException extends Exception {
 

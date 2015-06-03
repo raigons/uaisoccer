@@ -1,7 +1,6 @@
 package com.thoughtworks.uaisoccer.teams;
 
 import com.thoughtworks.uaisoccer.BaseIntegrationTest;
-import com.thoughtworks.uaisoccer.common.InvalidTeamNameException;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

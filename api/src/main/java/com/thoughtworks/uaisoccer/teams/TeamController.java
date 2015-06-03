@@ -1,7 +1,6 @@
 package com.thoughtworks.uaisoccer.teams;
 
 import com.thoughtworks.uaisoccer.common.BaseController;
-import com.thoughtworks.uaisoccer.common.InvalidTeamNameException;
 import com.thoughtworks.uaisoccer.common.ObjectNotFoundException;
 import com.thoughtworks.uaisoccer.common.Response;
 import org.springframework.beans.factory.annotation.Autowired;

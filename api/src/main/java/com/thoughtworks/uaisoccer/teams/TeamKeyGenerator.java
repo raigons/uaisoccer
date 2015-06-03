@@ -1,7 +1,5 @@
 package com.thoughtworks.uaisoccer.teams;
 
-import com.thoughtworks.uaisoccer.common.InvalidTeamNameException;
-
 import java.text.Normalizer;
 
 public class TeamKeyGenerator {
