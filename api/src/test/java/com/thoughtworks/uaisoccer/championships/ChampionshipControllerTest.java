@@ -77,6 +77,28 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
     }
 
     @Test
+    public void shouldReadChampionshipResource() throws Exception {
+
+        mockMvc.perform(get("/championships/" + championship.getId())
+            .accept(MediaType.APPLICATION_JSON))
+
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(championship.getId().intValue())))
+                .andExpect(jsonPath("$.name", is(championship.getName())));
+    }
+
+    @Test
+    public void shouldFailWith404NotFoundWhenReadingNonexistentChampionshipResource() throws Exception {
+        Long fakeId = 9999999999L;
+
+        mockMvc.perform(get("/championships/" + fakeId)
+                .accept(MediaType.APPLICATION_JSON))
+
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.errors[0].message", containsString("Could not find object")));
+    }
+
+    @Test
     public void shouldCreateChampionshipResource() throws Exception {
         Championship championship = new Championship();
         championship.setName("Brasileirão");

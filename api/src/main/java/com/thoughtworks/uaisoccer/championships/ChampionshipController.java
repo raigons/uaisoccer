@@ -19,13 +19,25 @@ import java.util.List;
 public class ChampionshipController extends BaseController<Championship> {
 
     @Autowired
-    private ChampionshipRepository championshipRepository;
+    private ChampionshipRepository repository;
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @ResponseStatus(value = HttpStatus.OK)
+    public Response<Championship> read(@PathVariable("id") Long id) throws ObjectNotFoundException {
+        Championship championship = repository.findOne(id);
+        if (championship == null)  {
+            throw new ObjectNotFoundException(id);
+        }
+        Response<Championship> response = new Response<>();
+        response.setValue(championship);
+        return response;
+    }
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     public Response<Championship> create(@Valid @RequestBody Championship championship) {
         Response<Championship> response = new Response<>();
-        championshipRepository.save(championship);
+        repository.save(championship);
         response.setValue(championship);
 
         return response;
@@ -33,13 +45,13 @@ public class ChampionshipController extends BaseController<Championship> {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public Response<Championship> update(@PathVariable("id") Long id, @Valid @RequestBody Championship championship) throws ObjectNotFoundException {
-        if (!championshipRepository.exists(id))
+        if (!repository.exists(id))
             throw new ObjectNotFoundException(id);
 
         championship.setId(id);
 
         Response<Championship> response = new Response<>();
-        championshipRepository.save(championship);
+        repository.save(championship);
         response.setValue(championship);
 
         return response;
@@ -47,7 +59,7 @@ public class ChampionshipController extends BaseController<Championship> {
 
     @RequestMapping(value = "/{id}/teams", method = RequestMethod.GET)
     public ResponseEntity<List<Team>> listTeams(@PathVariable("id") Long id) throws ObjectNotFoundException {
-        Championship championship = championshipRepository.findOne(id);
+        Championship championship = repository.findOne(id);
         if (championship == null) {
             throw new ObjectNotFoundException(id);
         }
