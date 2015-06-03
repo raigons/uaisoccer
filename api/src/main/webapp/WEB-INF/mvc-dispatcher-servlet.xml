@@ -42,6 +42,7 @@
             <map>
                 <entry key="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL81Dialect"/>
                 <entry key="hibernate.show_sql" value="true"/>
+                <entry key="hibernate.hbm2ddl.auto" value="create-drop"/>
             </map>
         </property>
         <property name="packagesToScan" value="com.thoughtworks.uaisoccer"/>
