@@ -1,5 +1,6 @@
 package com.thoughtworks.uaisoccer.championships.matches;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thoughtworks.uaisoccer.championships.Championship;
 import com.thoughtworks.uaisoccer.common.BaseModel;
 import com.thoughtworks.uaisoccer.teams.Team;
@@ -10,6 +11,8 @@ public class Match extends BaseModel {
 
     private Team team1;
     private Team team2;
+
+    @JsonIgnore
     private Championship championship;
 
     public Team getTeam1() {
