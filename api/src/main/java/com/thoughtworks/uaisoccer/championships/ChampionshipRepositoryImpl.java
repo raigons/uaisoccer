@@ -1,6 +1,7 @@
 package com.thoughtworks.uaisoccer.championships;
 
 import com.thoughtworks.uaisoccer.common.ObjectNotFoundException;
+import com.thoughtworks.uaisoccer.common.ValidationError;
 import com.thoughtworks.uaisoccer.teams.Team;
 import com.thoughtworks.uaisoccer.teams.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,10 @@ public class ChampionshipRepositoryImpl implements ChampionshipRepositoryCustom 
     private TeamRepository teamRepository;
 
     @Override
-    public void associateTeamsToChampionship(List<Team> teams, Championship championship) throws NonexistentTeamsException,
+    public void associateTeamsToChampionship(List<Team> teams, Championship championship) throws InvalidTeamsException,
             ObjectNotFoundException {
         checkChampionshipExistence(championship);
-        checkTeamsExistence(teams);
+        validateTeams(teams);
 
         championship.setTeams(teams);
         repository.save(championship);
@@ -31,15 +32,22 @@ public class ChampionshipRepositoryImpl implements ChampionshipRepositoryCustom 
             throw new ObjectNotFoundException(championship.getId());
     }
 
-    private void checkTeamsExistence(List<Team> teams) throws NonexistentTeamsException {
-        List<Long> nonexistentIds = new ArrayList<>();
+    private void validateTeams(List<Team> teams) throws InvalidTeamsException {
+        List<ValidationError> errors = new ArrayList<>();
+
         for (Team team : teams) {
-            if (teamRepository.exists(team.getId()))
-                continue;
-            nonexistentIds.add(team.getId());
+            Team persistedTeam = teamRepository.findOne(team.getId());
+
+            if (persistedTeam == null) {
+                errors.add(new ValidationError("team.id", String.format("Could not find object with id %d", team.getId())));
+            } else if (!persistedTeam.isEnabled()) {
+                errors.add(new ValidationError("team.enabled", String.format("Could not assign disabled team with id %d to championship", team.getId())));
+            }
         }
 
-        if (!nonexistentIds.isEmpty())
-            throw new NonexistentTeamsException(nonexistentIds);
+        if (!errors.isEmpty())
+            throw new InvalidTeamsException(errors);
     }
+
 }
+

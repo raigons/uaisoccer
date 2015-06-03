@@ -3,6 +3,7 @@ package com.thoughtworks.uaisoccer.championships;
 import com.thoughtworks.uaisoccer.common.BaseController;
 import com.thoughtworks.uaisoccer.common.ObjectNotFoundException;
 import com.thoughtworks.uaisoccer.common.Response;
+import com.thoughtworks.uaisoccer.common.ValidationError;
 import com.thoughtworks.uaisoccer.teams.Team;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -76,7 +77,7 @@ public class ChampionshipController extends BaseController<Championship> {
 
     @RequestMapping(value = "/{id}/teams", method = RequestMethod.PUT)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void associateTeams(@PathVariable("id") Long id, @RequestBody List<Team> teams) throws NonexistentTeamsException,
+    public void associateTeams(@PathVariable("id") Long id, @RequestBody List<Team> teams) throws InvalidTeamsException,
             ObjectNotFoundException {
         Championship championship = repository.findOne(id);
         if (championship == null) {
@@ -86,14 +87,14 @@ public class ChampionshipController extends BaseController<Championship> {
         repository.associateTeamsToChampionship(teams, championship);
     }
 
-    @ExceptionHandler(value = NonexistentTeamsException.class)
+    @ExceptionHandler(value = InvalidTeamsException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     @ResponseBody
-    protected Response<Championship> nonexistentTeamshandler(NonexistentTeamsException ex) {
+    protected Response<Championship> nonexistentTeamshandler(InvalidTeamsException ex) {
         Response<Championship> response = new Response<>();
 
-        for (Long teamId : ex.getIds()) {
-            response.addError(String.format("Could not find team with id $d", teamId));
+        for (ValidationError error : ex.getErrors()) {
+            response.addError(error.getMessage());
         }
 
         return response;

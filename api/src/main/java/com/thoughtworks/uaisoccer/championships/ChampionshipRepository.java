@@ -11,5 +11,5 @@ import java.util.List;
 public interface ChampionshipRepository extends JpaRepository<Championship, Long>, ChampionshipRepositoryCustom {
     Championship findByName(String name);
     void associateTeamsToChampionship(List<Team> teams, Championship championship) throws ObjectNotFoundException,
-            NonexistentTeamsException;
+            InvalidTeamsException;
 }

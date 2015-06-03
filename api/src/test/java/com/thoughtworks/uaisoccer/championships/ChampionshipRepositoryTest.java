@@ -14,9 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.*;
 
 public class ChampionshipRepositoryTest extends BaseIntegrationTest {
 
@@ -42,7 +40,7 @@ public class ChampionshipRepositoryTest extends BaseIntegrationTest {
     }
 
     @Test
-    public void shouldAssociateTeamsToChampionship() throws NonexistentTeamsException, ObjectNotFoundException {
+    public void shouldAssociateTeamsToChampionship() throws InvalidTeamsException, ObjectNotFoundException {
         Championship championship = new Championship();
         championship.setName("Champions League");
         championshipRepository.save(championship);
@@ -74,8 +72,8 @@ public class ChampionshipRepositoryTest extends BaseIntegrationTest {
         assertThat(queryResult.size(), is(teams.size()));
     }
 
-    @Test(expected = NonexistentTeamsException.class)
-    public void shouldThrowExceptionWhenAssociatingNonexistentTeamsToChampionship() throws NonexistentTeamsException, ObjectNotFoundException {
+    @Test(expected = InvalidTeamsException.class)
+    public void shouldThrowExceptionWhenAssociatingNonexistentTeamsToChampionship() throws InvalidTeamsException, ObjectNotFoundException {
         Championship championship = new Championship();
         championship.setName("Champions League");
         championshipRepository.save(championship);
@@ -94,7 +92,7 @@ public class ChampionshipRepositoryTest extends BaseIntegrationTest {
     }
 
     @Test(expected = ObjectNotFoundException.class)
-    public void shouldThrowExceptionWhenAssociatingToNonexistentChampionship() throws NonexistentTeamsException,
+    public void shouldThrowExceptionWhenAssociatingToNonexistentChampionship() throws InvalidTeamsException,
             ObjectNotFoundException {
 
         Championship championship = new Championship();

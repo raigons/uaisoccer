@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface ChampionshipRepositoryCustom {
 
-    void associateTeamsToChampionship(List<Team> teams, Championship championship) throws ObjectNotFoundException, NonexistentTeamsException ;
+    void associateTeamsToChampionship(List<Team> teams, Championship championship) throws ObjectNotFoundException, InvalidTeamsException;
 }

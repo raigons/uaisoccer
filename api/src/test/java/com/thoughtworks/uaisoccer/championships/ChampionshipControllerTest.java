@@ -409,4 +409,34 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
                 .andExpect(jsonPath("$.errors[0].message", containsString("Could not find object with id")));
     }
 
+    @Test
+    public void shouldReturn400WhenAssociatingDisableTeamsToChampionship() throws Exception {
+        Team tabajara = new TeamBuilder()
+                .withEnabled(false)
+                .withName("Tabajara")
+                .withKey("tabajara")
+                .build();
+        teamRepository.save(tabajara);
+
+        Team flamengo = new TeamBuilder()
+                .withEnabled(false)
+                .withName("Flamengo")
+                .withKey("flamengo")
+                .build();
+        teamRepository.save(flamengo);
+
+        List<Team> teams = new ArrayList<>();
+        teams.add(tabajara);
+        teams.add(flamengo);
+
+        mockMvc.perform(put("/championships/" + championship.getId() + "/teams")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(convertObjectToJson(teams)))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.errors", hasSize(2)))
+                .andExpect(jsonPath("$.errors[0].message", containsString("Could not assign disabled team with id")))
+                .andExpect(jsonPath("$.errors[1].message", containsString("Could not assign disabled team with id")));
+
+    }
+
 }
