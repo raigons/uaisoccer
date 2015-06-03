@@ -357,11 +357,13 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
 
     @Test
     public void shouldAssociateTeamsToChampionship() throws Exception {
+        championshipRepository.save(fixtureChampionship);
+
         List<Team> teams = new ArrayList<>();
         teams.add(atleticoMineiro);
         teams.add(cruzeiro);
 
-        mockMvc.perform(put("/championships/" + championship.getId() + "/teams")
+        mockMvc.perform(put("/championships/" + fixtureChampionship.getId() + "/teams")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(convertObjectToJson(teams)))
                 .andExpect(status().isNoContent())
@@ -371,6 +373,8 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
 
     @Test
     public void shouldReturn404WhenAssociatingNonexistentTeamsToChampionship() throws Exception {
+        championshipRepository.save(fixtureChampionship);
+
         Team tabajara = new TeamBuilder()
                 .withId(99999L)
                 .build();
@@ -383,13 +387,13 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
         teams.add(tabajara);
         teams.add(joselitos);
 
-        mockMvc.perform(put("/championships/" + championship.getId() + "/teams")
+        mockMvc.perform(put("/championships/" + fixtureChampionship.getId() + "/teams")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(convertObjectToJson(teams)))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.errors", hasSize(2)))
-                .andExpect(jsonPath("$.errors[0].message", containsString("Could not find team with id")))
-                .andExpect(jsonPath("$.errors[1].message", containsString("Could not find team with id")));
+                .andExpect(jsonPath("$.errors[0].message", containsString("Could not find object with id")))
+                .andExpect(jsonPath("$.errors[1].message", containsString("Could not find object with id")));
 
     }
 
@@ -411,6 +415,8 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
 
     @Test
     public void shouldReturn400WhenAssociatingDisableTeamsToChampionship() throws Exception {
+        championshipRepository.save(fixtureChampionship);
+
         Team tabajara = new TeamBuilder()
                 .withEnabled(false)
                 .withName("Tabajara")
@@ -429,7 +435,7 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
         teams.add(tabajara);
         teams.add(flamengo);
 
-        mockMvc.perform(put("/championships/" + championship.getId() + "/teams")
+        mockMvc.perform(put("/championships/" + fixtureChampionship.getId() + "/teams")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(convertObjectToJson(teams)))
                 .andExpect(status().isNotFound())
