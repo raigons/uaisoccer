@@ -5,5 +5,4 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public interface ChampionshipRepository extends JpaRepository<Championship, Long> {
-    Championship findByName(String name);
 }
