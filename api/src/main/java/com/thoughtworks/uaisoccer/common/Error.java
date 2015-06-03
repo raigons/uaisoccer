@@ -3,12 +3,12 @@ package com.thoughtworks.uaisoccer.common;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ValidationError {
+public class Error {
 
     private String message;
     private String field;
 
-    public ValidationError(String field, String message) {
+    public Error(String field, String message) {
         this.field = field;
         this.message = message;
     }

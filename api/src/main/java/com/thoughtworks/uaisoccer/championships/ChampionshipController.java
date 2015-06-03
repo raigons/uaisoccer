@@ -1,9 +1,9 @@
 package com.thoughtworks.uaisoccer.championships;
 
 import com.thoughtworks.uaisoccer.common.BaseController;
+import com.thoughtworks.uaisoccer.common.Error;
 import com.thoughtworks.uaisoccer.common.ObjectNotFoundException;
 import com.thoughtworks.uaisoccer.common.Response;
-import com.thoughtworks.uaisoccer.common.ValidationError;
 import com.thoughtworks.uaisoccer.teams.Team;
 import com.thoughtworks.uaisoccer.teams.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,17 +96,17 @@ public class ChampionshipController extends BaseController<Championship> {
     }
 
     private void validateTeams(List<Team> teams) throws InvalidTeamsException {
-        List<ValidationError> errors = new ArrayList<>();
+        List<Error> errors = new ArrayList<>();
 
         for (Team team : teams) {
             if(!teamRepository.exists(team.getId())) {
-                errors.add(new ValidationError("team.id", String.format("Could not find object with id %d", team.getId())));
+                errors.add(new Error("team.id", String.format("Could not find object with id %d", team.getId())));
                 continue;
             }
 
             Team persistedTeam = teamRepository.findOne(team.getId());
             if (!persistedTeam.isEnabled()) {
-                errors.add(new ValidationError("team.enabled", String.format("Could not assign disabled team with id %d to championship", team.getId())));
+                errors.add(new Error("team.enabled", String.format("Could not assign disabled team with id %d to championship", team.getId())));
             }
         }
 
@@ -117,10 +117,10 @@ public class ChampionshipController extends BaseController<Championship> {
     @ExceptionHandler(value = InvalidTeamsException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ResponseBody
-    protected Response<Championship> nonexistentTeamshandler(InvalidTeamsException ex) {
+    protected Response<Championship> nonexistentTeamsHandler(InvalidTeamsException ex) {
         Response<Championship> response = new Response<>();
 
-        for (ValidationError error : ex.getErrors()) {
+        for (Error error : ex.getErrors()) {
             response.addError(error.getMessage());
         }
 
