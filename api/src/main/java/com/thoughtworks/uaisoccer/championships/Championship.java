@@ -15,7 +15,8 @@ import java.util.Objects;
 public class Championship extends BaseModel {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="championship_gen")
+    @SequenceGenerator(name="championship_gen", sequenceName="championship_seq")
     private Long id;
 
     @NotBlank

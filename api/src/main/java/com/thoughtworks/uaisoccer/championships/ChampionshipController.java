@@ -43,7 +43,7 @@ public class ChampionshipController extends BaseController<Championship> {
     @ResponseStatus(value = HttpStatus.CREATED)
     public Response<Championship> create(@Valid @RequestBody Championship championship) {
         Response<Championship> response = new Response<>();
-        repository.save(championship);
+        repository.saveAndFlush(championship);
         response.setValue(championship);
 
         return response;
@@ -57,7 +57,7 @@ public class ChampionshipController extends BaseController<Championship> {
         championship.setId(id);
 
         Response<Championship> response = new Response<>();
-        repository.save(championship);
+        repository.saveAndFlush(championship);
         response.setValue(championship);
 
         return response;
@@ -92,14 +92,14 @@ public class ChampionshipController extends BaseController<Championship> {
         validateTeams(teams);
 
         championship.setTeams(teams);
-        repository.save(championship);
+        repository.saveAndFlush(championship);
     }
 
     private void validateTeams(List<Team> teams) throws InvalidTeamsException {
         List<Error> errors = new ArrayList<>();
 
         for (Team team : teams) {
-            if(!teamRepository.exists(team.getId())) {
+            if (!teamRepository.exists(team.getId())) {
                 errors.add(new Error("team.id", String.format("Could not find object with id %d", team.getId())));
                 continue;
             }

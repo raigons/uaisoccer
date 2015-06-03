@@ -16,10 +16,11 @@ import java.util.Objects;
 public class Team extends BaseModel {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="team_gen")
+    @SequenceGenerator(name="team_gen", sequenceName="team_seq")
     private Long id;
 
-    @Column(length = 100)
+    @Column(length = 100, unique = true)
     private String key;
 
     @Column(length = 150)

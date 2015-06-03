@@ -43,7 +43,7 @@ public class TeamController extends BaseController<Team> {
         team.setKey(keyGenerator.generateKeyFromName(team.getName()));
 
         Response<Team> response = new Response<>();
-        teamRepository.save(team);
+        teamRepository.saveAndFlush(team);
         response.setValue(team);
 
         return response;
@@ -57,7 +57,7 @@ public class TeamController extends BaseController<Team> {
 
         team.setId(id);
         team.setKey(keyGenerator.generateKeyFromName(team.getName()));
-        teamRepository.save(team);
+        teamRepository.saveAndFlush(team);
 
         Response<Team> response = new Response<>();
         response.setValue(team);
