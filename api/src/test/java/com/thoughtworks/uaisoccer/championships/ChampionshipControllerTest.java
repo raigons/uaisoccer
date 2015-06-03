@@ -14,6 +14,9 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -351,4 +354,19 @@ public class ChampionshipControllerTest extends BaseWebIntegrationTest {
                 .andExpect(status().isNoContent())
                 .andExpect(content().string(isEmptyOrNullString()));
     }
+
+    @Test
+    public void shouldAssociateTeamsToChampionship() throws Exception {
+        List<Team> teams = new ArrayList<>();
+        teams.add(atleticoMineiro);
+        teams.add(cruzeiro);
+
+        mockMvc.perform(put("/championships/" + championship.getId() + "/teams")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(convertObjectToJson(teams)))
+                .andExpect(status().isNoContent())
+                .andExpect(content().string(isEmptyOrNullString()));
+
+    }
+
 }

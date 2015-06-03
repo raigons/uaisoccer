@@ -74,5 +74,12 @@ public class ChampionshipController extends BaseController<Championship> {
         return toResponse(championship.getTeams());
     }
 
+    @RequestMapping(value = "/{id}/teams", method = RequestMethod.PUT)
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void associateTeams(@PathVariable("id") Long id, @RequestBody List<Team> teams) throws NonexistentTeamsException,
+            ObjectNotFoundException {
+        Championship championship = repository.findOne(id);
 
+        repository.associateTeamsToChampionship(teams, championship);
+    }
 }
