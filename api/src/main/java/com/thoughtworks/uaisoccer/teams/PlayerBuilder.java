@@ -1,7 +1,7 @@
 package com.thoughtworks.uaisoccer.teams;
 
 
-public class PlayerBuilder extends Player {
+public class PlayerBuilder {
 
     Player instance = new Player();
 

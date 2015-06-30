@@ -82,7 +82,7 @@ public class MatchTest {
                 .withTeam(cruzeiro)
                 .build();
 
-        goal = new GoalEventBuilder()
+        goal = new GoalBuilder()
                 .withTime(1)
                 .withPlayer(moreno)
                 .setAuto(false)
