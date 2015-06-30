@@ -52,4 +52,31 @@ public class Match {
     public boolean hasGoal() {
         return (events.size() > 0);
     }
+
+    public Team getWinner() throws Exception {
+        int goalsTeam1 = getGoals(team1);
+        int goalsTeam2 = getGoals(team2);
+
+        if (goalsTeam1 == goalsTeam2) {
+            throw new Exception("draw");
+        }
+
+        Team winner = (goalsTeam1 > goalsTeam2) ? team1 : team2;
+        return winner;
+    }
+
+    private int getGoals(Team team) {
+        int goals = 0;
+        for (MatchEvent event : events) {
+            Goal goal;
+            if (event instanceof Goal) {
+                goal = (Goal) event;
+                if (goal.getPlayer().getTeam().equals(team) && !goal.isAuto()) {
+                    goals++;
+                }
+            }
+        }
+        return goals;
+    }
+
 }

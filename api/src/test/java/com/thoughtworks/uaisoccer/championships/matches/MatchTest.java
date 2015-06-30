@@ -2,6 +2,8 @@ package com.thoughtworks.uaisoccer.championships.matches;
 
 import com.thoughtworks.uaisoccer.championships.Championship;
 import com.thoughtworks.uaisoccer.championships.ChampionshipBuilder;
+import com.thoughtworks.uaisoccer.teams.Player;
+import com.thoughtworks.uaisoccer.teams.PlayerBuilder;
 import com.thoughtworks.uaisoccer.teams.Team;
 import com.thoughtworks.uaisoccer.teams.TeamBuilder;
 import org.junit.Before;
@@ -26,6 +28,7 @@ public class MatchTest {
     Match identicalMatch;
     List<MatchEvent> events;
     MatchEvent goal;
+    Player moreno;
 
     @Before
     public void setUp() {
@@ -73,7 +76,18 @@ public class MatchTest {
                 .withTeam(internacional)
                 .build();
 
-        goal = new GoalEvent();
+        moreno = new PlayerBuilder()
+                .withId(1L)
+                .withName("Marcelo Moreno")
+                .withNickname("Moreno")
+                .withTeam(cruzeiro)
+                .build();
+
+        goal = new GoalEventBuilder()
+                .withTime(1)
+                .withPlayer(moreno)
+                .setAuto(false)
+                .build();
 
         events = new ArrayList<>();
         events.add(goal);
@@ -148,6 +162,11 @@ public class MatchTest {
     @Test
     public void hasAGoalEvent() {
         assertTrue(match.hasGoal());
+    }
+
+    @Test
+    public void team1ShouldBeWinner() throws Exception{
+        assertThat(match.getWinner(), is(equalTo(match.getTeam2())));
     }
 
 }
