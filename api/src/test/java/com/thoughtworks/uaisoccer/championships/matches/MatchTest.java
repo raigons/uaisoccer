@@ -26,7 +26,7 @@ public class MatchTest {
     Match veryDifferentMatch;
     Match identicalMatch;
     List<MatchEvent> events;
-    MatchEvent goal;
+    MatchEvent goalCruzeiro, autoGoalCruzeiro;
     Player moreno;
 
     @Before
@@ -82,14 +82,20 @@ public class MatchTest {
                 .withTeam(cruzeiro)
                 .build();
 
-        goal = new GoalBuilder()
+        goalCruzeiro = new GoalBuilder()
                 .withTime(1)
                 .withPlayer(moreno)
                 .setAuto(false)
                 .build();
 
+        autoGoalCruzeiro = new GoalBuilder()
+                .withTime(2)
+                .withPlayer(moreno)
+                .setAuto(true)
+                .build();
+
         events = new ArrayList<>();
-        events.add(goal);
+        events.add(goalCruzeiro);
 
         match = new MatchBuilder()
                 .withTeam1(atleticoMineiro)
@@ -166,6 +172,13 @@ public class MatchTest {
     @Test
     public void team1ShouldBeWinner() throws Exception{
         assertThat(match.getWinner(), is(equalTo(match.getTeam2())));
+    }
+
+    @Test(expected = Exception.class)
+    public void shouldBeaDraw() throws Exception {
+        events.add(autoGoalCruzeiro);
+        veryDifferentMatch.setEvents(events);
+        veryDifferentMatch.getWinner();
     }
 
 }

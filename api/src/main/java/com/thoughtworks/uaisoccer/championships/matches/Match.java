@@ -71,7 +71,8 @@ public class Match {
             Goal goal;
             if (event instanceof Goal) {
                 goal = (Goal) event;
-                if (goal.getPlayer().getTeam().equals(team) && !goal.isAuto()) {
+                if ((goal.getPlayer().getTeam().equals(team) && !goal.isAuto()) ||
+                   (!goal.getPlayer().getTeam().equals(team) && goal.isAuto())) {
                     goals++;
                 }
             }
