@@ -89,6 +89,7 @@ public class MatchTest {
                 .withTeam1(atleticoMineiro)
                 .withTeam2(cruzeiro)
                 .withChampionship(campeonatoBrasileiro)
+                .withEvents(events)
                 .build();
 
         slightlyDifferentMatch = new MatchBuilder()
