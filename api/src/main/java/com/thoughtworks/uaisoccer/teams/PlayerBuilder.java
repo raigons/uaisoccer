@@ -1,6 +1,5 @@
 package com.thoughtworks.uaisoccer.teams;
 
-import com.thoughtworks.uaisoccer.championships.matches.Goal;
 
 public class PlayerBuilder extends Player {
 
