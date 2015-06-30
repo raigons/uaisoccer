@@ -3,6 +3,8 @@ package com.thoughtworks.uaisoccer.championships.matches;
 import com.thoughtworks.uaisoccer.championships.Championship;
 import com.thoughtworks.uaisoccer.teams.Team;
 
+import java.util.List;
+
 public class MatchBuilder {
 
     Match instance = new Match();
@@ -19,6 +21,11 @@ public class MatchBuilder {
 
     public MatchBuilder withChampionship(Championship championship) {
         instance.setChampionship(championship);
+        return this;
+    }
+
+    public MatchBuilder withEvents(List<MatchEvent> events) {
+        instance.setEvents(events);
         return this;
     }
 

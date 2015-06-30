@@ -7,12 +7,16 @@ import com.thoughtworks.uaisoccer.teams.TeamBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.hamcrest.core.IsNull.nullValue;
+import static org.junit.Assert.assertTrue;
 
 public class MatchTest {
 
@@ -20,9 +24,12 @@ public class MatchTest {
     Match slightlyDifferentMatch;
     Match veryDifferentMatch;
     Match identicalMatch;
+    List<MatchEvent> events;
+    MatchEvent goal;
 
     @Before
     public void setUp() {
+
         Team atleticoMineiro = new TeamBuilder()
                 .withId(10L)
                 .withName("Atlético Mineiro")
@@ -66,10 +73,16 @@ public class MatchTest {
                 .withTeam(internacional)
                 .build();
 
+        goal = new GoalEvent();
+
+        events = new ArrayList<>();
+        events.add(goal);
+
         match = new MatchBuilder()
                 .withTeam1(atleticoMineiro)
                 .withTeam2(cruzeiro)
                 .withChampionship(campeonatoBrasileiro)
+                .withEvents(events)
                 .build();
 
         identicalMatch = new MatchBuilder()
@@ -129,6 +142,11 @@ public class MatchTest {
     @Test
     public void hashCodeShouldBeDifferentToVeryDifferentMatchHashCode() {
         assertThat(match.hashCode(), is(not(equalTo(veryDifferentMatch.hashCode()))));
+    }
+
+    @Test
+    public void hasAGoalEvent() {
+        assertTrue(match.hasGoal());
     }
 
 }
