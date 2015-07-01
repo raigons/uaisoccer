@@ -3,7 +3,7 @@ package com.thoughtworks.uaisoccer.championships;
 
 import com.thoughtworks.uaisoccer.teams.Team;
 
-public class Classification {
+public class Classification implements Comparable{
 
     private Team team;
     private int points;
@@ -21,4 +21,20 @@ public class Classification {
     public Team getTeam() {
         return team;
     }
+
+    @Override
+    public int compareTo(Object o) {
+        int comparator = 0;
+
+        if (o instanceof Classification) {
+            Classification c = (Classification)o;
+            if (this.points != c.points) {
+                comparator = (this.points > c.points) ? 1 : -1;
+            }
+        }
+
+        return comparator;
+    }
+
+
 }

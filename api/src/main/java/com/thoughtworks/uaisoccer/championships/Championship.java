@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -85,8 +86,39 @@ public class Championship {
     }
 
     public Team getChampion() {
+        updateClassification();
         Classification winnerRow = classificationTable.get(0);
         return winnerRow.getTeam();
+    }
+
+    //TODO: make classification a proper data structure
+    private void updateClassification() {
+        List<Classification> auxClassificationTable = new ArrayList<>();
+        Classification row;
+        for (Team team : teams) {
+            row = new Classification(team, getPoints(team), getGoals(team));
+            auxClassificationTable.add(row);
+        }
+        Collections.sort(auxClassificationTable);
+        classificationTable = auxClassificationTable;
+    }
+
+    private int getGoals(Team team) {
+        return 0;
+    }
+
+    private int getPoints(Team team) {
+        int points = 0;
+        for (Match match : matches) {
+            try {
+                if (match.getWinner().equals(team)) {
+                    points += 3;
+                }
+            } catch (Exception e) {
+                points++;
+            }
+        }
+        return points;
     }
 
     /* potentially this is the solution
