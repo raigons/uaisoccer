@@ -100,6 +100,9 @@ public class Championship {
             auxClassificationTable.add(row);
         }
         Collections.sort(auxClassificationTable);
+        for (Classification c : auxClassificationTable) {
+            System.out.print(c.getTeam().getName() + " " + c.getPoints());
+        }
         classificationTable = auxClassificationTable;
     }
 

@@ -22,6 +22,10 @@ public class Classification implements Comparable{
         return team;
     }
 
+    public int getPoints() {
+        return points;
+    }
+
     @Override
     public int compareTo(Object o) {
         int comparator = 0;
@@ -29,7 +33,7 @@ public class Classification implements Comparable{
         if (o instanceof Classification) {
             Classification c = (Classification)o;
             if (this.points != c.points) {
-                comparator = (this.points > c.points) ? 1 : -1;
+                comparator = (this.points < c.points) ? 1 : -1;
             }
         }
 

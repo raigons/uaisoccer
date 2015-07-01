@@ -136,6 +136,9 @@ public class ChampionshipTest {
                 .withPlayer(dalessandro)
                 .build();
 
+        events = new ArrayList<>();
+        events.add(goalInternacional);
+
         grenal = new MatchBuilder()
                 .withTeam1(internacional)
                 .withTeam2(gremio)
