@@ -1,8 +1,15 @@
 package com.thoughtworks.uaisoccer.championships;
 
+import com.thoughtworks.uaisoccer.championships.matches.generation.AllAgainstAllMatchGenerator;
+import com.thoughtworks.uaisoccer.championships.matches.generation.MatchGenerationException;
+import com.thoughtworks.uaisoccer.teams.Team;
+import com.thoughtworks.uaisoccer.teams.TeamBuilder;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -77,4 +84,38 @@ public class ChampionshipTest {
     public void shouldHaveSameHashCodeToIdenticalChampionship() {
         assertThat(championship.hashCode(), is(Matchers.equalTo(identicalChampionship.hashCode())));
     }
+
+    @Test
+    public void internacionalShouldBeTheChampion() throws MatchGenerationException {
+        createTeams();
+        championship.setTeams(teams);
+        championship.setMatches(new AllAgainstAllMatchGenerator().generateMatches(championship));
+        assertThat(championship.getChampion(), is(internacional));
+    }
+
+    List<Team> teams;
+    Team internacional, gremio;
+
+    private void createTeams() {
+        teams = new ArrayList<Team>();
+
+        internacional = new TeamBuilder()
+                .withId(1L)
+                .withName("Internacional")
+                .withKey("internacional")
+                .withEnabled(true)
+                .build();
+
+        gremio = new TeamBuilder()
+                .withId(2L)
+                .withName("Gremio")
+                .withKey("gremio")
+                .withEnabled(true)
+                .build();
+
+        teams.add(internacional);
+        teams.add(gremio);
+    }
+
+
 }

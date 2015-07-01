@@ -43,7 +43,7 @@ public class Match {
 
     public void setEvents(List<MatchEvent> events) { this.events = events; }
 
-    public List<MatchEvent>  getEvents() { return events; }
+    public List<MatchEvent> getEvents() { return events; }
 
     public boolean hasTeam(Team team) {
         return (team == this.team1 || team == this.team2);

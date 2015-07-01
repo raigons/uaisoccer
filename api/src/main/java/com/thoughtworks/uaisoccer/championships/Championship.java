@@ -1,6 +1,7 @@
 package com.thoughtworks.uaisoccer.championships;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.thoughtworks.uaisoccer.championships.matches.Match;
 import com.thoughtworks.uaisoccer.teams.Team;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.NotBlank;
@@ -8,6 +9,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Entity
@@ -29,6 +31,9 @@ public class Championship {
             joinColumns = { @JoinColumn(name = "championship_id") },
             inverseJoinColumns = { @JoinColumn(name = "team_id") })
     private List<Team> teams;
+
+    private List<Match> matches;
+    private List<Classification> classificationTable;
 
     public Long getId() {
         return id;
@@ -52,6 +57,16 @@ public class Championship {
 
     public void setTeams(List<Team> teams) {
         this.teams = teams;
+        generateClassificationTable();
+    }
+
+    private void generateClassificationTable() {
+        classificationTable = new ArrayList<Classification>();
+        Classification row;
+        for (Team team : teams) {
+            row = new Classification(team, 0, 0); //TODO: create a Builder
+            classificationTable.add(row);
+        }
     }
 
     public void addTeam(Team team) {
@@ -60,4 +75,30 @@ public class Championship {
         }
         this.teams.add(team);
     }
+
+    public List<Match> getMatches() {
+        return matches;
+    }
+
+    public void setMatches(List<Match> matches) {
+        this.matches = matches;
+    }
+
+    public Team getChampion() {
+        Classification winnerRow = classificationTable.get(0);
+        return winnerRow.getTeam();
+    }
+
+    /* potentially this is the solution
+    private HashMap<String, List<Match>> rounds;
+
+    public HashMap<String, List<Match>> getRounds() { return rounds; }
+
+    public List<Match> getRound(String round) {
+        return rounds.get(round);
+    }
+    */
+
+
+
 }
