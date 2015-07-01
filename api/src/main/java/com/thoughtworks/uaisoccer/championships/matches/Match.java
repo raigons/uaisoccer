@@ -65,7 +65,7 @@ public class Match {
         return winner;
     }
 
-    private int getGoals(Team team) {
+    public int getGoals(Team team) {
         int goals = 0;
         for (MatchEvent event : events) {
             Goal goal;
@@ -80,4 +80,7 @@ public class Match {
         return goals;
     }
 
+    public boolean contains(Team team) {
+        return (team1.equals(team) || team2.equals(team));
+    }
 }

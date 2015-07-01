@@ -99,14 +99,17 @@ public class Championship {
             auxClassificationTable.add(row);
         }
         Collections.sort(auxClassificationTable);
-        for (Classification c : auxClassificationTable) {
-            System.out.print(c.getTeam().getName() + " " + c.getPoints());
-        }
         classificationTable = auxClassificationTable;
     }
 
     private int getGoals(Team team) {
-        return 0;
+        int goals = 0;
+        for (Match match : matches) {
+            if (match.contains(team)) {
+                goals += match.getGoals(team);
+            }
+        }
+        return goals;
     }
 
     private int getPoints(Team team) {

@@ -24,6 +24,8 @@ public class Classification implements Comparable{
         return points;
     }
 
+    public int getGoals() { return goals; }
+
     @Override
     public int compareTo(Object o) {
         int comparator = 0;
