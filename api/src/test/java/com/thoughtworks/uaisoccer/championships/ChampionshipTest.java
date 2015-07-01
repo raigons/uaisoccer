@@ -4,7 +4,6 @@ import com.thoughtworks.uaisoccer.championships.matches.GoalBuilder;
 import com.thoughtworks.uaisoccer.championships.matches.Match;
 import com.thoughtworks.uaisoccer.championships.matches.MatchBuilder;
 import com.thoughtworks.uaisoccer.championships.matches.MatchEvent;
-import com.thoughtworks.uaisoccer.championships.matches.generation.AllAgainstAllMatchGenerator;
 import com.thoughtworks.uaisoccer.championships.matches.generation.MatchGenerationException;
 import com.thoughtworks.uaisoccer.teams.Player;
 import com.thoughtworks.uaisoccer.teams.PlayerBuilder;
@@ -14,7 +13,6 @@ import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -145,7 +143,7 @@ public class ChampionshipTest {
                 .withEvents(events)
                 .build();
 
-        matches = new ArrayList<Match>();
+        matches = new ArrayList<>();
         matches.add(grenal);
     }
 

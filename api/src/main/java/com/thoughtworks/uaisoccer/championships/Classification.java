@@ -9,8 +9,6 @@ public class Classification implements Comparable{
     private int points;
     private int goals;
 
-    public Classification() {
-    }
 
     public Classification(Team team, int points, int goals) {
         this.team = team;
