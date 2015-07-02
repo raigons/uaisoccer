@@ -1,7 +1,7 @@
 package com.thoughtworks.uaisoccer.championships;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.thoughtworks.uaisoccer.championships.matches.DrawException;
+import com.thoughtworks.uaisoccer.championships.matches.FootballStandardClassificationGenerator;
 import com.thoughtworks.uaisoccer.championships.matches.Match;
 import com.thoughtworks.uaisoccer.teams.Team;
 import lombok.EqualsAndHashCode;
@@ -10,7 +10,6 @@ import org.hibernate.validator.constraints.NotBlank;
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -33,8 +32,8 @@ public class Championship {
             inverseJoinColumns = { @JoinColumn(name = "team_id") })
     private List<Team> teams;
 
+    @ManyToMany
     private List<Match> matches;
-    private List<Classification> classificationTable;
 
     public Long getId() {
         return id;
@@ -58,16 +57,6 @@ public class Championship {
 
     public void setTeams(List<Team> teams) {
         this.teams = teams;
-        generateClassificationTable();
-    }
-
-    private void generateClassificationTable() {
-        classificationTable = new ArrayList<>();
-        Classification row;
-        for (Team team : teams) {
-            row = new Classification(team, 0, 0); //TODO: create a Builder
-            classificationTable.add(row);
-        }
     }
 
     public void addTeam(Team team) {
@@ -86,46 +75,11 @@ public class Championship {
     }
 
     public Team getChampion() {
-        updateClassification();
+        List<Classification> classificationTable = new FootballStandardClassificationGenerator().getClassification(teams, matches);
         Classification winnerRow = classificationTable.get(0);
         return winnerRow.getTeam();
     }
 
-    //TODO: make classification a proper data structure
-    private void updateClassification() {
-        List<Classification> auxClassificationTable = new ArrayList<>();
-        Classification row;
-        for (Team team : teams) {
-            row = new Classification(team, getPoints(team), getGoals(team));
-            auxClassificationTable.add(row);
-        }
-        Collections.sort(auxClassificationTable);
-        classificationTable = auxClassificationTable;
-    }
-
-    private int getGoals(Team team) {
-        int goals = 0;
-        for (Match match : matches) {
-            if (match.contains(team)) {
-                goals += match.getGoals(team);
-            }
-        }
-        return goals;
-    }
-
-    private int getPoints(Team team) {
-        int points = 0;
-        for (Match match : matches) {
-            try {
-                if (match.getWinner().equals(team)) {
-                    points += 3;
-                }
-            } catch (DrawException e) {
-                points++;
-            }
-        }
-        return points;
-    }
 
     /* potentially this is the solution
     private HashMap<String, List<Match>> rounds;
