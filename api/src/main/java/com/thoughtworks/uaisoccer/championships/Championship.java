@@ -1,6 +1,7 @@
 package com.thoughtworks.uaisoccer.championships;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.thoughtworks.uaisoccer.championships.matches.DrawException;
 import com.thoughtworks.uaisoccer.championships.matches.Match;
 import com.thoughtworks.uaisoccer.teams.Team;
 import lombok.EqualsAndHashCode;
@@ -61,7 +62,7 @@ public class Championship {
     }
 
     private void generateClassificationTable() {
-        classificationTable = new ArrayList<Classification>();
+        classificationTable = new ArrayList<>();
         Classification row;
         for (Team team : teams) {
             row = new Classification(team, 0, 0); //TODO: create a Builder
@@ -119,7 +120,7 @@ public class Championship {
                 if (match.getWinner().equals(team)) {
                     points += 3;
                 }
-            } catch (Exception e) {
+            } catch (DrawException e) {
                 points++;
             }
         }

@@ -53,12 +53,12 @@ public class Match {
         return (events.size() > 0);
     }
 
-    public Team getWinner() throws Exception {
+    public Team getWinner() throws DrawException {
         int goalsTeam1 = getGoals(team1);
         int goalsTeam2 = getGoals(team2);
 
         if (goalsTeam1 == goalsTeam2) {
-            throw new Exception("draw");
+            throw new DrawException("It's a Draw!");
         }
 
         Team winner = (goalsTeam1 > goalsTeam2) ? team1 : team2;
