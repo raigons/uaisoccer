@@ -12,12 +12,13 @@ public class Goal implements MatchEvent {
         this.time = time;
     }
 
+    public double getTime() { return time; }
+
     public void setPlayer(Player player) {
         this.player = player;
     }
 
     public Player getPlayer() { return player; }
-
 
     public void setAuto(boolean auto) {
         this.auto = auto;

@@ -1,11 +1,11 @@
 package com.thoughtworks.uaisoccer.teams;
 
-
 public class Player {
 
     private double id;
     private String name;
     private String nickname;
+
     private Team team;
 
     public Team getTeam() {
