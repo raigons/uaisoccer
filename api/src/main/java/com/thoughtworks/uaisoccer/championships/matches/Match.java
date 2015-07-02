@@ -5,11 +5,11 @@ import com.thoughtworks.uaisoccer.championships.Championship;
 import com.thoughtworks.uaisoccer.teams.Team;
 import lombok.EqualsAndHashCode;
 
+import javax.persistence.*;
 import java.util.List;
 
 @EqualsAndHashCode
 public class Match {
-
     private Team team1;
     private Team team2;
 

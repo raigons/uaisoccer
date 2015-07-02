@@ -32,7 +32,8 @@ public class Championship {
             inverseJoinColumns = { @JoinColumn(name = "team_id") })
     private List<Team> teams;
 
-    @ManyToMany
+
+    @Transient
     private List<Match> matches;
 
     public Long getId() {
@@ -66,15 +67,7 @@ public class Championship {
         this.teams.add(team);
     }
 
-    public List<Match> getMatches() {
-        return matches;
-    }
-
-    public void setMatches(List<Match> matches) {
-        this.matches = matches;
-    }
-
-    public Team getChampion() {
+    public Team champion() {
         List<Classification> classificationTable = new FootballStandardClassificationGenerator().getClassification(teams, matches);
         Classification winnerRow = classificationTable.get(0);
         return winnerRow.getTeam();
