@@ -72,16 +72,4 @@ public class Championship {
         Classification winnerRow = classificationTable.get(0);
         return winnerRow.getTeam();
     }
-
-
-    /* potentially this is the solution
-    private HashMap<String, List<Match>> rounds;
-
-    public HashMap<String, List<Match>> getRounds() { return rounds; }
-
-    public List<Match> getRound(String round) {
-        return rounds.get(round);
-    }
-    */
-
 }
