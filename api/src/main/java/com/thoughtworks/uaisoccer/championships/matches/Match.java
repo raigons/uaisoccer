@@ -13,8 +13,6 @@ public class Match {
     private Team team1;
     private Team team2;
 
-    private List<MatchEvent> events;
-
     @JsonIgnore
     private Championship championship;
 
@@ -42,43 +40,8 @@ public class Match {
         this.championship = championship;
     }
 
-    public void setEvents(List<MatchEvent> events) { this.events = events; }
-
-    public List<MatchEvent> getEvents() { return events; }
-
     public boolean hasTeam(Team team) {
         return (team == this.team1 || team == this.team2);
-    }
-
-    public boolean hasGoal() {
-        return (events.size() > 0);
-    }
-
-    public Team getWinner() throws DrawException {
-        int goalsTeam1 = getGoals(team1);
-        int goalsTeam2 = getGoals(team2);
-
-        if (goalsTeam1 == goalsTeam2) {
-            throw new DrawException("It's a Draw!");
-        }
-
-        Team winner = (goalsTeam1 > goalsTeam2) ? team1 : team2;
-        return winner;
-    }
-
-    public int getGoals(Team team) {
-        int goals = 0;
-        for (MatchEvent event : events) {
-            Goal goal;
-            if (event instanceof Goal) {
-                goal = (Goal) event;
-                if ((goal.getPlayer().getTeam().equals(team) && !goal.isAuto()) ||
-                   (!goal.getPlayer().getTeam().equals(team) && goal.isAuto())) {
-                    goals++;
-                }
-            }
-        }
-        return goals;
     }
 
     public boolean contains(Team team) {

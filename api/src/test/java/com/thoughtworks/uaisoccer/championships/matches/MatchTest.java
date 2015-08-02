@@ -101,14 +101,12 @@ public class MatchTest {
                 .withTeam1(atleticoMineiro)
                 .withTeam2(cruzeiro)
                 .withChampionship(campeonatoBrasileiro)
-                .withEvents(events)
                 .build();
 
         identicalMatch = new MatchBuilder()
                 .withTeam1(atleticoMineiro)
                 .withTeam2(cruzeiro)
                 .withChampionship(campeonatoBrasileiro)
-                .withEvents(events)
                 .build();
 
         slightlyDifferentMatch = new MatchBuilder()
@@ -162,23 +160,6 @@ public class MatchTest {
     @Test
     public void hashCodeShouldBeDifferentToVeryDifferentMatchHashCode() {
         assertThat(match.hashCode(), is(not(equalTo(veryDifferentMatch.hashCode()))));
-    }
-
-    @Test
-    public void hasAGoalEvent() {
-        assertTrue(match.hasGoal());
-    }
-
-    @Test
-    public void team1ShouldBeWinner() throws Exception{
-        assertThat(match.getWinner(), is(equalTo(match.getTeam2())));
-    }
-
-    @Test(expected = Exception.class)
-    public void shouldBeaDraw() throws Exception {
-        events.add(autoGoalCruzeiro);
-        veryDifferentMatch.setEvents(events);
-        veryDifferentMatch.getWinner();
     }
 
 }

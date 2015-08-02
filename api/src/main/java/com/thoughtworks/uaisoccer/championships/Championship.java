@@ -1,7 +1,6 @@
 package com.thoughtworks.uaisoccer.championships;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.thoughtworks.uaisoccer.championships.matches.FootballStandardClassificationGenerator;
 import com.thoughtworks.uaisoccer.championships.matches.Match;
 import com.thoughtworks.uaisoccer.teams.Team;
 import lombok.EqualsAndHashCode;
@@ -65,11 +64,5 @@ public class Championship {
             this.teams = new ArrayList<>();
         }
         this.teams.add(team);
-    }
-
-    public Team champion() {
-        List<Classification> classificationTable = new FootballStandardClassificationGenerator().getClassification(teams, matches);
-        Classification winnerRow = classificationTable.get(0);
-        return winnerRow.getTeam();
     }
 }

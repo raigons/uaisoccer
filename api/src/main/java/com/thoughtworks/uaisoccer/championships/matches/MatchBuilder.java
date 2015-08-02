@@ -24,11 +24,6 @@ public class MatchBuilder {
         return this;
     }
 
-    public MatchBuilder withEvents(List<MatchEvent> events) {
-        instance.setEvents(events);
-        return this;
-    }
-
     public Match build() {
         return instance;
     }
